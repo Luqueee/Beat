@@ -1,0 +1,20 @@
+---
+import MusicsTable from '@/components/MusicsTable.astro';
+import Layout from '../../layouts/Layout.astro';
+import { CardPlayButton } from '@/components/CardPlayButton';
+import { allPlaylists, songs } from '@/lib/data';
+import { SearchBar } from '@/components/searchBar';
+
+const { id } = Astro.params;
+
+const playlist = allPlaylists.find((playlist) => playlist.id === id);
+const playListSongs = songs.filter(
+    (song) => song.albumId === playlist?.albumId
+);
+
+export const prerender = true;
+---
+
+<Layout title="Spotify Clone">
+    <SearchBar client:visible />
+</Layout>

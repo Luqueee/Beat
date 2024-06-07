@@ -1,0 +1,126 @@
+---
+import { Player } from '@/components/Player';
+import AsideMenu from '../components/AsideMenu.astro';
+import { ViewTransitions } from 'astro:transitions';
+
+import { StatusBar } from '@/components/ui/status';
+
+interface Props {
+    title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="description" content="Astro description" />
+        <meta name="viewport" content="width=device-width" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <meta name="generator" content={Astro.generator} />
+        <title>{title}</title>
+        <ViewTransitions fallback="none" />
+    </head>
+    <body>
+        <div id="app" class="relative h-screen p-2 gap-2">
+            <aside class="[grid-area:aside] flex-col flex overflow-y-auto">
+                <AsideMenu />
+            </aside>
+
+            <main
+                class="[grid-area:main] rounded-lg bg-zinc-900 overflow-y-auto w-full">
+                <slot />
+            </main>
+
+            <footer class="[grid-area:player] h-[80px]">
+                <Player
+                    client:load
+                    transition:name="media-player"
+                    transition:persist
+                    page={Astro.url.pathname}
+                />
+            </footer>
+        </div>
+        <style>
+            #app {
+                display: grid;
+                grid-template-areas:
+                    'aside main main'
+                    'player player player';
+                grid-template-columns: 200px 1fr;
+                grid-template-rows: 1fr auto;
+            }
+        </style>
+
+        <style is:global>
+            html {
+                font-family: 'CircularStd', system-ui, sans-serif;
+                background: #010101;
+                color: white;
+            }
+
+            ::-webkit-scrollbar {
+                width: 5px;
+                height: 5px;
+            }
+
+            /* Track */
+            ::-webkit-scrollbar-track {
+                border-radius: 2px;
+            }
+
+            /* Handle */
+            ::-webkit-scrollbar-thumb {
+                background: #159d48;
+                border-radius: 2%;
+            }
+
+            /* Handle on hover */
+            ::-webkit-scrollbar-thumb:hover {
+                background: #159d48;
+            }
+
+            @font-face {
+                font-family: 'CircularStd';
+                src: url('/fonts/CircularStd-Medium.woff2') format('woff2');
+                font-weight: 500;
+                font-style: normal;
+                font-display: swap;
+            }
+
+            @font-face {
+                font-family: 'CircularStd';
+                src: url('/fonts/CircularStd-Book.woff2') format('woff2');
+                font-weight: 400;
+                font-style: normal;
+                font-display: swap;
+            }
+
+            @font-face {
+                font-family: 'CircularStd';
+                src: url('/fonts/CircularStd-Light.woff2') format('woff2');
+                font-weight: 300;
+                font-style: normal;
+                font-display: swap;
+            }
+
+            @font-face {
+                font-family: 'CircularStd';
+                src: url('/fonts/CircularStd-Bold.woff2') format('woff2');
+                font-weight: 700;
+                font-style: normal;
+                font-display: swap;
+            }
+
+            @font-face {
+                font-family: 'CircularStd';
+                src: url('/fonts/CircularStd-Black.woff2') format('woff2');
+                font-weight: 900;
+                font-style: normal;
+                font-display: swap;
+            }
+        </style>
+    </body>
+</html>

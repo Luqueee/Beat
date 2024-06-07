@@ -1,0 +1,33 @@
+---
+import Time from '@/icons/Time.astro';
+import { CardSongPlaylist } from '@/components/cardSongPlaylist';
+
+interface Props {
+    data: any;
+}
+
+const { data } = Astro.props;
+
+console.log(data);
+---
+
+<table class="table-auto text-left min-w-full divide-y divide-gray-500/20">
+    <thead class="">
+        <tr class="text-zinc-400 text-sm">
+            <th class="px-4 py-2 font-light">#</th>
+            <th class="px-4 py-2 font-light">Título</th>
+            <th class="px-4 py-2 font-light">Álbum</th>
+            <th class="px-4 py-2 font-light"><Time /></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr class="h-[16px]">
+            {
+                data.map((song: any, index: any) => (
+                    <CardSongPlaylist song={song} index={index} />
+                ))
+            }
+        </tr>
+    </tbody>
+</table>
