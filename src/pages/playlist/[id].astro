@@ -5,31 +5,49 @@ import { CardPlayButton } from '@/components/CardPlayButton';
 import { allPlaylists, songs } from '@/lib/data';
 import Back from '@/icons/Back.astro';
 const { id } = Astro.params;
+const { cookies, redirect } = Astro;
 
-const url = Astro.url.origin;
-console.log(url);
+const accessToken = cookies.get('sb-access-token') ? true : false;
+const refreshToken = cookies.get('sb-refresh-token') ? true : false;
+console.log(accessToken, refreshToken);
 
-const playlistReq = await fetch(`${url}/api/playlist/getPlaylist?id=${id}`);
-const playlist = await playlistReq.json();
+let playlistAlb: any,
+    playListSongs,
+    playlist: any = [];
 
-const playlistAlb = allPlaylists.find((playlist) => playlist.id === id);
-const playListSongs = songs.filter(
-    (song) => song.albumId === playlistAlb?.albumId
-);
+let hours = 0,
+    remainingMinutes,
+    seconds,
+    minutes;
 
-const timeSongs = playlist.map((song: any) => {
-    return song.data_song.duration.totalSeconds;
-});
+if (accessToken && refreshToken) {
+    const url = Astro.url.origin;
+    //console.log(url);
 
-const totalTime = timeSongs.reduce(
-    (total: any, duration: any) => total + duration,
-    0
-);
-const minutes = Math.floor(totalTime / 60);
-const seconds = totalTime % 60;
-const hours = Math.floor(minutes / 60);
-const remainingMinutes = minutes % 60;
-console.log(`${hours}:${remainingMinutes}:${seconds}`);
+    const playlistReq = await fetch(`${url}/api/playlist/getPlaylist?id=${id}`);
+    playlist = await playlistReq.json();
+    //console.log(playlist);
+    playlistAlb = allPlaylists.find((playlist) => playlist.id === id);
+    playListSongs = songs.filter(
+        (song) => song.albumId === playlistAlb?.albumId
+    );
+
+    const timeSongs = playlist.map((song: any) => {
+        return song.data_song.duration.totalSeconds;
+    });
+
+    const totalTime = timeSongs.reduce(
+        (total: number, duration: number) => total + duration,
+        0
+    );
+    minutes = Math.floor(totalTime / 60);
+    seconds = totalTime % 60;
+    hours = Math.floor(minutes / 60);
+    remainingMinutes = minutes % 60;
+    console.log(`${hours}:${remainingMinutes}:${seconds}`);
+} else {
+    return redirect('/signin');
+}
 ---
 
 <Layout title="Spotify Clone">

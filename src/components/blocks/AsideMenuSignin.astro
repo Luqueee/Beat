@@ -2,10 +2,10 @@
 import LibraryIcon from '@/icons/Library.astro';
 import HomeIcon from '@/icons/Home.astro';
 import SearchIcon from '@/icons/Search.astro';
-import SideMenuItem from './SideMenuItem.astro';
-import SideMenuCard from './SideMenuCard.astro';
+import SideMenuItem from '../SideMenuItem.astro';
+import SideMenuCard from '../SideMenuCard.astro';
 import { playlists } from '@/lib/data';
-import { LoginCard } from './loginMenu';
+import { LoginCard } from '../loginMenu';
 import { supabase } from '@/lib/supabase';
 
 const { data } = await supabase.auth.getSession();
@@ -37,7 +37,7 @@ const { data } = await supabase.auth.getSession();
             </SideMenuItem>
         </ul>
 
-        <LoginCard client:visible />
+        <!-- <LoginCard client:visible />-->
 
         <div class="bg-zinc-900 rounded-lg p-2 flex-1">
             <ul>
