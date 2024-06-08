@@ -4,11 +4,13 @@ import type { Provider } from '@supabase/supabase-js';
 
 export const GET: APIRoute = async ({ url, cookies, redirect }) => {
     console.log('aaa');
-
+    const urlData = new URL(url);
+    const urlOrigin = urlData.origin;
+    console.log(urlOrigin);
     const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google' as Provider,
         options: {
-            redirectTo: 'http://localhost:4321/api/auth/callback',
+            redirectTo: `${urlOrigin}/api/auth/callback`,
         },
     });
     console.log(data, error);
