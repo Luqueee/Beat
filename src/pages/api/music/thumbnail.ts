@@ -1,4 +1,4 @@
-export async function GET({ params, request }) {
+export async function GET({ params, request }: { params: any; request: any }) {
     const { url } = request;
     const urlObject = new URL(url);
     const songid = urlObject.searchParams.get('song') ?? '';
