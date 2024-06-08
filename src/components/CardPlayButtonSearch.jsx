@@ -13,7 +13,7 @@ const Add = () => (
         stroke-width="4"
         stroke-linecap="round"
         stroke-linejoin="round"
-        class="icon icon-tabler icons-tabler-outline icon-tabler-plus">
+        class="icon icon-tabler icons-tabler-outline icon-tabler-plus z-50">
         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
         <path d="M12 5l0 14" />
         <path d="M5 12l14 0" />
@@ -21,7 +21,7 @@ const Add = () => (
 );
 
 export function CardPlayButtonSearch({ id, album_id, title, size = 'small' }) {
-    console.log('CardPlayButton:', id);
+    //console.log('CardPlayButton:', id);
     const { currentMusic, isPlaying, setIsPlaying, setCurrentMusic } =
         usePlayerStore((state) => state);
 
@@ -55,7 +55,7 @@ export function CardPlayButtonSearch({ id, album_id, title, size = 'small' }) {
     const iconClassName = size === 'small' ? 'w-4 h-4' : 'w-5 h-5';
 
     return (
-        <div className=" flex gap-2">
+        <div className=" flex gap-2 z-50">
             <button
                 onClick={handleAdd}
                 className="card-play-button rounded-full bg-green-500 p-4 hover:scale-105 transition hover:bg-green-400 text-black">
@@ -64,6 +64,60 @@ export function CardPlayButtonSearch({ id, album_id, title, size = 'small' }) {
             <button
                 onClick={handleClick}
                 className="card-play-button rounded-full bg-green-500 p-4 hover:scale-105 transition hover:bg-green-400">
+                {isPlayingPlaylist ? (
+                    <Pause className={iconClassName} />
+                ) : (
+                    <Play className={iconClassName} />
+                )}
+            </button>
+        </div>
+    );
+}
+
+export function CardPlayButtonPlayPlaylist({
+    id,
+    album_id,
+    title,
+    size = 'small',
+}) {
+    //console.log('CardPlayButton:', id);
+    const { currentMusic, isPlaying, setIsPlaying, setCurrentMusic } =
+        usePlayerStore((state) => state);
+
+    const isPlayingPlaylist = isPlaying && currentMusic?.playlist.id === id;
+
+    const handleClick = () => {
+        if (isPlayingPlaylist) {
+            setIsPlaying(false);
+            return;
+        }
+
+        fetch(`/api/get-info-playlist.json?id=${id}`)
+            .then((res) => res.json())
+            .then((data) => {
+                const { songs, playlist } = data;
+
+                setIsPlaying(true);
+                setCurrentMusic({ songs, playlist, song: songs[0] });
+            });
+    };
+
+    const handleAdd = () => {
+        fetch(`/api/db/addFavourite?title=${title}&album_id=${album_id}`)
+            .then((res) => res.json())
+            .then((data) => {
+                console.log('data:', data);
+                //setCurrentMusic({ songs, playlist, song: songs[0] });
+            });
+    };
+
+    const iconClassName = size === 'small' ? 'w-4 h-4' : 'w-5 h-5';
+
+    return (
+        <div className=" flex gap-2 z-50">
+            <button
+                onClick={handleClick}
+                className="card-play-button rounded-full bg-green-500 p-4 hover:scale-105 transition hover:bg-green-400 z-50">
                 {isPlayingPlaylist ? (
                     <Pause className={iconClassName} />
                 ) : (

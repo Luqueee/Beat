@@ -1,6 +1,14 @@
 import { supabase } from '@/lib/supabase';
 
-export async function GET({ params, request }: { params: any; request: any }) {
+export async function GET({
+    params,
+    request,
+    redirect,
+}: {
+    params: any;
+    request: any;
+    redirect: any;
+}) {
     // get the id from the url search params
     const { url } = request;
     const urlObject = new URL(url);
@@ -8,15 +16,17 @@ export async function GET({ params, request }: { params: any; request: any }) {
     console.log(album_id);
     const {
         data: { user },
-    } = (await supabase.auth.getUser()) ?? null;
+    } = await supabase.auth.getUser();
 
-    if (user) {
-        console.log(user.id);
+    const userdata = await user;
+    console.log(userdata);
+    try {
+        console.log(userdata?.id);
 
         let { data: albums, error } = await supabase
             .from('albums')
             .select('album_id, song_id, data_song')
-            .eq('user_id', user.id)
+            .eq('user_id', userdata?.id)
             .eq('album_id', album_id);
 
         if (error) {
@@ -26,7 +36,8 @@ export async function GET({ params, request }: { params: any; request: any }) {
         return new Response(JSON.stringify(albums), {
             headers: { 'content-type': 'application/json' },
         });
-    } else {
-        return new Response('no user found', { status: 500 });
+    } catch (error: any) {
+        console.log(error.message);
+        return redirect('/signin');
     }
 }

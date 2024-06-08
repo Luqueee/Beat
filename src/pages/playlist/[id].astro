@@ -24,8 +24,17 @@ if (accessToken && refreshToken) {
     const url = Astro.url.origin;
     //console.log(url);
 
-    const playlistReq = await fetch(`${url}/api/playlist/getPlaylist?id=${id}`);
-    playlist = await playlistReq.json();
+    try {
+        const playlistReq = await fetch(
+            `${url}/api/playlist/getPlaylist?id=${id}`
+        );
+        playlist = await playlistReq.json();
+    } catch (error) {
+        console.error(error);
+
+        return redirect('/');
+    }
+
     //console.log(playlist);
     playlistAlb = allPlaylists.find((playlist) => playlist.id === id);
     playListSongs = songs.filter(

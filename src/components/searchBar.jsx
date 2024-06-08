@@ -1,18 +1,25 @@
 import React from 'react';
 import { Image } from 'astro:assets';
 import { useState, useEffect } from 'react';
-import { CardPlayButtonSearch } from './CardPlayButtonSearch';
+import {
+    CardPlayButtonSearch,
+    CardPlayButtonPlayPlaylist,
+} from './CardPlayButtonSearch';
 
 export function getImg(thumbs, id) {
+    console.log('Thumbs:', thumbs, id);
     return thumbs.find((t) => t.id == id).img;
 }
 
-export const Result = ({ song, thumbnails }) => (
+export const Result = ({ song, thumbnails = '' }) => (
     <article className="w-full group">
         <div className=" bg-gray-800 bg-opacity-10 rounded-md p-2 flex gap-2 hover:bg-[#0e7139] shadow-md">
             <section>
                 <img
-                    src={getImg(thumbnails, song.youtubeId)}
+                    src={
+                        getImg(thumbnails, song.youtubeId) ??
+                        `https://img.youtube.com/vi/${song.song_id}/mqdefault.jpg`
+                    }
                     draggable="false"
                     className=" rounded-md shadow-md h-16 w-16 object-cover"
                 />
@@ -55,18 +62,29 @@ export const Result = ({ song, thumbnails }) => (
 
 export const ResultPlaylist = ({ song }) => (
     <article className="w-full group">
-        <div className=" bg-gray-800 bg-opacity-10 rounded-md p-2 flex gap-2 hover:bg-[#0e7139] shadow-md">
-            <section>
-                <img
-                    src={`https://img.youtube.com/vi/${song.song_id}/0.jpg`}
-                    draggable="false"
-                    className=" rounded-md shadow-md h-16 w-16 object-cover"
-                />
+        <div className=" bg-gray-800 bg-opacity-10 rounded-md p-2 flex gap-2 hover:bg-[#0e7139] shadow-md relative">
+            <a
+                href="/"
+                className=" absolute w-full bg-blue h-20 top-0 mr-8 z-10"></a>
+            <section className=" z-50">
+                <a href="/aa" className=" z-50">
+                    <img
+                        src={`https://img.youtube.com/vi/${song.song_id}/mqdefault.jpg`}
+                        draggable="false"
+                        className=" rounded-md shadow-md h-16 w-16 object-cover"
+                    />
+                </a>
             </section>
             <section className=" w-full flex gap-2 flex-col relative">
                 <div className=" flex gap-4">
                     <section className=" flex flex-col gap-2">
-                        <h1 className=" text-xl font-medium">{song.title}</h1>
+                        <h1 className=" text-xl font-medium z-50 hover:font-bold hover:scale-110 hover:ml-2 transition-all duration-150">
+                            <a
+                                href={`/song/${song.song_id}`}
+                                className=" z-50 py-4 pr-4">
+                                {song.data_song.title}
+                            </a>
+                        </h1>
 
                         <section className="flex flex-col gap-2">
                             <p className=" w-fit">
@@ -87,7 +105,8 @@ export const ResultPlaylist = ({ song }) => (
                                     group-hover:translate-y-0 group-hover:opacity-100
                                     z-10
                                 `}>
-                    <CardPlayButtonSearch
+                    <CardPlayButtonPlayPlaylist
+                        className="z-50"
                         id={song.youtubeId}
                         album_id="1"
                         title={song.title}

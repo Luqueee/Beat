@@ -1,0 +1,47 @@
+---
+import MusicsTable from '@/components/MusicsTable.astro';
+import Layout from '../../layouts/Layout.astro';
+import { CardPlayButton } from '@/components/CardPlayButton';
+import { allPlaylists, songs } from '@/lib/data';
+import Back from '@/icons/Back.astro';
+const { id } = Astro.params;
+//console.log(id);
+const { cookies, redirect } = Astro;
+const url = Astro.url.origin;
+
+const accessToken = cookies.get('sb-access-token') ? true : false;
+const refreshToken = cookies.get('sb-refresh-token') ? true : false;
+//console.log(accessToken, refreshToken);
+
+const sessionReq = await fetch(`${url}/api/getSession`);
+const session = await sessionReq.json();
+console.log(`${url}/api/music/getMusicInfo?song=${id}`);
+const dataSongReq = await fetch(`${url}/api/music/getMusicInfo?song=${id}`);
+const dataSong = await dataSongReq.json();
+
+//console.log(sessionReq);
+
+//console.log(dataSong);
+console.log(dataSong.items[0].snippet.thumbnails.medium.url);
+---
+
+<Layout title="Spotify Clone">
+    <div
+        id="playlist-container"
+        class="relative flex flex-col h-full bg-zinc-900 overflow-x-hidden"
+        transition:name=`playlist ${id} box`>
+        <a
+            href="/"
+            class="m-auto w-12 h-12 rounded-full bg-green-500 flex justify-center items-center absolute right-4 top-4"
+            ><Back /></a
+        >
+        <header class="flex flex-row gap-8 px-6 mt-12">
+            <picture class="aspect-square w-52 h-52 flex-none">
+                <img
+                    src={dataSong.items[0].snippet.thumbnails.medium.url}
+                    class="object-cover w-full h-full shadow-lg rounded-md"
+                />
+            </picture>
+        </header>
+    </div>
+</Layout>
