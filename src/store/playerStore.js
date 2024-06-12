@@ -15,6 +15,13 @@ export const usePlayerStore = create((set) => ({
 
 export const playerStore = usePlayerStore;
 
+export const useinputsSearch = create((set) => ({
+    inputSearch: 'aa',
+    setInput: (inputSearch) => set({ inputSearch }),
+}));
+
+export const inputsSearch = useinputsSearch;
+
 // Create a function to update the session
 export function updateSession(session) {
     return playerStore.getState().setSession(session);

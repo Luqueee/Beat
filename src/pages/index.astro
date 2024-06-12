@@ -1,30 +1,22 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import PlayListItemCard from '@/components/PlayListItemCard.astro';
-import { playlists } from '@/lib/data';
+import { SearchBar } from '@/components/searchBar';
 import Greeting from '@/components/Greeting.svelte';
 export const prerender = true;
+
+const url = Astro.url.origin;
 ---
 
 <Layout title="Spotify Clone">
     <div
         id="playlist-container"
-        class="relative transition-all duration-1000 bg-green-600">
+        class="relative transition-all duration-1000 bg-green-600 bg-gradient-to-t from-zinc-900 via-zinc-900/80 h-[50%]">
         <!-- <PageHeader /> -->
 
-        <div class="relative z-10 px-6 pt-10">
+        <div class="relative z-10 px-6 pt-10 pb-44">
             <Greeting />
-            <div class="flex flex-wrap mt-6 gap-4">
-                {
-                    playlists.map((playlist) => (
-                        <PlayListItemCard playlist={playlist} />
-                    ))
-                }
-            </div>
-
-            <div
-                class="absolute inset-0 bg-gradient-to-t from-zinc-900 via-zinc-900/80 -z-[1]">
-            </div>
+            <SearchBar client:load />
         </div>
 
         <style></style>

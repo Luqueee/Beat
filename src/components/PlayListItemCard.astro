@@ -7,9 +7,10 @@ interface Props {
 }
 
 const { playlist } = Astro.props;
-const { id, cover, title, artists, color } = playlist;
-
-const artistsString = artists.join(', ');
+const { playlist_id, cover, name, artists, color } = playlist;
+console.log(playlist);
+const artistsString = artists;
+console.log(playlist);
 ---
 
 <article
@@ -21,35 +22,35 @@ const artistsString = artists.join(', ');
     z-10
   `>
         <CardPlayButton
-            id={id}
+            id={playlist_id}
             client:visible
-            transition:name=`playlist ${id} image`
+            transition:name=`playlist ${playlist_id} image`
         />
     </div>
 
     <a
-        href={`/playlist/${id}`}
+        href={`/playlist/${playlist_id}`}
         class="playlist-item transition-all duration-300 flex relative p-2 overflow-hidden gap-2 pb-6 rounded-md w-44 flex-col"
-        transition:name=`playlist ${id} box`>
+        transition:name=`playlist ${playlist_id} box`>
         <picture class="aspect-square w-full h-auto flex-none">
             <img
                 src={cover}
-                alt={`Cover of ${title} by ${artistsString}`}
+                alt={`Cover of ${name} by ${artistsString}`}
                 class="object-cover w-full h-full rounded-md"
-                transition:name=`playlist ${id} image`
+                transition:name=`playlist ${playlist_id} image`
             />
         </picture>
 
         <div class="flex flex-auto flex-col px-2">
             <h4
                 class="text-white text-sm"
-                transition:name=`playlist ${id} title`>
-                {title}
+                transition:name=`playlist ${playlist_id} title`>
+                {name}
             </h4>
 
             <span
                 class="text-xs text-gray-400"
-                transition:name=`playlist ${id} artists`>
+                transition:name=`playlist ${playlist_id} artists`>
                 {artistsString}
             </span>
         </div>

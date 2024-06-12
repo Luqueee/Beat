@@ -6,6 +6,8 @@ export const CardSongPlaylist = ({ song }) => {
         window.location.href = `/`;
     };
 
+    console.log(song);
+
     return (
         <tr class="border-spacing-0 text-gray-300 text-sm font-light hover:bg-white/10 overflow-hidden transition duration-300 relative">
             <div className=" ">

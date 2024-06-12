@@ -2,6 +2,11 @@
 import MusicsTable from '@/components/MusicsTable.astro';
 import Layout from '../../layouts/Layout.astro';
 import { CardPlayButton } from '@/components/CardPlayButton';
+import { CardRemoveButton } from '@/components/CardRemoveButton';
+import Rank from '@/icons/Rank.astro';
+import { getTimeSong } from '@/components/searchBar';
+import songTrack from '@/components/song/songTrack.astro';
+
 import { allPlaylists, songs } from '@/lib/data';
 import Back from '@/icons/Back.astro';
 const { id } = Astro.params;
@@ -15,33 +20,209 @@ const refreshToken = cookies.get('sb-refresh-token') ? true : false;
 
 const sessionReq = await fetch(`${url}/api/getSession`);
 const session = await sessionReq.json();
-console.log(`${url}/api/music/getMusicInfo?song=${id}`);
-const dataSongReq = await fetch(`${url}/api/music/getMusicInfo?song=${id}`);
+//console.log(`${url}/api/music/getMusicInfo?song=${id}`);
+const dataSongReq = await fetch(`${url}/api/music/getTrack?id=${id}`);
 const dataSong = await dataSongReq.json();
+//console.log('data song', dataSong);
+const titleSong = dataSong.title;
+
+//console.log(dataSongDezz);
+
+const artists = dataSong.contributors
+    .map((artist: any) => artist.name)
+    .join(', ');
+
+//console.log(artists);
+const artistImg = dataSong.artist.picture;
+const albumImg = dataSong.album.cover_xl;
+const artistLink = dataSong.artist.link;
+const trackLink = dataSong.link;
+const thumbnail = dataSong.album.cover_xl;
+const rank = dataSong.rank;
+
+const durationSeconds = dataSong.duration;
+const minutes = Math.floor(durationSeconds / 60);
+const seconds = durationSeconds % 60;
+
+const artistsData = dataSong.contributors;
+//console.log(artistsData);
+
+async function getTrackArtist(artist: any) {
+    const req = await fetch(`${url}/api/music/getTracksArtist?id=${artist.id}`);
+    const data = await req.json();
+    return data;
+}
+
+const tracksArtist = await Promise.all(
+    dataSong.contributors.map((artist: any) => getTrackArtist(artist))
+);
+
+//console.log(tracksArtist);
+
+//console.log(tracksArtist);
 
 //console.log(sessionReq);
 
 //console.log(dataSong);
-console.log(dataSong.items[0].snippet.thumbnails.medium.url);
+//console.log(dataSong.items[0].snippet.thumbnails.maxres.url);
 ---
 
 <Layout title="Spotify Clone">
     <div
         id="playlist-container"
-        class="relative flex flex-col h-full bg-zinc-900 overflow-x-hidden"
+        class="relative flex flex-col bg-zinc-900 h-screen w-full"
         transition:name=`playlist ${id} box`>
-        <a
-            href="/"
-            class="m-auto w-12 h-12 rounded-full bg-green-500 flex justify-center items-center absolute right-4 top-4"
-            ><Back /></a
-        >
-        <header class="flex flex-row gap-8 px-6 mt-12">
-            <picture class="aspect-square w-52 h-52 flex-none">
-                <img
-                    src={dataSong.items[0].snippet.thumbnails.medium.url}
-                    class="object-cover w-full h-full shadow-lg rounded-md"
-                />
-            </picture>
+        <header class="flex flex-row gap-4 px-6 pt-6 pb-32 z-20 mt-14">
+            <a
+                href="/"
+                class="m-auto w-12 h-12 rounded-full bg-green-500 flex justify-center items-center absolute right-4 top-4"
+                ><Back /></a
+            >
+            <div
+                class="md:lg:flex block md:lg:h-72 h-44 mb-36 md:lg:mb-0 w-full">
+                <picture class="aspect-square md:lg:w-72 w-36 h-full flex-none">
+                    <img
+                        src={thumbnail}
+                        class="object-cover w-full h-full shadow-lg rounded-md"
+                        draggable="false"
+                        alt="Album cover"
+                        loading="lazy"
+                        transition:name={`playlist ${id} image`}
+                    />
+                    <div class="pt-4 flex gap-2">
+                        <CardPlayButton client:load id={id} size="large" />
+                        <CardRemoveButton
+                            client:load
+                            id={id}
+                            album={'1'}
+                            size="large"
+                        />
+                    </div>
+                </picture>
+                <div
+                    class="flex flex-col justify-center h-full sm:mx-4 mx-0 mt-4 md:lg:mt-0">
+                    <section class="flex items-center flex-col">
+                        <h2 class="self-start hidden md:lg:block text-2xl">
+                            Canción
+                        </h2>
+                        <a href={trackLink} target="_blank" class="w-full">
+                            <h1
+                                class="md:lg:text-6xl text-xl font-bold flex lg:md:justify-start justify-center text-white hover:border-b-2 hover:border-b-white border-b-2 border-b-transparent transition-all duration-200 text-center">
+                                {titleSong}
+                            </h1>
+                        </a>
+                    </section>
+
+                    <div class="flex justify-center md:lg:justify-start w-full">
+                        <div class="text-sm text-gray-300 font-normal">
+                            <div transition:name=`playlist ${id} artists`>
+                                <!-- <span>{playlist?.artists.join(', ')}</span>-->
+                                <h3 class="text-xl font-thin block text-white">
+                                    <div
+                                        class="flex h-10 items-center gap-[2px] justify-center w-full my-7">
+                                        <img
+                                            src={artistImg}
+                                            alt=""
+                                            class="w-10 h-10 rounded-full shadow-md hidden md:lg:block"
+                                        />
+                                        <span
+                                            class="items-center justify-center w-full flex gap-2">
+                                            <p
+                                                class="font-[400] text-white md:lg:text-xl text-base flex justify-center w-full text-center">
+                                                {artists}
+                                            </p>
+                                        </span>
+                                    </div>
+                                    <div
+                                        class="flex gap-3 w-full md:lg:justify-center justify-start">
+                                        <p class="text-center items-center">
+                                            {minutes}:{seconds}
+                                        </p>
+                                        <p
+                                            class="w-full flex justify-center md:lg:justify-start gap-2">
+                                            <Rank />{rank}
+                                        </p>
+                                    </div>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <img
+                src={albumImg}
+                class="absolute object-cover w-full h-[60vh] shadow-lg -z-10 top-0 right-0 opacity-20 object-center"
+                draggable="false"
+                alt="Album cover"
+                loading="lazy"
+                style="mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 80%, rgba(0,0,0,0) 100%);"
+            />
         </header>
+
+        <div
+            class="lg:w-[80%] md:sm:w-full h-max px-6 pb-20 md:lg:flex sm:block flex-col md:lg:flex-row md:lg:gap-8 flex-wrap justify-center">
+            {
+                artistsData.map((artist: any, _: any) => (
+                    //console.log(artist),
+                    <div class="md:lg:w-[49%] sm:w-full h-[430px] flex-grow mt-6 md:lg:mt-0">
+                        <div class="w-full h-full bg-opacity-50 bg-slate-500 rounded-xl flex flex-col relative group overflow-hidden z-20">
+                            <img
+                                src={artist.picture_xl}
+                                alt="Artist Image"
+                                class="absolute object-cover w-full h-full shadow-lg top-0 right-0 opacity-50 object-center rounded-xl transition-all duration-500 transform group-hover:scale-110"
+                            />
+                            <div class="ml-6 mt-6 h-full">
+                                <p class="relative z-10 font-bold md:lg:text-5xl text-4xl">
+                                    <a
+                                        href={artist.share}
+                                        target="_blank"
+                                        class="hover:border-b-2 hover:border-b-white border-b-2  border-b-transparent transition-all duration-200 font-[600] text-white ">
+                                        {artist.name}
+                                    </a>
+                                </p>
+
+                                <section class="w-full h-96 mt-8 flex flex-col gap-8 relative overflow-scroll tracks-container">
+                                    {tracksArtist.map((trackGroup) =>
+                                        trackGroup.map((track: any) => (
+                                            <div
+                                                id={track.id}
+                                                class="w-full flex gap-4 items-center h-40 track-item gorup">
+                                                <section class="md:lg:w-[15%] w-[30%] h-full overflow-hidden rounded-md track-image">
+                                                    <a
+                                                        href={`/song/${track.id}`}
+                                                        class="rounded-md">
+                                                        <img
+                                                            src={`https://e-cdns-images.dzcdn.net/images/cover/${track.md5_image}/500x500.jpg`}
+                                                            draggable="false"
+                                                            class="rounded-md shadow-md h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
+                                                        />
+                                                    </a>
+                                                </section>
+                                                <section class="w-[70%] md:lg:w-[80%] h-full justify-center flex gap-2 flex-col relative">
+                                                    <a
+                                                        href={`/song/${track.id}`}
+                                                        class="pr-4 w-full md:lg:text-4xl text-xl font-bold z-50 group-hover:font-extrabold md:lg:hover:text-[2.5rem] hover:text-[1.3rem] hover:underline md:lg:hover:no-underline transition-all duration-300 truncate marquee">
+                                                        {track.title}
+                                                    </a>
+                                                    <p class="flex flex-row w-full gap-4 truncate">
+                                                        {track.artist.name}
+                                                        <span class="font-semibold">
+                                                            {getTimeSong(
+                                                                track.duration
+                                                            )}
+                                                        </span>
+                                                    </p>
+                                                </section>
+                                            </div>
+                                        ))
+                                    )}
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+                ))
+            }
+        </div>
+        <footer>aaa</footer>
     </div>
 </Layout>

@@ -1,0 +1,55 @@
+---
+function getTimeSong(duration: any) {
+    const minutes = Math.floor(duration / 60);
+    const seconds = duration % 60;
+    const hours = Math.floor(minutes / 60);
+    const remainingMinutes = minutes % 60;
+    console.log(
+        `${hours > 0 ? hours + 'h ' : ''}${remainingMinutes}m ${seconds}s`
+    );
+
+    return `${hours > 0 ? hours + 'h ' : ''}${remainingMinutes}m ${seconds}s`;
+}
+
+interface Props {
+    song: any;
+}
+
+const { song } = Astro.props;
+---
+
+<article class="w-full group h-20 px-2">
+    <div
+        class="bg-gray-800 bg-opacity-10 rounded-md p-2 flex gap-2 hover:bg-[#0e7139] shadow-md">
+        <section>
+            <img
+                src={song.album.cover}
+                draggable="false"
+                class="rounded-md shadow-md h-16 w-16 object-cover"
+            />
+        </section>
+        <section class="w-full flex gap-2 flex-col relative">
+            <div class="flex gap-4">
+                <section class="flex flex-col gap-2">
+                    <h1
+                        class="text-xl font-medium z-50 hover:font-bold hover:scale-110 hover:ml-4 transition-all duration-150">
+                        <a href={`/song/${song.id}`} class="z-50 py-4 pr-4">
+                            {song.title}
+                        </a>
+                    </h1>
+
+                    <section class="flex flex-col gap-2">
+                        <p class="w-fit">
+                            {song.artist.name}
+                            <span class="ml-4 font-medium">
+                                {getTimeSong(song.duration)}
+                            </span>
+                        </p>
+                    </section>
+                </section>
+                <section class="h-full flex flex-col justify-end ml-6">
+                </section>
+            </div>
+        </section>
+    </div>
+</article>

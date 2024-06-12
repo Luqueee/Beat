@@ -2,6 +2,7 @@
 import MusicsTable from '@/components/MusicsTable.astro';
 import Layout from '../../layouts/Layout.astro';
 import { CardPlayButton } from '@/components/CardPlayButton';
+import Rank from '@/icons/Rank.astro';
 import { allPlaylists, songs } from '@/lib/data';
 import Back from '@/icons/Back.astro';
 const { id } = Astro.params;
@@ -9,7 +10,7 @@ const { cookies, redirect } = Astro;
 
 const accessToken = cookies.get('sb-access-token') ? true : false;
 const refreshToken = cookies.get('sb-refresh-token') ? true : false;
-console.log(accessToken, refreshToken);
+//console.log(accessToken, refreshToken);
 
 let playlistAlb: any,
     playListSongs,
@@ -29,6 +30,7 @@ if (accessToken && refreshToken) {
             `${url}/api/playlist/getPlaylist?id=${id}`
         );
         playlist = await playlistReq.json();
+        //console.log(playlist);
     } catch (error) {
         console.error(error);
 
@@ -36,13 +38,15 @@ if (accessToken && refreshToken) {
     }
 
     //console.log(playlist);
-    playlistAlb = allPlaylists.find((playlist) => playlist.id === id);
-    playListSongs = songs.filter(
-        (song) => song.albumId === playlistAlb?.albumId
-    );
+    playlistAlb = await fetch(`${url}/api/playlist/getPlaylistsContent`)
+        .then((res) => res.json())
+        .then((res) => res[0]);
+
+    console.log(playlistAlb);
 
     const timeSongs = playlist.map((song: any) => {
-        return song.data_song.duration.totalSeconds;
+        //console.log(song.data_song.duration);
+        return song.data_song.duration;
     });
 
     const totalTime = timeSongs.reduce(
@@ -53,7 +57,7 @@ if (accessToken && refreshToken) {
     seconds = totalTime % 60;
     hours = Math.floor(minutes / 60);
     remainingMinutes = minutes % 60;
-    console.log(`${hours}:${remainingMinutes}:${seconds}`);
+    //console.log(`${hours}:${remainingMinutes}:${seconds}`);
 } else {
     return redirect('/signin');
 }
@@ -72,7 +76,7 @@ if (accessToken && refreshToken) {
                     src={playlistAlb?.cover}
                     alt={`Cover of ${playlistAlb?.title}`}
                     class="object-cover w-full h-full shadow-lg rounded-md"
-                    transition:name=`playlist ${playlistAlb?.id} image`
+                    transition:name=`playlist ${id} image`
                 />
             </picture>
 
@@ -91,7 +95,9 @@ if (accessToken && refreshToken) {
                     <div class="text-sm text-gray-300 font-normal">
                         <div
                             transition:name=`playlist ${playlistAlb?.id} artists`>
-                            <!-- <span>{playlist?.artists.join(', ')}</span>-->
+                            Artista: <span class="font-bold"
+                                >{playlistAlb?.artists}</span
+                            >
                         </div>
                         <p class="mt-1">
                             <span class="text-white"

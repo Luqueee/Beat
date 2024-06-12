@@ -7,13 +7,9 @@ export async function GET({
 }) {
     const { url } = request;
 
-    const APIKEY = process.env.YOUTUBE_API_KEY;
-
     const urlObject = new URL(url);
-    const songid = urlObject.searchParams.get('song');
-    const req = await fetch(
-        `https://www.googleapis.com/youtube/v3/videos?part=id%2C+snippet&id=${songid}&key=AIzaSyBKbmzh8XptmMBLnG9L8byBijmuL92fmwU`
-    );
+    const id = urlObject.searchParams.get('id');
+    const req = await fetch(`https://api.deezer.com/track/${id}`);
 
     const res = await req.json();
 

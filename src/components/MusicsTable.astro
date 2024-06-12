@@ -32,7 +32,13 @@ console.log(data, 'aaa');
                 data.map(
                     (song: any, index: any) => (
                         console.log(song, 'song'),
-                        (<ResultPlaylist {song} client:load />)
+                        (
+                            <ResultPlaylist
+                                {song}
+                                client:load
+                                transition:name={`playlist ${song.song_id} image`}
+                            />
+                        )
                     )
                 )
             }

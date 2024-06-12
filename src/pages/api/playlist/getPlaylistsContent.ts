@@ -10,34 +10,33 @@ export async function GET({
     redirect: any;
 }) {
     // get the id from the url search params
-    const { url } = request;
-    const urlObject = new URL(url);
-    const album_id = urlObject.searchParams.get('id');
+
     //console.log(album_id);
     const {
         data: { user },
-    } = await supabase.auth.getUser();
+    } = (await supabase.auth.getUser()) ?? null;
+    console.log(user);
 
     const userdata = await user;
     //console.log(userdata);
-    try {
+    if (user) {
         //console.log(userdata?.id);
 
-        let { data: albums, error } = await supabase
-            .from('albums')
-            .select('album_id, song_id, data_song')
-            .eq('user_id', userdata?.id)
-            .eq('album_id', album_id);
+        let { data: playlists, error } = await supabase
+            .from('playlists')
+            .select('playlist_id, name , color, cover, artists')
+            .eq('user_id', userdata?.id);
+
+        console.log(playlists);
 
         if (error) {
             return new Response(error.message, { status: 500 });
         }
 
-        return new Response(JSON.stringify(albums), {
+        return new Response(JSON.stringify(playlists), {
             headers: { 'content-type': 'application/json' },
         });
-    } catch (error: any) {
-        console.log(error.message);
+    } else {
         return redirect('/signin');
     }
 }

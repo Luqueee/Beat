@@ -24,57 +24,37 @@ const { title } = Astro.props;
         <ViewTransitions fallback="none" />
     </head>
     <body>
-        <div id="app" class="relative h-screen p-2 gap-2">
-            <aside class="[grid-area:aside] flex-col flex overflow-y-auto">
-                <AsideMenu />
-            </aside>
-
-            <main
-                class="[grid-area:main] rounded-lg bg-zinc-900 overflow-y-auto w-full">
+        <div id="app" class="relative h-screen gap-2 w-screen">
+            <main class="bg-zinc-900 overflow-y-auto w-full h-screen">
                 <slot />
             </main>
-
-            <footer class="[grid-area:player] h-[80px]">
-                <Player
-                    client:load
-                    transition:name="media-player"
-                    transition:persist
-                    page={Astro.url.pathname}
-                />
-            </footer>
         </div>
-        <style>
-            #app {
-                display: grid;
-                grid-template-areas:
-                    'aside main main'
-                    'player player player';
-                grid-template-columns: 200px 1fr;
-                grid-template-rows: 1fr auto;
-            }
-        </style>
+
+        <style></style>
 
         <style is:global>
             html {
                 font-family: 'CircularStd', system-ui, sans-serif;
                 background: #010101;
                 color: white;
+                margin: 0;
             }
 
             ::-webkit-scrollbar {
                 width: 5px;
                 height: 5px;
+                border-radius: 20px;
             }
 
             /* Track */
             ::-webkit-scrollbar-track {
-                border-radius: 2px;
+                border-radius: 20px;
             }
 
             /* Handle */
             ::-webkit-scrollbar-thumb {
                 background: #159d48;
-                border-radius: 2%;
+                border-radius: 20px;
             }
 
             /* Handle on hover */

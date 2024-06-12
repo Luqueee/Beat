@@ -6,27 +6,22 @@ export async function GET({ params, request }: { params: any; request: any }) {
     const urlObject = new URL(url);
     const origin = urlObject.origin;
 
-    const title = urlObject.searchParams.get('title');
+    const id = urlObject.searchParams.get('id');
     const album_id = urlObject.searchParams.get('album_id');
 
-    let dataSongReq = await fetch(`${origin}/api/music/search?song=${title}`);
+    let dataSongReq = await fetch(`${origin}/api/music/getTrack?id=${id}`);
     let dataSong = await dataSongReq.json();
-    dataSong = dataSong[0];
+    //console.log(dataSong);
 
     const {
         data: { user },
     } = await supabase.auth.getUser();
-    //console.log(user);
+    console.log(user);
     if (user) {
         //console.log(user.id);
         //console.log(album_id, user.id, dataSong);
 
-        console.log({
-            user_id: user.id,
-            album_id: album_id,
-            song_id: dataSong.youtubeId,
-            data_song: dataSong,
-        });
+        //console.log({  user_id: user.id,album_id: album_id, song_id: dataSong.youtubeId,data_song: dataSong,});
 
         const { data, error } = await supabase
             .from('albums')
@@ -34,7 +29,7 @@ export async function GET({ params, request }: { params: any; request: any }) {
                 {
                     user_id: user.id,
                     album_id: album_id,
-                    song_id: dataSong.youtubeId,
+                    song_id: dataSong.id,
                     data_song: dataSong,
                 },
             ])

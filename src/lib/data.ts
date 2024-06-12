@@ -1,9 +1,9 @@
 import { colors } from './colors';
 
 export interface Playlist {
-    id: string;
+    playlist_id: string;
     albumId: number;
-    title: string;
+    name: string;
     color: (typeof colors)[keyof typeof colors];
     cover: string;
     artists: string[];
@@ -11,9 +11,9 @@ export interface Playlist {
 
 export const playlists: Playlist[] = [
     {
-        id: '1',
+        playlist_id: '1',
         albumId: 1,
-        title: 'Favoritos',
+        name: 'Favoritos',
         color: colors.yellow,
         cover: 'https://vinyl.lofirecords.com/cdn/shop/products/VINYL_MORNING_COFFEE_4-min.png?v=1680526353',
         artists: ['Tu'],
@@ -22,12 +22,12 @@ export const playlists: Playlist[] = [
 
 export const morePlaylists = playlists.map((item) => ({
     ...item,
-    id: item.id + '_more',
+    id: item.playlist_id + '_more',
 }));
 
 export const sidebarPlaylists = playlists.map((item) => ({
     ...item,
-    id: item.id + '_side',
+    id: item.playlist_id + '_side',
 }));
 
 export const allPlaylists = [
