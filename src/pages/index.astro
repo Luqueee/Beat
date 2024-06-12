@@ -3,7 +3,10 @@ import Layout from '../layouts/Layout.astro';
 import PlayListItemCard from '@/components/PlayListItemCard.astro';
 import { SearchBar } from '@/components/searchBar';
 import Greeting from '@/components/Greeting.svelte';
+import Particles from '@/components/ui/particles';
 export const prerender = true;
+import WordPullUp from '@/components/magicui/word-pull-up';
+import GradualSpacing from '@/components/magicui/gradual-spacing';
 
 const url = Astro.url.origin;
 ---
@@ -11,12 +14,37 @@ const url = Astro.url.origin;
 <Layout title="Spotify Clone">
     <div
         id="playlist-container"
-        class="relative transition-all duration-1000 bg-green-600 bg-gradient-to-t from-zinc-900 via-zinc-900/80 h-[50%]">
+        class="relative transition-all duration-1000 bg-zinc-600 bg-gradient-to-t from-zinc-900 via-zinc-900/80 h-[50%]">
         <!-- <PageHeader /> -->
 
-        <div class="relative z-10 px-6 pt-10 pb-44">
-            <Greeting />
-            <SearchBar client:load />
+        <div class="relative z-10 px-6 pt-8">
+            <!-- <Greeting />-->
+            <section class="my-16 text-center">
+                <GradualSpacing
+                    client:load
+                    className="font-display text-center text-9xl font-bold tracking-[-0.1em]  text-black dark:text-white  md:leading-[5rem]"
+                    text="Beat"
+                />
+                <WordPullUp
+                    client:load
+                    className="text-4xl my-8 font-bold tracking-[-0.02em] text-black dark:text-white md:leading-[5rem] "
+                    words="Search a song and feel the beat"
+                />
+
+                <Particles
+                    className="absolute inset-0"
+                    quantity={500}
+                    ease={40}
+                    color={'#ffffff'}
+                    staticity={20}
+                    refresh
+                    client:load
+                />
+            </section>
+
+            <div class="w-full">
+                <SearchBar client:load />
+            </div>
         </div>
 
         <style></style>

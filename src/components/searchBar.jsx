@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import {
     CardPlayButtonSearch,
     CardPlayButtonPlayPlaylist,
-} from './CardPlayButtonSearch';
+} from './buttons/CardPlayButtonSearch';
 
 import { useinputsSearch } from '@/store/playerStore';
 
@@ -20,28 +20,33 @@ export function getTimeSong(duration) {
 export const Result = ({ song }) => (
     console.log('Song:', song),
     (
-        <article className="w-full group h-20 px-2">
-            <div className=" bg-gray-800 bg-opacity-10 rounded-md p-2 flex gap-2 hover:bg-[#0e7139] shadow-md">
-                <section>
+        <article className="w-full group h-20 px-2 m-auto relative overflow-x-hidden backdrop-blur-sm">
+            <a
+                href={`/song/${song.id}`}
+                class=" absolute w-full h-full z-10"></a>
+            <div className=" bg-gray-800 bg-opacity-10 rounded-md p-2 flex gap-2 hover:bg-[#0e7139] shadow-md h-full">
+                <section className="md:lg:w-[5%] w-[20%]">
                     <img
                         src={song.album.cover}
                         draggable="false"
-                        className=" rounded-md shadow-md h-16 w-16 object-cover"
+                        className=" rounded-md shadow-md h-full w-full object-cover"
                     />
                 </section>
-                <section className=" w-full flex gap-2 flex-col relative">
+                <section className=" w-[80%] md:lg:w-[95%] flex gap-2 flex-col relative">
                     <div className=" flex gap-4">
-                        <section className=" flex flex-col gap-2">
-                            <h1 className=" pr-4 w-full md:lg:text-2xl text-xl font-bold z-50 hover:font-extrabold md:lg:hover:text-[1.6rem] hover:text-[1.3rem] hover:underline transition-all duration-150">
+                        <section className=" flex flex-col gap-2 w-full overflow-x-hidden ">
+                            <h1 className=" w-fit pr-4 md:lg:text-2xl text-xl font-bold z-50 hover:font-extrabold md:lg:hover:text-[1.6rem] hover:text-[1.3rem] hover:underline md:lg:hover:no-underline transition-all duration-300 truncate marquee">
                                 <a
                                     href={`/song/${song.id}`}
-                                    className=" z-50 py-4">
-                                    {song.title}
+                                    className=" z-50 py-4 w-full truncate">
+                                    {song.title.length > 20
+                                        ? `${song.title.slice(0, 20)}...`
+                                        : song.title}
                                 </a>
                             </h1>
 
                             <section className="flex flex-col gap-2">
-                                <p className=" w-fit">
+                                <p className=" w-fit truncate">
                                     {song.artist.name}
                                     <span className=" ml-4 font-medium">
                                         {getTimeSong(song.duration)}
@@ -166,24 +171,24 @@ export const SearchBar = () => {
     };
 
     return (
-        <div className=" w-full mt-52">
-            <section className=" sm:w-[60%] w-full m-auto gap-2 z-50 flex justify-center items-center my-20 px-2">
+        <div className=" w-full ">
+            <section className=" sm:w-[60%] w-full m-auto gap-2 z-50 flex justify-center items-center  px-2">
                 <div className=" flex-grow my-4">
                     <input
                         type="text"
                         name="searchbox"
                         id="searchbox"
-                        className="w-full rounded-md bg-gray-800 p-2 text-white text-xl"
-                        placeholder="Search..."
+                        className="w-full rounded-md bg-gray-800 bg-opacity-40 backdrop-blur-sm p-2 text-white text-xl"
+                        placeholder="Type a song..."
                         value={inputSearch}
                         onChange={handleChange}
                         ref={inputRef}
                     />
                 </div>
             </section>
-            <section className=" sm:w-[60%] w-full m-auto h-[70vh] overflow-y-scroll">
+            <section className=" sm:w-[60%] w-full m-auto h-[55vh] overflow-y-scroll">
                 {!searchTerm == '' ? (
-                    <div className=" flex flex-col gap-2 ">
+                    <div className=" flex flex-col gap-4 ">
                         {searchResult.map((song) => Result({ song }))}
                     </div>
                 ) : (
