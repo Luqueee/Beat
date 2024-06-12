@@ -147,8 +147,8 @@ export const ResultPlaylist = ({ song }) => (
 );
 
 export const SearchBar = () => {
-    const { inputSearch, setInput } = useinputsSearch((state) => state);
-
+    //const { inputSearch, setInput } = useinputsSearch((state) => state);
+    const inputRef = React.createRef();
     const [searchTerm, setSearchTerm] = useState(() => {
         if (typeof window !== 'undefined') {
             return localStorage.getItem('input') || '';
@@ -158,17 +158,18 @@ export const SearchBar = () => {
     const [searchResult, setSearchResult] = useState([]);
     const [thumbnails, setThumbnails] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const inputRef = React.createRef();
 
     useEffect(() => {
         const timer = setTimeout(() => {
             //console.log('Search term changed:', searchTerm, inputSearch);
 
             setIsLoading(true);
-            fetch(`/api/music/search?song=${encodeURIComponent(inputSearch)}`)
+            fetch(`/api/music/search?song=${encodeURIComponent(searchTerm)}`)
                 .then((res) => res.json())
                 .then((data) => {
                     setSearchResult(data);
+                    localStorage.setItem('searchResult', JSON.stringify(data));
+                    setIsLoading(true);
 
                     //console.log('Search result:', searchResult);
                     //console.log('thumbnails:', thumbnails);
@@ -176,12 +177,11 @@ export const SearchBar = () => {
         }, 300);
 
         return () => clearTimeout(timer);
-    }, [inputSearch]);
+    }, [searchTerm]);
 
     const handleChange = (e) => {
         e.preventDefault();
         setSearchTerm(e.target.value);
-        setInput(e.target.value);
         localStorage.setItem('input', e.target.value);
     };
 
