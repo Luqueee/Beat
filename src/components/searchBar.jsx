@@ -36,13 +36,24 @@ export const Result = ({ song }) => (
                     <div className=" flex gap-4">
                         <section className=" flex flex-col gap-2 w-full overflow-x-hidden ">
                             <h1 className=" w-fit pr-4 md:lg:text-2xl text-xl font-bold z-50 hover:font-extrabold md:lg:hover:text-[1.6rem] hover:text-[1.3rem] hover:underline md:lg:hover:no-underline transition-all duration-300 truncate marquee">
-                                <a
-                                    href={`/song/${song.id}`}
-                                    className=" z-50 py-4 w-full truncate">
-                                    {song.title.length > 20
-                                        ? `${song.title.slice(0, 20)}...`
-                                        : song.title}
-                                </a>
+                                <span className=" block md:lg:hidden">
+                                    <a
+                                        href={`/song/${song.id}`}
+                                        className=" z-50 py-4 w-full truncate">
+                                        {song.title.length > 20
+                                            ? `${song.title.slice(0, 20)}...`
+                                            : song.title}
+                                    </a>
+                                </span>
+                                <span className="hidden md:lg:block">
+                                    <a
+                                        href={`/song/${song.id}`}
+                                        className=" z-50 py-4 w-full truncate">
+                                        {song.title.length > 40
+                                            ? `${song.title.slice(0, 40)}...`
+                                            : song.title}
+                                    </a>
+                                </span>
                             </h1>
 
                             <section className="flex flex-col gap-2">
