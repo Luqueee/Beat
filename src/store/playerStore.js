@@ -16,7 +16,7 @@ export const usePlayerStore = create((set) => ({
 export const playerStore = usePlayerStore;
 
 export const useinputsSearch = create((set) => ({
-    inputSearch: 'aa',
+    inputSearch: '',
     setInput: (inputSearch) => set({ inputSearch }),
 }));
 

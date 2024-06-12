@@ -171,7 +171,7 @@ export const SearchBar = () => {
     };
 
     return (
-        <div className=" w-full ">
+        <div className=" w-full overflow-hidden">
             <section className=" sm:w-[60%] w-full m-auto gap-2 z-50 flex justify-center items-center  px-2">
                 <div className=" flex-grow my-4">
                     <input
@@ -186,7 +186,7 @@ export const SearchBar = () => {
                     />
                 </div>
             </section>
-            <section className=" sm:w-[60%] w-full m-auto h-[55vh] overflow-y-scroll">
+            <section className=" sm:w-[60%] w-full m-auto h-[45vh] overflow-y-scroll">
                 {!searchTerm == '' ? (
                     <div className=" flex flex-col gap-4 ">
                         {searchResult.map((song) => Result({ song }))}
