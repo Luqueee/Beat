@@ -1,5 +1,3 @@
-import { searchMusics } from 'node-youtube-music';
-
 export async function GET({
     params,
     request,

@@ -8,7 +8,7 @@ import ssrPrepass from 'react-ssr-prepass';
 
 // https://astro.build/config
 export default defineConfig({
-    site: 'https://astro-supabase-auth.vercel.app',
+    site: 'https://beat-one.vercel.app/',
     output: 'server',
     adapter: vercel(),
     integrations: [tailwind(), react(), svelte()],
