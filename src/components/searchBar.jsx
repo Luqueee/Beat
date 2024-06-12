@@ -149,7 +149,12 @@ export const ResultPlaylist = ({ song }) => (
 export const SearchBar = () => {
     const { inputSearch, setInput } = useinputsSearch((state) => state);
 
-    const [searchTerm, setSearchTerm] = useState(inputSearch);
+    const [searchTerm, setSearchTerm] = useState(() => {
+        if (typeof window !== 'undefined') {
+            return localStorage.getItem('input') || '';
+        }
+        return '';
+    });
     const [searchResult, setSearchResult] = useState([]);
     const [thumbnails, setThumbnails] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -157,28 +162,27 @@ export const SearchBar = () => {
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            console.log('Search term changed:', searchTerm, inputSearch);
+            //console.log('Search term changed:', searchTerm, inputSearch);
 
             setIsLoading(true);
             fetch(`/api/music/search?song=${encodeURIComponent(inputSearch)}`)
                 .then((res) => res.json())
                 .then((data) => {
                     setSearchResult(data);
+
+                    //console.log('Search result:', searchResult);
+                    //console.log('thumbnails:', thumbnails);
                 });
         }, 300);
 
         return () => clearTimeout(timer);
     }, [inputSearch]);
 
-    useEffect(() => {
-        console.log('Search result:', searchResult);
-        console.log('thumbnails:', thumbnails);
-    }, [searchResult]);
-
     const handleChange = (e) => {
         e.preventDefault();
         setSearchTerm(e.target.value);
         setInput(e.target.value);
+        localStorage.setItem('input', e.target.value);
     };
 
     return (
@@ -191,7 +195,7 @@ export const SearchBar = () => {
                         id="searchbox"
                         className="w-full rounded-md bg-gray-800 bg-opacity-40 backdrop-blur-sm p-2 text-white text-xl"
                         placeholder="Type a song..."
-                        value={inputSearch}
+                        value={searchTerm}
                         onChange={handleChange}
                         ref={inputRef}
                     />
