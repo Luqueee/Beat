@@ -12,4 +12,11 @@ export default defineConfig({
     output: 'server',
     adapter: vercel(),
     integrations: [tailwind(), react(), svelte()],
+    ssr: {
+        async renderToHtml(render) {
+            // Use react-ssr-prepass to ensure async rendering
+            await ssrPrepass(render.result);
+            return render.result;
+        },
+    },
 });
