@@ -186,7 +186,7 @@ export const SearchBar = () => {
                     />
                 </div>
             </section>
-            <section className=" sm:w-[60%] w-full m-auto h-[45vh] overflow-y-scroll">
+            <section className=" sm:w-[60%] w-full m-auto h-[49vh] overflow-y-scroll">
                 {!searchTerm == '' ? (
                     <div className=" flex flex-col gap-4 ">
                         {searchResult.map((song) => Result({ song }))}
