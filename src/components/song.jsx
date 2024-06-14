@@ -202,8 +202,8 @@ const SongControl = ({ audio }) => {
 };
 
 const VolumeControl = () => {
-    const volume = usePlayerStore((state) => state.volume);
-    const setVolume = usePlayerStore((state) => state.setVolume);
+    const volume = useMusicStore((state) => state.volume);
+    const setVolume = useMusicStore((state) => state.setVolume);
     const previousVolumeRef = useRef(volume);
 
     const isVolumeSilenced = volume < 0.1;
@@ -241,7 +241,7 @@ const VolumeControl = () => {
     );
 };
 
-export function Player({ page }) {
+export function Song({ page }) {
     const { currentMusic, setCurrentMusic, isPlaying, setIsPlaying, volume } =
         useMusicStore((state) => state);
     const audioRef = useRef();
@@ -264,30 +264,6 @@ export function Player({ page }) {
         }
     }, [currentMusic]);
 
-    const getSongIndex = (id) => {
-        return currentMusic.songs.findIndex((e) => e.id === id) ?? -1;
-    };
-
-    const onNextSong = () => {
-        const { song, playlist, songs } = currentMusic;
-        const index = getSongIndex(song.id);
-        if (index > -1 && index + 1 < songs.length) {
-            setIsPlaying(false);
-            setCurrentMusic({ songs, playlist, song: songs[index + 1] });
-            setIsPlaying(true);
-        }
-    };
-
-    const onPrevSong = () => {
-        const { song, playlist, songs } = currentMusic;
-        const index = getSongIndex(song.id);
-        if (index > -1 && index > 0) {
-            setIsPlaying(false);
-            setCurrentMusic({ songs, playlist, song: songs[index - 1] });
-            setIsPlaying(true);
-        }
-    };
-
     const handleClick = () => {
         setIsPlaying(!isPlaying);
     };
@@ -305,17 +281,11 @@ export function Player({ page }) {
             <div className="grid place-content-center gap-4 flex-1">
                 <div className="flex justify-center flex-col items-center">
                     <div className="flex gap-8">
-                        <button onClick={onPrevSong} title="Prev">
-                            <Prev />
-                        </button>
                         <button
                             title="Play / Pause"
                             onClick={handleClick}
                             className="bg-white rounded-full p-2">
                             {isPlaying ? <Pause /> : <Play />}
-                        </button>
-                        <button onClick={onNextSong} title="Next">
-                            <Next />
                         </button>
                     </div>
                     <SongControl audio={audioRef} />

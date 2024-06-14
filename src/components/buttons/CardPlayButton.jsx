@@ -1,26 +1,41 @@
+import { useEffect, useRef } from 'react';
 import { Pause, Play } from '../Player';
-import { usePlayerStore } from '@/store/playerStore';
+import { useMusicStore } from '@/store/musicStore';
 
 export function CardPlayButton({ id, size = 'small' }) {
-    const { currentMusic, isPlaying, setIsPlaying, setCurrentMusic } =
-        usePlayerStore((state) => state);
+    const { currentMusic, isPlaying, setCurrentMusic, setIsPlaying, volume } =
+        useMusicStore((state) => state);
 
-    const isPlayingPlaylist = isPlaying && currentMusic?.playlist.id === id;
+    const audioRef = useRef();
+
+    useEffect(() => {
+        isPlaying ? audioRef.current.play() : audioRef.current.pause();
+    }, [isPlaying]);
+
+    useEffect(() => {
+        const { song, preview_image, title } = currentMusic;
+        if (song) {
+            const src = currentMusic.song;
+            audioRef.current.src = src;
+            audioRef.current.volume = volume;
+            audioRef.current.play();
+        }
+    }, [currentMusic]);
+
+    useEffect(() => {
+        setCurrentMusic(id);
+    }, []);
 
     const handleClick = () => {
-        if (isPlayingPlaylist) {
+        if (isPlaying) {
             setIsPlaying(false);
             return;
+        } else {
+            setIsPlaying(true);
+            setCurrentMusic(id);
         }
 
-        fetch(`/api/get-info-playlist.json?id=${id}`)
-            .then((res) => res.json())
-            .then((data) => {
-                const { songs, playlist } = data;
-
-                setIsPlaying(true);
-                setCurrentMusic({ songs, playlist, song: songs[0] });
-            });
+        console.log(currentMusic, isPlaying);
     };
 
     const iconClassName = size === 'small' ? 'w-4 h-4' : 'w-5 h-5';
@@ -29,11 +44,12 @@ export function CardPlayButton({ id, size = 'small' }) {
         <button
             onClick={handleClick}
             className="card-play-button rounded-full bg-green-500 p-4 hover:scale-105 transition hover:bg-green-400">
-            {isPlayingPlaylist ? (
+            {isPlaying ? (
                 <Pause className={iconClassName} />
             ) : (
                 <Play className={iconClassName} />
             )}
+            <audio ref={audioRef} />
         </button>
     );
 }

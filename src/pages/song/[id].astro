@@ -42,6 +42,7 @@ const artistLink = dataSong.artist.link;
 const trackLink = dataSong.link;
 const thumbnail = dataSong.album.cover_xl;
 const rank = dataSong.rank;
+const songSrc = dataSong.preview;
 
 const duration = dataSong.duration;
 
@@ -71,20 +72,21 @@ const tracksArtist = await Promise.all(
 <Layout title="Spotify Clone">
     <div
         id="playlist-container"
-        class="relative flex flex-col bg-zinc-900 h-full w-full px-6">
-        <header class="flex flex-row gap-4 pt-6 pb-32 z-20 mt-14">
+        class="relative flex flex-col bg-zinc-900 min-h-screen min-w-screen px-6">
+        <header
+            class="flex flex-row gap-4 pt-6 pb-32 z-20 mt-14 min-w-full min-h-full">
             <div
-                class="fixed right-0 top-4 md:lg:right-4 flex w-full md:lg:w-fit z-50 justify-center md:lg:justify-normal pl-6 pr-7">
+                class="fixed right-0 top-4 md:lg:right-4 flex w-full md:lg:w-fit z-50 justify-center md:lg:justify-normal pl-6 pr-6">
                 <div
-                    class="w-full h-full flex bg-green-500 bg-opacity-30 md:lg:bg-opacity-0 py-4 rounded-md justify-center md:lg:justify-between gap-4">
+                    class="w-full h-full flex bg-green-500 bg-opacity-70 md:lg:bg-opacity-0 py-4 rounded-md justify-center md:lg:justify-between gap-4">
                     <a
                         href="/"
-                        class="m-auto w-12 h-12 rounded-full bg-green-500 flex justify-center items-center"
+                        class="m-auto w-12 h-12 rounded-full bg-green-500 flex justify-center items-center z-50"
                         ><Back /></a
                     >
                     <a
                         href="/"
-                        class="m-auto w-12 h-12 rounded-full bg-green-500 flex justify-center items-center text-black"
+                        class="m-auto w-12 h-12 rounded-full bg-green-500 flex justify-center items-center text-black z-50"
                         ><Home /></a
                     >
                 </div>
@@ -102,18 +104,21 @@ const tracksArtist = await Promise.all(
                             loading="lazy"
                             transition:name={`playlist ${id} image`}
                         />
+                        <div
+                            class="md:lg:flex gap-2 justify-center items-center h-24 mt-4 rounded-md hidden">
+                            <CardPlayButton
+                                client:load
+                                id={songSrc}
+                                size="large"
+                            />
+                            <CardRemoveButton
+                                client:load
+                                id={id}
+                                album={'1'}
+                                size="large"
+                            />
+                        </div>
                     </section>
-
-                    <div
-                        class="flex gap-2 justify-center bg-green-400 items-center h-24 mt-4 rounded-md bg-opacity-30 md:lg:bg-opacity-0">
-                        <CardPlayButton client:load id={id} size="large" />
-                        <CardRemoveButton
-                            client:load
-                            id={id}
-                            album={'1'}
-                            size="large"
-                        />
-                    </div>
                 </picture>
                 <div
                     class="flex flex-col justify-center h-full md:lg:h-full sm:mx-4 mx-0 mt-24 md:lg:mt-0">
@@ -121,7 +126,10 @@ const tracksArtist = await Promise.all(
                         <h2 class="self-start hidden md:lg:block text-2xl">
                             Canción
                         </h2>
-                        <a href={trackLink} target="_blank" class="text-center">
+                        <a
+                            href={trackLink}
+                            target="_blank"
+                            class="text-center md:lg:text-start w-full">
                             <h1
                                 class="md:lg:text-6xl text-6xl font-bold flex lg:md:justify-start justify-center text-white md:lg:hover:border-b-white border-b-2 border-b-transparent transition-all duration-200">
                                 {titleSong}
@@ -133,7 +141,7 @@ const tracksArtist = await Promise.all(
                         class="text-sm text-gray-300 font-normal flex justify-center md:lg:justify-start w-full"
                         transition:name=`playlist ${id} artists`>
                         <!-- <span>{playlist?.artists.join(', ')}</span>-->
-                        <h3 class="text-xl font-thin block text-white w-full">
+                        <div class="text-xl font-thin block text-white w-full">
                             <div
                                 class="flex h-10 items-center gap-2 justify-center md:lg:w-fit sm:w-full my-4">
                                 <img
@@ -150,7 +158,7 @@ const tracksArtist = await Promise.all(
                                 </span>
                             </div>
                             <div
-                                class="flex gap-3 w-full md:lg:justify-start justify-center mt-4 font-medium">
+                                class="flex gap-3 w-full md:lg:w-fit md:lg:justify-start justify-center mt-4 font-medium">
                                 <p
                                     class="bg-green-400 text-white rounded-full flex justify-center w-[30%] md:lg:w-[70%] bg-opacity-50 p-2 px-4">
                                     {getTimeSong(duration)}
@@ -160,7 +168,17 @@ const tracksArtist = await Promise.all(
                                     <Rank />{rank}
                                 </p>
                             </div>
-                        </h3>
+                        </div>
+                    </div>
+                    <div
+                        class="md:lg:hidden flex gap-2 justify-center items-center h-24 mt-4 rounded-md">
+                        <CardPlayButton client:load id={songSrc} size="large" />
+                        <CardRemoveButton
+                            client:load
+                            id={id}
+                            album={'1'}
+                            size="large"
+                        />
                     </div>
                 </div>
             </div>
@@ -175,16 +193,16 @@ const tracksArtist = await Promise.all(
         </header>
 
         <div
-            class="lg:w-[90%] md:sm:w-full h-max mt-[480px] md:lg:mt-0 md:lg:flex sm:block flex-col md:lg:flex-row md:lg:gap-8 flex-wrap justify-center">
+            class="lg:w-[90%] md:sm:w-full h-max mt-[300px] md:lg:mt-0 md:lg:flex sm:block flex-col md:lg:flex-row md:lg:gap-8 flex-wrap justify-center z-20">
             {
                 artistsData.map((artist: any, _: any) => (
-                    <div class="md:lg:w-[49%] sm:w-full h-[430px] flex-grow mt-6 md:lg:mt-0">
-                        <div class="w-full h-full bg-opacity-50 bg-slate-500 rounded-xl flex flex-col relative group overflow-hidden z-20">
+                    <div class="md:lg:w-[49%] sm:w-full h-[430px] flex-grow mt-6 ">
+                        <div class="w-full h-full bg-opacity-50 bg-slate-500 rounded-xl flex flex-col relative group overflow-hidden z-10">
                             <img
                                 src={artist.picture_xl}
                                 alt="Artist Image"
                                 draggable="false"
-                                class="absolute object-cover w-full h-full shadow-lg top-0 right-0 opacity-50 object-center rounded-xl transition-all duration-1000 transform group-hover:scale-110"
+                                class="absolute object-cover w-full h-full shadow-lg top-0 right-0 opacity-50 group-hover:opacity-60 grayscale group-hover:grayscale-0 object-center rounded-xl transition-all duration-1000 transform group-hover:scale-110"
                             />
                             <div class="ml-6 my-6 h-full">
                                 <p class="relative z-10 font-bold md:lg:text-5xl text-4xl">
@@ -196,7 +214,7 @@ const tracksArtist = await Promise.all(
                                     </a>
                                 </p>
 
-                                <section class="w-full h-96 my-8 flex flex-col gap-8 relative overflow-scroll overflow-y-scroll">
+                                <section class="w-full h-96 my-8 flex flex-col gap-8 relative overflow-scroll">
                                     {tracksArtist.map((trackGroup) =>
                                         trackGroup.map(
                                             (track: any) => (
@@ -219,7 +237,7 @@ const tracksArtist = await Promise.all(
                                                         <section class="w-[70%] md:lg:w-[80%] h-full justify-center flex gap-2 flex-col relative overflow-hidden">
                                                             <a
                                                                 href={`/song/${track.id}`}
-                                                                class="w-fit md:lg:text-4xl text-xl font-bold z-50 hover:border-b-2 hover:border-b-white border-b-2  border-b-transparent transition-all duration-200">
+                                                                class="w-fit md:lg:text-4xl text-xl font-bold z-30 hover:border-b-2 hover:border-b-white border-b-2  border-b-transparent transition-all duration-200">
                                                                 {track.title}
                                                             </a>
                                                             <p class="flex flex-row w-full gap-4 truncate">

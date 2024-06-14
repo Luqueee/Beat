@@ -20,7 +20,7 @@ export function getTimeSong(duration) {
 export const Result = ({ song }) => (
     console.log('Song:', song),
     (
-        <article className="w-full group h-20 px-2 m-auto relative overflow-x-hidden backdrop-blur-sm">
+        <article className="w-full group h-20 px-2 relative overflow-hidden backdrop-blur-sm">
             <a
                 href={`/song/${song.id}`}
                 class=" absolute w-full h-full z-10"></a>
@@ -151,9 +151,9 @@ export const SearchBar = () => {
     const inputRef = React.createRef();
     const [searchTerm, setSearchTerm] = useState(() => {
         if (typeof window !== 'undefined') {
-            return localStorage.getItem('input') || '';
+            return localStorage.getItem('input') || [];
         }
-        return '';
+        return [];
     });
     const [searchResult, setSearchResult] = useState([]);
     const [thumbnails, setThumbnails] = useState([]);
@@ -186,7 +186,7 @@ export const SearchBar = () => {
     };
 
     return (
-        <div className=" w-full overflow-hidden">
+        <div className=" w-full overflow-hidden flex flex-col justify-center pb-8">
             <section className=" sm:w-[60%] w-full m-auto gap-2 z-50 flex justify-center items-center  px-2">
                 <div className=" flex-grow my-4">
                     <input
@@ -201,13 +201,13 @@ export const SearchBar = () => {
                     />
                 </div>
             </section>
-            <section className=" sm:w-[60%] w-full m-auto h-[49vh] overflow-y-scroll">
+            <section className=" sm:w-[60%] w-full m-auto overflow-hidden">
                 {!searchTerm == '' ? (
-                    <div className=" flex flex-col gap-4 ">
+                    <div className=" flex flex-col gap-4 overflow-hidden">
                         {searchResult.map((song) => Result({ song }))}
                     </div>
                 ) : (
-                    [...Array(10)].map((_, i) => (
+                    [...Array(4)].map((_, i) => (
                         <article className="w-full group h-20">
                             <div className="bg-opacity-50 rounded-md flex gap-2 shadow-md px-2">
                                 <section>
@@ -226,6 +226,19 @@ export const SearchBar = () => {
                     ))
                 )}
             </section>
+            <footer class="sm:w-[60%] w-full h-20 mt-16 m-auto px-2">
+                <div class="w-full h-[80%] py-8  text-white  justify-center items-center bg-gray-800 bg-opacity-10 rounded-md p-2 flex gap-2">
+                    <p>
+                        Made with 💖 by{' '}
+                        <a
+                            href="https://github.com/Luqueee"
+                            target="_blank"
+                            class="font-extrabold hover:border-b-2 hover:border-b-white border-b-2 border-b-transparent transition-all duration-200">
+                            Adria Cabrera Luque
+                        </a>
+                    </p>
+                </div>
+            </footer>
         </div>
     );
 };
