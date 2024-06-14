@@ -244,32 +244,15 @@ const VolumeControl = () => {
 export function Song({ page }) {
     const { currentMusic, setCurrentMusic, isPlaying, setIsPlaying, volume } =
         useMusicStore((state) => state);
+
     const audioRef = useRef();
-
-    useEffect(() => {
-        isPlaying ? audioRef.current.play() : audioRef.current.pause();
-    }, [isPlaying]);
-
-    useEffect(() => {
-        audioRef.current.volume = volume;
-    }, [volume]);
-
-    useEffect(() => {
-        const { song, preview_image, title } = currentMusic;
-        if (song) {
-            const src = currentMusic.song;
-            audioRef.current.src = src;
-            audioRef.current.volume = volume;
-            audioRef.current.play();
-        }
-    }, [currentMusic]);
 
     const handleClick = () => {
         setIsPlaying(!isPlaying);
     };
 
     return (
-        <div className="flex flex-row justify-between w-full px-1 z-50">
+        <div className="flex flex-row justify-between w-full px-1 z-50 pb-12">
             {!page == '/search' && (
                 <StatusBar {...currentMusic.song} isPlaying={isPlaying} />
             )}

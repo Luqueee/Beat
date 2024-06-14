@@ -3,28 +3,36 @@ import { Pause, Play } from '../Player';
 import { useMusicStore } from '@/store/musicStore';
 
 export function CardPlayButton({ id, size = 'small' }) {
-    const { currentMusic, isPlaying, setCurrentMusic, setIsPlaying, volume } =
-        useMusicStore((state) => state);
+    const {
+        currentMusic,
+        isPlaying,
+        setCurrentMusic,
+        setIsPlaying,
+        volume,
+        setVolume,
+    } = useMusicStore((state) => state);
 
     const audioRef = useRef();
 
     useEffect(() => {
-        isPlaying ? audioRef.current.play() : audioRef.current.pause();
-    }, [isPlaying]);
-
-    useEffect(() => {
-        const { song, preview_image, title } = currentMusic;
-        if (song) {
-            const src = currentMusic.song;
-            audioRef.current.src = src;
-            audioRef.current.volume = volume;
-            audioRef.current.play();
-        }
-    }, [currentMusic]);
-
-    useEffect(() => {
-        setCurrentMusic(id);
+        audioRef.current.src = id;
+        audioRef.current.volume = localStorage.getItem('volume') || 1;
+        setVolume(localStorage.getItem('volume') || 1);
     }, []);
+
+    useEffect(() => {
+        audioRef.current.volume = volume;
+        localStorage.setItem('volume', volume);
+    }, [volume]);
+
+    useEffect(() => {
+        if (!isPlaying) {
+            audioRef.current.pause();
+            return;
+        }
+
+        audioRef.current.play();
+    }, [isPlaying]);
 
     const handleClick = () => {
         if (isPlaying) {
@@ -32,10 +40,7 @@ export function CardPlayButton({ id, size = 'small' }) {
             return;
         } else {
             setIsPlaying(true);
-            setCurrentMusic(id);
         }
-
-        console.log(currentMusic, isPlaying);
     };
 
     const iconClassName = size === 'small' ? 'w-4 h-4' : 'w-5 h-5';

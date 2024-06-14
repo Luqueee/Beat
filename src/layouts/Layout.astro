@@ -29,12 +29,12 @@ const { title } = Astro.props;
         <div id="app" class="relative h-full gap-2 w-full">
             <main class="w-full">
                 <slot class="" />
-                <!-- <Song
+                <Song
                     client:load
                     transition:name="media-player"
                     transition:persist
                     page={Astro.url.pathname}
-                />-->
+                />
             </main>
         </div>
 

@@ -7,7 +7,7 @@ import Particles from '@/components/ui/particles';
 export const prerender = true;
 import WordPullUp from '@/components/magicui/word-pull-up';
 import GradualSpacing from '@/components/magicui/gradual-spacing';
-
+import MarqueeDemo from '@/components/marquee';
 const url = Astro.url.origin;
 ---
 
@@ -43,6 +43,7 @@ const url = Astro.url.origin;
             </section>
 
             <div class="w-full h-full">
+                <MarqueeDemo client:load />
                 <SearchBar client:load />
             </div>
         </div>
