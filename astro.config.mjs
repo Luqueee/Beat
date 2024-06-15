@@ -10,7 +10,7 @@ import ssrPrepass from 'react-ssr-prepass';
 export default defineConfig({
     site: 'https://beat-one.vercel.app/',
     output: 'server',
-    adapter: vercel(),
+    adapter: vercel({ webAnalytics: { enabled: true } }),
     integrations: [tailwind(), react(), svelte()],
     ssr: {
         async renderToHtml(render) {
