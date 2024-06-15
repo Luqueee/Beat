@@ -122,7 +122,7 @@ const MarqueeChartSongs = () => {
                         ? charts.slice(charts.length / 2).map((review) => (
                               //console.log(review),
                               <ReviewCard
-                                  id={`a${review.id}`}
+                                  id={`${review.id}`}
                                   author_image={review.artist.picture}
                                   title={review.title}
                                   author={review.artist.name}
@@ -130,7 +130,7 @@ const MarqueeChartSongs = () => {
                               />
                           ))
                         : [...Array(4)].map((_, i) => (
-                              <ReviewCardSkeleton key={`a${i}`} />
+                              <ReviewCardSkeleton key={`${i}`} />
                           ))}
                 </Marquee>
             </div>
