@@ -5,7 +5,7 @@ import SearchIcon from '@/icons/Search.astro';
 import SideMenuItem from './SideMenuItem.astro';
 import SideMenuCard from './SideMenuCard.astro';
 import { playlists } from '@/lib/data';
-import { LoginCard } from './loginMenu;
+import { LoginCard } from './loginMenu';
 import { supabase } from '@/lib/supabase';
 
 const { data } = await supabase.auth.getSession();
