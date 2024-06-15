@@ -43,16 +43,15 @@ const ReviewCard = ({ id, author_image, title, position, author }) => {
 };
 
 const MarqueeDemo = () => {
-    const [charts, setCharts] = useState(null);
+    const [charts, setCharts] = useState([]);
 
     useEffect(() => {
-        const fetchCharts = async () => {
-            const res = await fetch('/api/music/charts');
-            const data = await res.json();
-            console.log(data);
-            setCharts(data.albums.data);
-        };
-        fetchCharts();
+        fetch('/api/music/charts')
+            .then((res) => res.json())
+            .then((data) => {
+                setCharts(data.albums.data);
+            });
+
         console.log(window.innerWidth);
     }, []);
 
