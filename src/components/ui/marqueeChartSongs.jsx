@@ -72,7 +72,7 @@ const ReviewCardSkeleton = ({ id }) => {
     );
 };
 
-const MarqueeDemo = () => {
+const MarqueeChartSongs = () => {
     const [charts, setCharts] = useState(null);
 
     useEffect(() => {
@@ -88,19 +88,30 @@ const MarqueeDemo = () => {
 
     return (
         <div className="relative flex h-full flex-col items-center justify-center overflow-hidden py-24 min-w-full border-transparent">
-            <div className=" block">
+            <div className="">
+                <h2 class="text-center md:lg:text-4xl text-2xl font-bold mb-8">
+                    Discover the trending songs:
+                </h2>
                 <Marquee pauseOnHover className="[--duration:20s]">
                     {charts
-                        ? charts.slice(0, charts.length / 2).map((review) => (
-                              //console.log(review),
-                              <ReviewCard
-                                  key={review.id}
-                                  author_image={review.artist.picture}
-                                  title={review.title}
-                                  author={review.artist.name}
-                                  position={review.position}
-                              />
-                          ))
+                        ? charts
+                              .slice(0, charts.length / 2)
+                              .map(
+                                  (review) => (
+                                      console.log(review),
+                                      (
+                                          <ReviewCard
+                                              id={review.id}
+                                              author_image={
+                                                  review.artist.picture
+                                              }
+                                              title={review.title}
+                                              author={review.artist.name}
+                                              position={review.position}
+                                          />
+                                      )
+                                  )
+                              )
                         : [...Array(4)].map((_, i) => (
                               <ReviewCardSkeleton key={i} />
                           ))}
@@ -111,7 +122,7 @@ const MarqueeDemo = () => {
                         ? charts.slice(charts.length / 2).map((review) => (
                               //console.log(review),
                               <ReviewCard
-                                  key={`a${review.id}`}
+                                  id={`a${review.id}`}
                                   author_image={review.artist.picture}
                                   title={review.title}
                                   author={review.artist.name}
@@ -130,4 +141,4 @@ const MarqueeDemo = () => {
     );
 };
 
-export default MarqueeDemo;
+export default MarqueeChartSongs;

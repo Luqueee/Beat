@@ -159,6 +159,7 @@ export const SearchBar = () => {
             fetch(`/api/music/search?song=${encodeURIComponent(searchTerm)}`)
                 .then((res) => res.json())
                 .then((data) => {
+                    console.log('Search result:', data);
                     setSearchResult(data);
                     localStorage.setItem('searchResult', JSON.stringify(data));
                     setIsLoading(true);
@@ -166,7 +167,7 @@ export const SearchBar = () => {
                     //console.log('Search result:', searchResult);
                     //console.log('thumbnails:', thumbnails);
                 });
-        }, 300);
+        }, 100);
 
         return () => clearTimeout(timer);
     }, [searchTerm]);

@@ -7,7 +7,7 @@ import Particles from '@/components/ui/particles';
 export const prerender = true;
 import WordPullUp from '@/components/magicui/word-pull-up';
 import GradualSpacing from '@/components/magicui/gradual-spacing';
-import MarqueeDemo from '@/components/ui/marqueeChartSongs';
+import MarqueeChartSongs from '@/components/ui/marqueeChartSongs';
 import { SongBar } from '@/components/songBar';
 ---
 
@@ -31,7 +31,7 @@ import { SongBar } from '@/components/songBar';
 
                 <Particles
                     className=" inset-0 w-full h-full fixed -z-10"
-                    quantity={500}
+                    quantity={1000}
                     ease={40}
                     color={'#ffffff'}
                     staticity={20}
@@ -41,7 +41,7 @@ import { SongBar } from '@/components/songBar';
             </section>
 
             <div class="w-full h-full">
-                <MarqueeDemo client:load />
+                <MarqueeChartSongs client:load />
                 <SearchBar client:load />
             </div>
         </div>

@@ -113,7 +113,7 @@ const CurrentSong = ({ image, title, artists }) => {
     return (
         <div
             className={`
-        flex items-center gap-5 relative
+        flex items-center gap-4 relative
         overflow-hidden
       `}>
             <picture className="w-16 h-16 bg-zinc-800 rounded-md shadow-lg overflow-hidden">
@@ -122,9 +122,7 @@ const CurrentSong = ({ image, title, artists }) => {
 
             <div className="flex flex-col">
                 <h3 className="font-semibold text-sm block">{title}</h3>
-                <span className="text-xs opacity-80">
-                    {artists?.join(', ')}
-                </span>
+                <span className="text-xs opacity-80">{artists}</span>
             </div>
         </div>
     );
@@ -261,6 +259,10 @@ export function SongBar({
     } = useMusicStore((state) => state);
     const audioRef = useRef();
 
+    const [titleSong, setTitle] = useState(null);
+    const [artistSong, setArtist] = useState(null);
+    const [imageSong, setImage] = useState(null);
+
     useEffect(() => {
         const song_data =
             JSON.parse(localStorage.getItem('currentMusic'))?.[0] || null;
@@ -285,6 +287,10 @@ export function SongBar({
                     'currentMusic',
                     JSON.stringify([{ song, preview_image, title, artist }])
                 );
+
+                setImage(preview_image);
+                setTitle(title);
+                setArtist(artist);
             }
         } catch (error) {
             if (
@@ -298,6 +304,10 @@ export function SongBar({
                     'currentMusic',
                     JSON.stringify([{ song, preview_image, title, artist }])
                 );
+
+                setImage(preview_image);
+                setTitle(title);
+                setArtist(artist);
             }
         }
     }, [song]);
@@ -310,6 +320,9 @@ export function SongBar({
             setCurrentMusic(song_data.song);
             setIsPlaying(true);
         }
+        setImage(song_data.preview_image);
+        setTitle(song_data.title);
+        setArtist(song_data.artist);
     }, []);
 
     useEffect(() => {
@@ -356,7 +369,14 @@ export function SongBar({
     }, []);
 
     return (
-        <div className="flex flex-row justify-center items-center w-full z-50 bg-gray-800 bg-opacity-30 p-4 gap-2 shadow-md h-full backdrop-filter ">
+        <div className="flex flex-row justify-center relative items-center w-full z-50 bg-gray-800 bg-opacity-30 py-6 md:lg:pl-8 pl-0 gap-2 shadow-md h-full backdrop-filter ">
+            <div className=" md:lg:block hidden absolute left-4 top-2 bottom-0 ">
+                <CurrentSong
+                    title={titleSong}
+                    artists={artistSong}
+                    image={imageSong}
+                />
+            </div>
             <div className="flex w-full h-full justify-center px-8 items-center z-50">
                 <button
                     title="Play / Pause"

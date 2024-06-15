@@ -2,7 +2,6 @@
 import Layout from '../../layouts/Layout.astro';
 import Rank from '@/icons/Rank.astro';
 import { SongBar } from '@/components/songBar';
-import { Song } from '@/components/ui/song';
 import { getTimeSong } from '@/components/ui/searchBar';
 import Footer from '@/components/blocks/Footer.astro';
 import Back from '@/icons/Back.astro';
@@ -28,7 +27,6 @@ const titleSong = dataSong.title;
 const artists = dataSong.contributors
     .map((artist: any) => artist.name)
     .join(', ');
-
 //console.log(artists);
 const artistImg = dataSong.artist.picture;
 const albumImg = dataSong.album.cover_xl;
@@ -69,24 +67,23 @@ console.log(songSrc, id);
     <div
         id="playlist-container"
         class="relative flex flex-col bg-zinc-900 w-full h-full">
-        <header class="flex flex-row gap-4 py-auto z-10 w-full min-h-full px-6">
+        <div
+            class="fixed right-0 md:lg:top-4 top-0 md:lg:right-4 flex w-full md:lg:w-fit z-[9999999] justify-center md:lg:justify-normal md:lg:pr-6 pr-0">
             <div
-                class="fixed right-0 top-4 md:lg:right-4 flex w-full md:lg:w-fit z-50 justify-center md:lg:justify-normal pl-6 pr-6">
-                <div
-                    class="w-full h-full flex bg-green-500 bg-opacity-70 md:lg:bg-opacity-0 py-4 rounded-md justify-center md:lg:justify-between gap-4">
-                    <a
-                        href="/"
-                        class="m-auto w-12 h-12 rounded-full bg-green-500 flex justify-center items-center z-50">
-                        <Back />
-                    </a>
-                    <a
-                        href="/"
-                        class="m-auto w-12 h-12 rounded-full bg-green-500 flex justify-center items-center text-black z-50">
-                        <Home />
-                    </a>
-                </div>
+                class="w-full h-full flex bg-gray-800 bg-opacity-50 z-[999999] md:lg:bg-opacity-0 py-4 justify-center md:lg:justify-between gap-4">
+                <a
+                    href="/"
+                    class="m-auto w-12 h-12 rounded-full bg-green-500 flex justify-center items-center z-[9999999999]">
+                    <Back />
+                </a>
+                <a
+                    href="/"
+                    class="m-auto w-12 h-12 rounded-full bg-green-500 flex justify-center items-center text-black">
+                    <Home />
+                </a>
             </div>
-
+        </div>
+        <header class="flex flex-row gap-4 py-auto z-10 w-full min-h-full px-6">
             <div class="md:lg:flex block w-full md:lg:mb-0 mt-8">
                 <picture class="aspect-square md:lg:w-72 w-36 h-auto flex-none">
                     <section class="rounded-md">
