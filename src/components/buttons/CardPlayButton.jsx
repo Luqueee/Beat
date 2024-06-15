@@ -12,28 +12,6 @@ export function CardPlayButton({ id, size = 'small' }) {
         setVolume,
     } = useMusicStore((state) => state);
 
-    const audioRef = useRef();
-
-    useEffect(() => {
-        audioRef.current.src = id;
-        audioRef.current.volume = localStorage.getItem('volume') || 1;
-        setVolume(localStorage.getItem('volume') || 1);
-    }, []);
-
-    useEffect(() => {
-        audioRef.current.volume = volume;
-        localStorage.setItem('volume', volume);
-    }, [volume]);
-
-    useEffect(() => {
-        if (!isPlaying) {
-            audioRef.current.pause();
-            return;
-        }
-
-        audioRef.current.play();
-    }, [isPlaying]);
-
     const handleClick = () => {
         if (isPlaying) {
             setIsPlaying(false);
@@ -48,13 +26,12 @@ export function CardPlayButton({ id, size = 'small' }) {
     return (
         <button
             onClick={handleClick}
-            className="card-play-button rounded-full bg-green-500 p-4 hover:scale-105 transition hover:bg-green-400">
+            className="card-play-button rounded-full bg-green-500 p-4 hover:scale-105 transition hover:bg-green-400 z-50">
             {isPlaying ? (
                 <Pause className={iconClassName} />
             ) : (
                 <Play className={iconClassName} />
             )}
-            <audio ref={audioRef} />
         </button>
     );
 }

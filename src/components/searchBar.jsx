@@ -24,7 +24,7 @@ export const Result = ({ song }) => (
             <a
                 href={`/song/${song.id}`}
                 class=" absolute w-full h-full z-10"></a>
-            <div className=" bg-gray-800 bg-opacity-10 rounded-md p-2 flex gap-2 hover:bg-[#0e7139] shadow-md h-full">
+            <div className=" bg-gray-800 bg-opacity-10 rounded-md p-2 flex gap-2  shadow-md h-full">
                 <section className="md:lg:w-[5%] w-[20%]">
                     <img
                         src={song.album.cover}
@@ -90,10 +90,10 @@ export const ResultPlaylist = ({ song }) => (
     console.log('Song:', song),
     (
         <article className="w-full group">
-            <div className=" bg-gray-800 bg-opacity-10 rounded-md p-2 flex gap-2 hover:bg-[#0e7139] shadow-md relative">
+            <div className=" bg-gray-800 bg-opacity-10 rounded-md p-2 flex gap-2  shadow-md relative">
                 <a
                     href="/"
-                    className=" absolute w-full bg-blue h-20 top-0 mr-8 z-10"></a>
+                    className=" absolute w-full bg-blue h-20 top-0 mr-8"></a>
                 <section className=" z-50">
                     <a href="/aa" className=" z-50">
                         <img
@@ -186,7 +186,7 @@ export const SearchBar = () => {
     };
 
     return (
-        <div className=" w-full overflow-hidden flex flex-col justify-center pb-8">
+        <div className=" w-full overflow-hidden flex flex-col justify-center pb-8 px-6">
             <section className=" sm:w-[60%] w-full m-auto gap-2 z-50 flex justify-center items-center  px-2">
                 <div className=" flex-grow my-4">
                     <input

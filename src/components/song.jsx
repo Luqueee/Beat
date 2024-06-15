@@ -1,5 +1,7 @@
 import { useMusicStore } from '@/store/musicStore';
 import { useEffect, useRef, useState } from 'react';
+import { CardPlayButton } from '@/components/buttons/CardPlayButton';
+import { CardRemoveButton } from '@/components/CardRemoveButton';
 import { Slider } from './Slider';
 
 export const Pause = ({ className }) => (
@@ -178,7 +180,7 @@ const SongControl = ({ audio }) => {
     const duration = audio?.current?.duration ?? 0;
 
     return (
-        <div className="flex gap-x-3 text-xs pt-2">
+        <div className="flex gap-x-3 text-xs md:lg:justify-start justify-center">
             <span className="opacity-50 w-12 text-right">
                 {formatTime(currentTime)}
             </span>
@@ -187,7 +189,7 @@ const SongControl = ({ audio }) => {
                 value={[currentTime]}
                 max={audio?.current?.duration ?? 0}
                 min={0}
-                className="w-[400px]"
+                className="w-[200px]"
                 onValueChange={(value) => {
                     const [newCurrentTime] = value;
                     audio.current.currentTime = newCurrentTime;
@@ -205,8 +207,7 @@ const VolumeControl = () => {
     const volume = useMusicStore((state) => state.volume);
     const setVolume = useMusicStore((state) => state.setVolume);
     const previousVolumeRef = useRef(volume);
-
-    const isVolumeSilenced = volume < 0.1;
+    const isVolumeSilenced = volume < 0.05;
 
     const handleClickVolumen = () => {
         if (isVolumeSilenced) {
@@ -218,7 +219,7 @@ const VolumeControl = () => {
     };
 
     return (
-        <div className="flex justify-center gap-x-2 text-white">
+        <div className="flex justify-center items-center gap-x-2 text-white">
             <button
                 className="opacity-70 hover:opacity-100 transition"
                 onClick={handleClickVolumen}>
@@ -241,44 +242,63 @@ const VolumeControl = () => {
     );
 };
 
-export function Song({ page }) {
-    const { currentMusic, setCurrentMusic, isPlaying, setIsPlaying, volume } =
-        useMusicStore((state) => state);
+export function Song({ page, songSrc, id }) {
+    const {
+        currentMusic,
+        isPlaying,
+        setCurrentMusic,
+        setIsPlaying,
+        volume,
+        setVolume,
+    } = useMusicStore((state) => state);
 
     const audioRef = useRef();
 
+    useEffect(() => {
+        audioRef.current.src = songSrc;
+        audioRef.current.volume = localStorage.getItem('volume') || 1;
+        setVolume(localStorage.getItem('volume') || 1);
+    }, []);
+
+    useEffect(() => {
+        audioRef.current.volume = volume;
+        localStorage.setItem('volume', volume);
+    }, [volume]);
+
+    useEffect(() => {
+        if (!isPlaying) {
+            audioRef.current.pause();
+            return;
+        }
+
+        audioRef.current.play();
+    }, [isPlaying]);
     const handleClick = () => {
         setIsPlaying(!isPlaying);
     };
-
     return (
-        <div className="flex flex-row justify-between w-full px-1 z-50 pb-12">
-            {!page == '/search' && (
-                <StatusBar {...currentMusic.song} isPlaying={isPlaying} />
-            )}
+        <div className="flex flex-row justify-center items-center w-full z-50  bg-gray-800 bg-opacity-30 p-4 gap-2 shadow-md h-full backdrop-blur-sm">
+            <div className=" flex w-full h-full justify-center pr-8 items-center z-50">
+                <button
+                    title="Play / Pause"
+                    onClick={handleClick}
+                    className="bg-white rounded-full p-2">
+                    {isPlaying ? <Pause /> : <Play />}
+                </button>
+                <SongControl audio={audioRef} />
 
-            <div className="w-[200px]">
-                <CurrentSong {...currentMusic.song} />
-            </div>
-
-            <div className="grid place-content-center gap-4 flex-1">
-                <div className="flex justify-center flex-col items-center">
-                    <div className="flex gap-8">
-                        <button
-                            title="Play / Pause"
-                            onClick={handleClick}
-                            className="bg-white rounded-full p-2">
-                            {isPlaying ? <Pause /> : <Play />}
-                        </button>
-                    </div>
-                    <SongControl audio={audioRef} />
-                    <audio ref={audioRef} />
-                </div>
-            </div>
-
-            <div className="grid place-content-center">
                 <VolumeControl />
             </div>
+            <audio
+                ref={audioRef}
+                onError={() => console.error('Error loading audio')}>
+                <source src={songSrc} type="audio/mpeg" />
+                <source
+                    src={songSrc.replace('.mp3', '.ogg')}
+                    type="audio/ogg"
+                />
+                Your browser does not support the audio element.
+            </audio>
         </div>
     );
 }

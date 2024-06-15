@@ -12,12 +12,10 @@ const url = Astro.url.origin;
 ---
 
 <Layout title="Spotify Clone">
-    <div
-        id="playlist-container"
-        class="relative transition-all duration-1000 w-full h-full">
+    <div id="playlist-container" class="relative w-screen h-full">
         <!-- <PageHeader /> -->
 
-        <div class="relative z-10 px-6 pt-8">
+        <div class="relative z-10 pt-8">
             <!-- <Greeting />-->
             <section class="my-16 text-center">
                 <GradualSpacing
@@ -32,7 +30,7 @@ const url = Astro.url.origin;
                 />
 
                 <Particles
-                    className="absolute inset-0 w-full h-full -z-10"
+                    className=" inset-0 w-full h-full fixed -z-10"
                     quantity={500}
                     ease={40}
                     color={'#ffffff'}
@@ -44,6 +42,7 @@ const url = Astro.url.origin;
 
             <div class="w-full h-full">
                 <MarqueeDemo client:load />
+
                 <SearchBar client:load />
             </div>
         </div>
