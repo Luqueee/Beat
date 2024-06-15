@@ -24,7 +24,9 @@ const ReviewCard = ({ id, author_image, title, position, author }) => {
                 <div className="flex flex-row">
                     <div className=" w-full">
                         <h1 className=" text-[16px] font-extrabold dark:text-white ">
-                            <a href="text-[16px] font-extrabold hover:text-md">
+                            <a
+                                href={`/song/${id}`}
+                                className="text-[16px] font-extrabold hover:text-md">
                                 {title}
                             </a>
                         </h1>
@@ -49,10 +51,11 @@ const MarqueeDemo = () => {
         fetch('/api/music/charts')
             .then((res) => res.json())
             .then((data) => {
-                setCharts(data.albums.data);
+                console.log(data);
+                setCharts(data.tracks.data);
             });
 
-        console.log(window.innerWidth);
+        //console.log(window.innerWidth);
     }, []);
 
     return (
