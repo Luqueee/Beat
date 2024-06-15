@@ -23,8 +23,8 @@ const ReviewCard = ({ id, author_image, title, position, author }) => {
                 />
                 <div className="flex flex-row">
                     <div className=" w-full">
-                        <h1 className=" text-sm font-medium dark:text-white ">
-                            <a href="text-sm font-medium hover:text-md">
+                        <h1 className=" text-[16px] font-extrabold dark:text-white ">
+                            <a href="text-[16px] font-extrabold hover:text-md">
                                 {title}
                             </a>
                         </h1>
@@ -33,7 +33,7 @@ const ReviewCard = ({ id, author_image, title, position, author }) => {
                         </p>
                     </div>
 
-                    <p className=" font-extrabold dark:text-zinc-800/80 absolute -bottom-6  -right-0 -z-20">
+                    <p className=" font-extrabold dark:text-zinc-800/80 absolute -bottom-[28px]  -right-0 -z-20">
                         {position}
                     </p>
                 </div>
@@ -58,7 +58,7 @@ const MarqueeDemo = () => {
 
     return (
         <div className="relative flex h-full flex-col items-center justify-center overflow-hidden py-24 min-w-full border-transparent">
-            <div className=" md:lg:block hidden">
+            <div className=" block">
                 <Marquee pauseOnHover className="[--duration:20s]">
                     {charts &&
                         charts
