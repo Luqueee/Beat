@@ -1,4 +1,4 @@
-import { Pause, Play } from '../Player';
+import { Pause, Play } from '../ui/Player';
 import { usePlayerStore } from '@/store/playerStore';
 import ReactPlayer from 'react-player';
 

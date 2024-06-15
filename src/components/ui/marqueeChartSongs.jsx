@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils';
 import Marquee from '@/components/magicui/marquee';
 import { useEffect, useState } from 'react';
-import { Skeleton } from './ui/skeleton';
+import { Skeleton } from './skeleton';
 const ReviewCard = ({ id, author_image, title, position, author }) => {
     return (
         <div

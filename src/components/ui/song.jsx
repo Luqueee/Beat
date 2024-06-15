@@ -1,8 +1,8 @@
 import { useMusicStore } from '@/store/musicStore';
 import { useEffect, useRef, useState } from 'react';
 import { CardPlayButton } from '@/components/buttons/CardPlayButton';
-import { CardRemoveButton } from '@/components/CardRemoveButton';
-import { Slider } from './Slider';
+import { CardRemoveButton } from '@/components/buttons/CardRemoveButton';
+import { Slider } from './slider';
 
 export const Pause = ({ className }) => (
     <svg

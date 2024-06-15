@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Remove, RemoveFilled } from './Player';
+import { Remove, RemoveFilled } from '../ui/Player';
 import { usePlayerStore } from '@/store/playerStore';
 
 // TODO: Detectar el albumn en el que te encuentras y ver si ya estaba anyadido a favoritos. En el caso que este anyadido asignar el estado inicial a true. En caso contrario a false. Usar una store.

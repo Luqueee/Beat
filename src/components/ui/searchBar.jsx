@@ -4,9 +4,7 @@ import { useState, useEffect } from 'react';
 import {
     CardPlayButtonSearch,
     CardPlayButtonPlayPlaylist,
-} from './buttons/CardPlayButtonSearch';
-
-import { useinputsSearch } from '@/store/playerStore';
+} from '../buttons/CardPlayButtonSearch';
 
 export function getTimeSong(duration) {
     const minutes = Math.floor(duration / 60);

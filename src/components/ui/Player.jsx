@@ -1,6 +1,6 @@
-import { useMusicStore } from '@/store/musicStore';
+import { usePlayerStore } from '@/store/playerStore';
 import { useEffect, useRef, useState } from 'react';
-import { Slider } from './Slider';
+import { Slider } from './slider';
 
 export const Pause = ({ className }) => (
     <svg
@@ -23,36 +23,6 @@ export const Play = ({ className }) => (
         aria-hidden="true"
         viewBox="0 0 16 16">
         <path d="M3 1.713a.7.7 0 0 1 1.05-.607l10.89 6.288a.7.7 0 0 1 0 1.212L4.05 14.894A.7.7 0 0 1 3 14.288V1.713z"></path>
-    </svg>
-);
-
-export const Remove = ({ className }) => (
-    <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="#000000"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        class="icon icon-tabler icons-tabler-outline icon-tabler-heart">
-        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-        <path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
-    </svg>
-);
-
-export const RemoveFilled = ({ className }) => (
-    <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="#000000"
-        class="icon icon-tabler icons-tabler-filled icon-tabler-heart">
-        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-        <path d="M6.979 3.074a6 6 0 0 1 4.988 1.425l.037 .033l.034 -.03a6 6 0 0 1 4.733 -1.44l.246 .036a6 6 0 0 1 3.364 10.008l-.18 .185l-.048 .041l-7.45 7.379a1 1 0 0 1 -1.313 .082l-.094 -.082l-7.493 -7.422a6 6 0 0 1 3.176 -10.215z" />
     </svg>
 );
 
@@ -85,29 +55,6 @@ export const Volume = () => (
     </svg>
 );
 
-export const Prev = () => (
-    <svg
-        fill="currentColor"
-        role="img"
-        height="16"
-        width="16"
-        aria-hidden="true"
-        viewBox="0 0 16 16">
-        <path d="M3.3 1a.7.7 0 0 1 .7.7v5.15l9.95-5.744a.7.7 0 0 1 1.05.606v12.575a.7.7 0 0 1-1.05.607L4 9.149V14.3a.7.7 0 0 1-.7.7H1.7a.7.7 0 0 1-.7-.7V1.7a.7.7 0 0 1 .7-.7h1.6z"></path>
-    </svg>
-);
-export const Next = () => (
-    <svg
-        fill="currentColor"
-        role="img"
-        height="16"
-        width="16"
-        aria-hidden="true"
-        viewBox="0 0 16 16">
-        <path d="M12.7 1a.7.7 0 0 0-.7.7v5.15L2.05 1.107A.7.7 0 0 0 1 1.712v12.575a.7.7 0 0 0 1.05.607L12 9.149V14.3a.7.7 0 0 0 .7.7h1.6a.7.7 0 0 0 .7-.7V1.7a.7.7 0 0 0-.7-.7h-1.6z"></path>
-    </svg>
-);
-
 const CurrentSong = ({ image, title, artists }) => {
     return (
         <div
@@ -122,28 +69,6 @@ const CurrentSong = ({ image, title, artists }) => {
             <div className="flex flex-col">
                 <h3 className="font-semibold text-sm block">{title}</h3>
                 <span className="text-xs opacity-80">
-                    {artists?.join(', ')}
-                </span>
-            </div>
-        </div>
-    );
-};
-
-const StatusBar = ({ image, title, artists, isPlaying }) => {
-    const opacityClass = isPlaying ? 'opacity-100' : 'opacity-0';
-    return (
-        <div
-            className={`
-        md:lg:flex sm:hidden items-center gap-5 absolute top-0 right-0 m-4 w-[400px] bg-green-400 p-4 rounded-md
-        overflow-hidden transition-opacity duration-500 z-10  ${opacityClass}
-      `}>
-            <picture className="w-16 h-16 bg-zinc-800 rounded-md shadow-lg overflow-hidden">
-                <img src={image} alt={title} />
-            </picture>
-
-            <div className="flex flex-col">
-                <h3 className="font-semibold text-2xl block">{title}</h3>
-                <span className="text-md opacity-80">
                     {artists?.join(', ')}
                 </span>
             </div>
@@ -241,9 +166,10 @@ const VolumeControl = () => {
     );
 };
 
-export function Player({ page }) {
-    const { currentMusic, setCurrentMusic, isPlaying, setIsPlaying, volume } =
-        useMusicStore((state) => state);
+export function Player() {
+    const { currentMusic, isPlaying, setIsPlaying, volume } = usePlayerStore(
+        (state) => state
+    );
     const audioRef = useRef();
 
     useEffect(() => {
@@ -255,38 +181,14 @@ export function Player({ page }) {
     }, [volume]);
 
     useEffect(() => {
-        const { song, preview_image, title } = currentMusic;
+        const { song, playlist, songs } = currentMusic;
         if (song) {
-            const src = currentMusic.song;
+            const src = `/music/${playlist?.id}/0${song.id}.mp3`;
             audioRef.current.src = src;
             audioRef.current.volume = volume;
             audioRef.current.play();
         }
     }, [currentMusic]);
-
-    const getSongIndex = (id) => {
-        return currentMusic.songs.findIndex((e) => e.id === id) ?? -1;
-    };
-
-    const onNextSong = () => {
-        const { song, playlist, songs } = currentMusic;
-        const index = getSongIndex(song.id);
-        if (index > -1 && index + 1 < songs.length) {
-            setIsPlaying(false);
-            setCurrentMusic({ songs, playlist, song: songs[index + 1] });
-            setIsPlaying(true);
-        }
-    };
-
-    const onPrevSong = () => {
-        const { song, playlist, songs } = currentMusic;
-        const index = getSongIndex(song.id);
-        if (index > -1 && index > 0) {
-            setIsPlaying(false);
-            setCurrentMusic({ songs, playlist, song: songs[index - 1] });
-            setIsPlaying(true);
-        }
-    };
 
     const handleClick = () => {
         setIsPlaying(!isPlaying);
@@ -294,30 +196,17 @@ export function Player({ page }) {
 
     return (
         <div className="flex flex-row justify-between w-full px-1 z-50">
-            {!page == '/search' && (
-                <StatusBar {...currentMusic.song} isPlaying={isPlaying} />
-            )}
-
             <div className="w-[200px]">
                 <CurrentSong {...currentMusic.song} />
             </div>
 
             <div className="grid place-content-center gap-4 flex-1">
                 <div className="flex justify-center flex-col items-center">
-                    <div className="flex gap-8">
-                        <button onClick={onPrevSong} title="Prev">
-                            <Prev />
-                        </button>
-                        <button
-                            title="Play / Pause"
-                            onClick={handleClick}
-                            className="bg-white rounded-full p-2">
-                            {isPlaying ? <Pause /> : <Play />}
-                        </button>
-                        <button onClick={onNextSong} title="Next">
-                            <Next />
-                        </button>
-                    </div>
+                    <button
+                        className="bg-white rounded-full p-2"
+                        onClick={handleClick}>
+                        {isPlaying ? <Pause /> : <Play />}
+                    </button>
                     <SongControl audio={audioRef} />
                     <audio ref={audioRef} />
                 </div>
