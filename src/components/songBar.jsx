@@ -246,8 +246,12 @@ const VolumeControl = () => {
         </div>
     );
 };
-
-export function Song({ song, preview_image, title, artist }) {
+export function SongBar({
+    song = null,
+    preview_image = null,
+    title = null,
+    artist = null,
+}) {
     const {
         currentMusic,
         isPlaying,
@@ -256,48 +260,102 @@ export function Song({ song, preview_image, title, artist }) {
         volume,
         setVolume,
     } = useMusicStore((state) => state);
-
     const audioRef = useRef();
 
     useEffect(() => {
-        audioRef.current.src = song;
+        const song_data =
+            JSON.parse(localStorage.getItem('currentMusic'))?.[0] || null;
         audioRef.current.volume = localStorage.getItem('volume') || 1;
-        setCurrentMusic({ song, preview_image, title, artist });
         setVolume(localStorage.getItem('volume') || 1);
-
-        const currentSongData =
-            JSON.parse(localStorage.getItem('currentMusic'))[0] ?? null;
-
-        if (currentSongData) {
-            if (currentSongData.song === song) {
-                audioRef.current.currentTime =
-                    localStorage.getItem('currentTime') ?? 0;
+        console.log(song, preview_image, title, artist);
+        console.log(song_data);
+        try {
+            if (song !== null && song !== song_data.song) {
+                const wasPlaying = !audioRef.current.paused; // Check if music was playing
+                audioRef.current.src = song; // Change the source
+                audioRef.current.load(); // Load the new source
+                audioRef.current.currentTime = 0; // Reset time to start
+                if (wasPlaying) {
+                    audioRef.current.play().catch(
+                        (
+                            error // Play if it was playing before
+                        ) => console.error('Error playing the audio:', error)
+                    );
+                }
+                localStorage.setItem(
+                    'currentMusic',
+                    JSON.stringify([{ song, preview_image, title, artist }])
+                );
+            }
+        } catch (error) {
+            if (
+                !song_data &&
+                song !== null &&
+                preview_image !== null &&
+                title !== null &&
+                artist !== null
+            ) {
+                localStorage.setItem(
+                    'currentMusic',
+                    JSON.stringify([{ song, preview_image, title, artist }])
+                );
             }
         }
+    }, [song]);
 
-        localStorage.setItem(
-            'currentMusic',
-            JSON.stringify([{ song, preview_image, title, artist }])
-        );
-        console.log('Song:', currentMusic);
+    useEffect(() => {
+        const song_data = JSON.parse(localStorage.getItem('currentMusic'))[0];
+        if (song_data) {
+            audioRef.current.src = song_data.song;
+            audioRef.current.load();
+            setCurrentMusic(song_data.song);
+            setIsPlaying(true);
+        }
     }, []);
+
+    useEffect(() => {
+        localStorage.setItem('playing', isPlaying);
+        if (!isPlaying) {
+            audioRef.current.pause();
+        } else {
+            audioRef.current
+                .play()
+                .catch((error) =>
+                    console.error('Error playing the audio:', error)
+                );
+        }
+    }, [isPlaying]);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (audioRef.current.ended) {
+                setIsPlaying(false);
+            }
+        }, 100);
+
+        return () => {
+            clearInterval(interval);
+        };
+    }, [audioRef]);
 
     useEffect(() => {
         audioRef.current.volume = volume;
         localStorage.setItem('volume', volume);
     }, [volume]);
 
-    useEffect(() => {
-        if (!isPlaying) {
-            audioRef.current.pause();
-            return;
-        }
-
-        audioRef.current.play();
-    }, [isPlaying]);
     const handleClick = () => {
         setIsPlaying(!isPlaying);
     };
+
+    useEffect(() => {
+        const song_data = JSON.parse(localStorage.getItem('currentMusic'))[0];
+        localStorage.setItem('playing', 'false');
+        setIsPlaying(false);
+        if (song_data) {
+            setCurrentMusic(song_data.song);
+        }
+    }, []);
+
     return (
         <div className="flex flex-row justify-center items-center w-full z-50 bg-gray-800 bg-opacity-30 p-4 gap-2 shadow-md h-full backdrop-filter ">
             <div className="flex w-full h-full justify-center px-8 items-center z-50">

@@ -8,6 +8,8 @@ export const prerender = true;
 import WordPullUp from '@/components/magicui/word-pull-up';
 import GradualSpacing from '@/components/magicui/gradual-spacing';
 import MarqueeDemo from '@/components/marquee';
+import { SongBar } from '@/components/songBar';
+
 const url = Astro.url.origin;
 ---
 
@@ -42,11 +44,16 @@ const url = Astro.url.origin;
 
             <div class="w-full h-full">
                 <MarqueeDemo client:load />
-
                 <SearchBar client:load />
             </div>
         </div>
-
+        <div class="fixed bottom-0 z-[9999999] w-full">
+            <SongBar
+                client:load
+                transition:name="media-player"
+                transition:persist
+            />
+        </div>
         <style></style>
     </div>
 </Layout>

@@ -1,6 +1,7 @@
 import { cn } from '@/lib/utils';
 import Marquee from '@/components/magicui/marquee';
 import { useEffect, useState } from 'react';
+import { Skeleton } from './ui/skeleton';
 const ReviewCard = ({ id, author_image, title, position, author }) => {
     return (
         <div
@@ -23,7 +24,7 @@ const ReviewCard = ({ id, author_image, title, position, author }) => {
                 />
                 <div className="flex flex-row">
                     <div className=" w-full">
-                        <h1 className=" text-[16px] font-extrabold dark:text-white ">
+                        <h1 className=" text-[16px] font-extrabold dark:text-white z-10 ">
                             <a
                                 href={`/song/${id}`}
                                 className="text-[16px] font-extrabold hover:text-md">
@@ -44,14 +45,41 @@ const ReviewCard = ({ id, author_image, title, position, author }) => {
     );
 };
 
+const ReviewCardSkeleton = ({ id }) => {
+    return (
+        <div
+            className={cn(
+                'relative w-fit cursor-pointer overflow-hidden rounded-xl p-4 backdrop-blur-sm  shadow-md group text-8xl  transition-all duration-200 ease-in-out  min-h-18'
+            )}>
+            <div className="flex flex-row items-center gap-2  pl-2 pr-6 min-w-64 ">
+                <Skeleton key={id} className="w-[32px] h-[32px] rounded-md" />
+                <div className="flex flex-row">
+                    <Skeleton
+                        key={id}
+                        className="w-[400px] h-[200px] rounded-md absolute top-0 left-0 opacity-50"
+                    />
+                    <Skeleton
+                        key={id}
+                        className="w-[200px] h-[10px] rounded-md absolute top-4 left-15"
+                    />
+                    <Skeleton
+                        key={id}
+                        className="w-[200px] h-[8px] rounded-md absolute top-8 left-15"
+                    />
+                </div>
+            </div>
+        </div>
+    );
+};
+
 const MarqueeDemo = () => {
-    const [charts, setCharts] = useState([]);
+    const [charts, setCharts] = useState(null);
 
     useEffect(() => {
         fetch('/api/music/charts')
             .then((res) => res.json())
             .then((data) => {
-                console.log(data);
+                //console.log(data);
                 setCharts(data.tracks.data);
             });
 
@@ -62,43 +90,37 @@ const MarqueeDemo = () => {
         <div className="relative flex h-full flex-col items-center justify-center overflow-hidden py-24 min-w-full border-transparent">
             <div className=" block">
                 <Marquee pauseOnHover className="[--duration:20s]">
-                    {charts &&
-                        charts
-                            .slice(0, charts.length / 2)
-                            .map(
-                                (review) => (
-                                    console.log(review),
-                                    (
-                                        <ReviewCard
-                                            id={review.id}
-                                            author_image={review.artist.picture}
-                                            title={review.title}
-                                            author={review.artist.name}
-                                            position={review.position}
-                                        />
-                                    )
-                                )
-                            )}
+                    {charts
+                        ? charts.slice(0, charts.length / 2).map((review) => (
+                              //console.log(review),
+                              <ReviewCard
+                                  key={review.id}
+                                  author_image={review.artist.picture}
+                                  title={review.title}
+                                  author={review.artist.name}
+                                  position={review.position}
+                              />
+                          ))
+                        : [...Array(4)].map((_, i) => (
+                              <ReviewCardSkeleton key={i} />
+                          ))}
                 </Marquee>
 
                 <Marquee reverse pauseOnHover className="[--duration:20s]">
-                    {charts &&
-                        charts
-                            .slice(charts.length / 2)
-                            .map(
-                                (review) => (
-                                    console.log(review),
-                                    (
-                                        <ReviewCard
-                                            id={review.id}
-                                            author_image={review.artist.picture}
-                                            title={review.title}
-                                            author={review.artist.name}
-                                            position={review.position}
-                                        />
-                                    )
-                                )
-                            )}
+                    {charts
+                        ? charts.slice(charts.length / 2).map((review) => (
+                              //console.log(review),
+                              <ReviewCard
+                                  key={`a${review.id}`}
+                                  author_image={review.artist.picture}
+                                  title={review.title}
+                                  author={review.artist.name}
+                                  position={review.position}
+                              />
+                          ))
+                        : [...Array(4)].map((_, i) => (
+                              <ReviewCardSkeleton key={`a${i}`} />
+                          ))}
                 </Marquee>
             </div>
 

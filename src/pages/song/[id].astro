@@ -1,18 +1,13 @@
 ---
-import MusicsTable from '@/components/MusicsTable.astro';
 import Layout from '../../layouts/Layout.astro';
-import { CardPlayButton } from '@/components/buttons/CardPlayButton';
-import { CardRemoveButton } from '@/components/CardRemoveButton';
 import Rank from '@/icons/Rank.astro';
+import { SongBar } from '@/components/songBar';
 import { Song } from '@/components/song';
 import { getTimeSong } from '@/components/searchBar';
-import songTrack from '@/components/song/songTrack.astro';
-import { NeonGradientCard } from '@/components/magicui/neon-gradient-card';
 import Footer from '@/components/blocks/Footer.astro';
-
-import { allPlaylists, songs } from '@/lib/data';
 import Back from '@/icons/Back.astro';
 import Home from '@/icons/Home.astro';
+
 const { id } = Astro.params;
 //console.log(id);
 const { cookies, redirect } = Astro;
@@ -23,13 +18,11 @@ const refreshToken = cookies.get('sb-refresh-token') ? true : false;
 //console.log(accessToken, refreshToken);
 
 const sessionReq = await fetch(`${url}/api/getSession`);
-const session = await sessionReq.json();
 //console.log(`${url}/api/music/getMusicInfo?song=${id}`);
 const dataSongReq = await fetch(`${url}/api/music/getTrack?id=${id}`);
 const dataSong = await dataSongReq.json();
 //console.log('data song', dataSong);
 const titleSong = dataSong.title;
-import BlurIn from '@/components/magicui/blur-in';
 //console.log(dataSongDezz);
 
 const artists = dataSong.contributors
@@ -234,13 +227,14 @@ console.log(songSrc, id);
             }
         </div>
         <div class="fixed bottom-0 z-[9999999] w-full">
-            <Song
+            <SongBar
                 client:load
                 transition:name="media-player"
                 transition:persist
-                page={Astro.url.pathname}
-                songSrc={songSrc}
-                id={id}
+                song={songSrc}
+                preview_image={thumbnail}
+                title={titleSong}
+                artist={artists}
             />
         </div>
 
