@@ -200,7 +200,7 @@ export const SearchBar = () => {
                         {searchResult.map((song) => Result({ song }))}
                     </div>
                 ) : (
-                    [...Array(4)].map((_, i) => (
+                    [...Array(5)].map((_, i) => (
                         <article className="w-full group h-20">
                             <div className="bg-opacity-50 rounded-md flex gap-2 shadow-md px-2 relative">
                                 <section>
@@ -227,7 +227,7 @@ export const SearchBar = () => {
                     ))
                 )}
             </section>
-            <footer class="sm:w-[60%] w-full h-20 mt-16 m-auto px-2">
+            <footer class="sm:w-[60%] w-full h-20 mt-16 mb-12 m-auto px-2">
                 <div class="w-full h-[80%] py-8  text-white  justify-center items-center bg-gray-800 bg-opacity-10 rounded-md p-2 flex gap-2">
                     <p>
                         Made with 💖 by{' '}

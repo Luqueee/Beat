@@ -51,7 +51,7 @@ const tracksArtist = await Promise.all(
     dataSong.contributors.map((artist: any) => getTrackArtist(artist))
 );
 
-console.log(songSrc, id);
+//console.log(songSrc, id);
 
 //console.log(tracksArtist);
 
@@ -83,13 +83,15 @@ console.log(songSrc, id);
                 </a>
             </div>
         </div>
-        <header class="flex flex-row gap-4 py-auto z-10 w-full min-h-full px-6">
+        <header
+            class="flex flex-row gap-4 pt-14 md:lg:pt-4 z-10 w-full min-h-full px-6">
             <div class="md:lg:flex block w-full md:lg:mb-0 mt-8">
-                <picture class="aspect-square md:lg:w-72 w-36 h-auto flex-none">
-                    <section class="rounded-md">
+                <picture
+                    class="aspect-square md:lg:w-72 w-36 h-auto flex-none shadow-2xl">
+                    <section class="rounded-md overflow-hidden">
                         <img
                             src={thumbnail}
-                            class="object-cover w-full h-full shadow-2xl rounded-md transition-all duration-500 hover:scale-110"
+                            class="object-cover w-full h-full rounded-md transition-all duration-500 hover:scale-110"
                             draggable="false"
                             alt="Album cover"
                             loading="lazy"
@@ -136,11 +138,11 @@ console.log(songSrc, id);
                             <div
                                 class="flex gap-4 w-full md:lg:justify-start justify-center py-4 font-medium">
                                 <p
-                                    class="bg-green-400 text-white rounded-full flex justify-center w-[30%] md:lg:w-[70%] bg-opacity-50 p-2 px-4">
+                                    class="bg-green-400 text-white rounded-full flex justify-center w-fit md:lg:w-[70%] bg-opacity-50 p-2 px-4">
                                     {getTimeSong(duration)}
                                 </p>
                                 <p
-                                    class="bg-green-400 text-white rounded-full flex justify-center w-[30%] md:lg:w-[70%] bg-opacity-50 gap-1 p-2">
+                                    class="bg-green-400 text-white rounded-full flex justify-center w-fit md:lg:w-[70%] bg-opacity-50 gap-1 p-2 px-3">
                                     <Rank />{rank}
                                 </p>
                             </div>

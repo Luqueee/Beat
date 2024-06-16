@@ -87,9 +87,9 @@ const MarqueeChartSongs = () => {
     }, []);
 
     return (
-        <div className="relative flex h-full flex-col items-center justify-center overflow-hidden py-24 min-w-full border-transparent">
+        <div className="relative flex h-full flex-col items-center justify-center overflow-hidden py-12 min-w-full border-transparent">
             <div className="">
-                <h2 class="text-center md:lg:text-4xl text-2xl font-bold mb-8">
+                <h2 class="text-center md:lg:text-4xl text-2xl font-bold mb-4">
                     Discover the trending songs:
                 </h2>
                 <Marquee pauseOnHover className="[--duration:20s]">
