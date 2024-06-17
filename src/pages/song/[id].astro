@@ -53,6 +53,8 @@ const tracksArtist = await Promise.all(
     dataSong.contributors.map((artist: any) => getTrackArtist(artist))
 );
 
+let blurBG = true;
+
 //console.log(songSrc, id);
 
 //console.log(tracksArtist);
@@ -75,12 +77,12 @@ const tracksArtist = await Promise.all(
                 class="w-full h-full flex bg-gray-800 bg-opacity-50 z-[999999] md:lg:bg-opacity-0 py-4 justify-center md:lg:justify-between gap-4">
                 <a
                     href="/"
-                    class="m-auto w-12 h-12 rounded-full bg-green-500 flex justify-center items-center z-[9999999999]">
+                    class="m-auto w-12 h-12 rounded-full bg-zinc-900 hover:bg-zinc-800 transition-all duration-200 flex justify-center items-center z-[9999999999]">
                     <Back />
                 </a>
                 <a
                     href="/"
-                    class="m-auto w-12 h-12 rounded-full bg-green-500 flex justify-center items-center text-black">
+                    class="m-auto w-12 h-12 rounded-full bg-zinc-900 hover:bg-zinc-800 transition-all duration-200 flex justify-center items-center text-white">
                     <Home />
                 </a>
             </div>
@@ -102,7 +104,7 @@ const tracksArtist = await Promise.all(
                     </section>
                 </picture>
                 <div
-                    class="flex flex-col pt-12 h-full md:lg:h-full sm:mx-4 mx-0 md:lg:mt-0">
+                    class="flex flex-col gap-2 pt-12 h-full md:lg:h-full sm:mx-4 mx-0 md:lg:mt-0">
                     <section class="flex items-center flex-col">
                         <h2 class="self-start hidden md:lg:block text-2xl">
                             Canción
@@ -112,7 +114,7 @@ const tracksArtist = await Promise.all(
                             target="_blank"
                             class="text-center md:lg:text-start w-full">
                             <h1
-                                class="md:lg:text-6xl text-6xl font-bold flex lg:md:justify-start justify-center text-white md:lg:hover:border-b-white border-b-2 border-b-transparent transition-all duration-200">
+                                class="md:lg:text-6xl w-fit text-6xl font-bold flex mx-auto md:lg:mx-0 text-white md:lg:hover:border-b-white border-b-2 border-b-transparent transition-all duration-200">
                                 {titleSong}
                             </h1>
                         </a>
@@ -155,7 +157,7 @@ const tracksArtist = await Promise.all(
             </div>
             <img
                 src={albumImg}
-                class="absolute object-cover w-full h-[100dvh] shadow-lg -z-10 top-0 right-0 opacity-20 object-center"
+                class={`absolute object-cover w-full h-[100dvh] shadow-lg -z-10 top-0 right-0 opacity-20 object-center ${blurBG ? 'filter blur-[3px]' : ''}`}
                 draggable="false"
                 alt="Album cover"
                 loading="lazy"
@@ -189,39 +191,50 @@ const tracksArtist = await Promise.all(
 
                                 <section class="w-full my-8 flex flex-col gap-8 relative overflow-auto max-h-[calc(60vh-200px)] z-20">
                                     {tracksArtist.map((trackGroup) =>
-                                        trackGroup.map((track: any) => (
-                                            //console.log(track),
-                                            <div
-                                                id={track.id}
-                                                class="w-full flex gap-4 items-center h-auto group">
-                                                <section class="md:lg:w-[10%] w-[30%] h-full overflow-hidden rounded-md track-image">
-                                                    <a
-                                                        href={`/song/${track.id}`}
-                                                        class="rounded-md">
-                                                        <img
-                                                            src={`https://e-cdns-images.dzcdn.net/images/cover/${track.md5_image}/500x500.jpg`}
-                                                            draggable="false"
-                                                            class="rounded-md shadow-md h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
-                                                        />
-                                                    </a>
-                                                </section>
-                                                <section class="w-[70%] md:lg:w-[80%] h-full justify-center flex gap-2 flex-col relative overflow-hidden">
-                                                    <a
-                                                        href={`/song/${track.id}`}
-                                                        class="w-fit md:lg:text-4xl text-xl font-bold z-30 hover:border-b-2 hover:border-b-white border-b-2  border-b-transparent transition-all duration-200">
-                                                        {track.title}
-                                                    </a>
-                                                    <p class="flex flex-row w-full gap-4 truncate">
-                                                        {track.artist.name}
-                                                        <span class="font-semibold">
-                                                            {getTimeSong(
-                                                                track.duration
-                                                            )}
-                                                        </span>
-                                                    </p>
-                                                </section>
-                                            </div>
-                                        ))
+                                        trackGroup.map(
+                                            (track: any) => (
+                                                console.log(track),
+                                                (
+                                                    <div
+                                                        id={track.id}
+                                                        class="w-full flex gap-4 items-center h-auto group">
+                                                        <section class="md:lg:w-[10%] w-[30%] h-full overflow-hidden rounded-md track-image">
+                                                            <a
+                                                                href={`/song/${track.id}`}
+                                                                class="rounded-md">
+                                                                <img
+                                                                    src={
+                                                                        track
+                                                                            .album
+                                                                            .cover_medium
+                                                                    }
+                                                                    draggable="false"
+                                                                    class="rounded-md shadow-md h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
+                                                                />
+                                                            </a>
+                                                        </section>
+                                                        <section class="w-[70%] md:lg:w-[80%] h-full justify-center flex gap-2 flex-col relative overflow-hidden">
+                                                            <a
+                                                                href={`/song/${track.id}`}
+                                                                class="w-fit md:lg:text-4xl text-xl font-bold z-30 hover:border-b-2 hover:border-b-white border-b-2  border-b-transparent transition-all duration-200">
+                                                                {track.title}
+                                                            </a>
+                                                            <p class="flex flex-row w-full gap-4 truncate">
+                                                                {
+                                                                    track.artist
+                                                                        .name
+                                                                }
+                                                                <span class="font-semibold">
+                                                                    {getTimeSong(
+                                                                        track.duration
+                                                                    )}
+                                                                </span>
+                                                            </p>
+                                                        </section>
+                                                    </div>
+                                                )
+                                            )
+                                        )
                                     )}
                                 </section>
                             </div>

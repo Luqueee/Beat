@@ -6,7 +6,7 @@ const ReviewCard = ({ id, author_image, title, position, author }) => {
     return (
         <div
             className={cn(
-                'relative w-fit cursor-pointer overflow-hidden rounded-xl p-4 backdrop-blur-sm  shadow-md group text-8xl hover:text-[115px] transition-all duration-200 ease-in-out hover:overflow-visible min-h-18 hover:shadow-lg',
+                'relative w-fit cursor-pointer overflow-hidden rounded-xl p-4 backdrop-blur-sm  shadow-md group text-8xl hover:text-[115px] text-zinc-800/80 hover:text-zinc-800 transition-all duration-200 ease-in-out hover:overflow-visible min-h-18 hover:shadow-lg',
                 // light styles
                 'border-gray-950/[.1] bg-zinc-600   hover:bg-gray-700',
                 // dark styles
@@ -36,7 +36,7 @@ const ReviewCard = ({ id, author_image, title, position, author }) => {
                         </p>
                     </div>
 
-                    <p className=" font-extrabold dark:text-zinc-800/80 absolute -bottom-[28px]  -right-0 -z-20">
+                    <p className=" font-extrabold absolute -bottom-[28px] -right-0 -z-20">
                         {position}
                     </p>
                 </div>
