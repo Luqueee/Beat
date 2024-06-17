@@ -20,14 +20,14 @@ export const Result = ({ song }) => (
     <article className="w-full group h-20 px-2 relative overflow-hidden backdrop-blur-sm">
         <a href={`/song/${song.id}`} class=" absolute w-full h-full z-10"></a>
         <div className=" bg-gray-800 bg-opacity-10 rounded-md p-2 flex gap-2 w-full shadow-md h-full">
-            <section className=" w-22 ">
+            <section className=" min-w-16 ">
                 <img
                     src={song.album.cover}
                     draggable="false"
                     className=" rounded-md shadow-md h-full w-full object-cover"
                 />
             </section>
-            <section className=" w-full flex gap-2 flex-col relative">
+            <section className=" flex-grow flex gap-2 flex-col relative">
                 <div className=" flex gap-4">
                     <section className=" flex flex-col gap-2 w-full overflow-x-hidden ">
                         <h1 className=" w-fit pr-4 md:lg:text-2xl text-xl font-bold z-50 hover:font-extrabold md:lg:hover:text-[1.6rem] hover:text-[1.3rem] hover:underline md:lg:hover:no-underline transition-all duration-300 truncate marquee">
