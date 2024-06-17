@@ -6,6 +6,8 @@ import { getTimeSong } from '@/components/ui/searchBar';
 import Footer from '@/components/blocks/Footer.astro';
 import Back from '@/icons/Back.astro';
 import Home from '@/icons/Home.astro';
+import { CardPlayButton } from '@/components/buttons/CardPlayButton';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const { id } = Astro.params;
 //console.log(id);
@@ -136,7 +138,7 @@ const tracksArtist = await Promise.all(
                                 </span>
                             </div>
                             <div
-                                class="flex gap-4 w-fit md:lg:justify-start justify-center py-4 font-medium mx-auto md:lg:mx-0">
+                                class="flex gap-4 w-fit md:lg:justify-start justify-center items-center py-4 font-medium mx-auto md:lg:mx-0">
                                 <p
                                     class="bg-green-400 text-white rounded-full flex justify-center w-fit md:lg:w-[70%] bg-opacity-50 p-2 px-4">
                                     {getTimeSong(duration)}
@@ -145,6 +147,7 @@ const tracksArtist = await Promise.all(
                                     class="bg-green-400 text-white rounded-full flex justify-center w-fit md:lg:w-[70%] bg-opacity-50 gap-1 p-2 px-3">
                                     <Rank />{rank}
                                 </p>
+                                <CardPlayButton client:load />
                             </div>
                         </div>
                     </div>
@@ -166,12 +169,14 @@ const tracksArtist = await Promise.all(
                 artistsData.map((artist: any, _: any) => (
                     <div class="md:lg:w-[49%] sm:w-full h-auto flex-grow mt-6">
                         <div class="w-full h-full bg-opacity-50 bg-slate-500 rounded-xl flex flex-col relative group overflow-hidden ">
-                            <img
-                                src={artist.picture_xl}
-                                alt="Artist Image"
-                                draggable="false"
-                                class="absolute object-cover z-10 w-full h-full shadow-lg top-0 right-0 opacity-50 group-hover:opacity-60 grayscale group-hover:grayscale-0 object-center rounded-xl transition-all duration-1000 transform group-hover:scale-110"
-                            />
+                            {
+                                <img
+                                    src={artist.picture_xl}
+                                    alt="Artist Image"
+                                    draggable="false"
+                                    class="absolute object-cover z-10 w-full h-full shadow-lg top-0 right-0 opacity-50 group-hover:opacity-60 grayscale group-hover:grayscale-0 object-center rounded-xl transition-all duration-1000 transform group-hover:scale-110"
+                                />
+                            }
                             <div class="ml-6 my-6 h-full">
                                 <p class="relative z-10 font-bold md:lg:text-5xl text-4xl">
                                     <a

@@ -1,3 +1,4 @@
+import { useMusicStore } from '@/store/musicStore';
 import { Pause, Play } from '../ui/Player';
 import { usePlayerStore } from '@/store/playerStore';
 import ReactPlayer from 'react-player';
@@ -79,24 +80,12 @@ export function CardPlayButtonPlayPlaylist({
 }) {
     //console.log('CardPlayButton:', id);
     const { currentMusic, isPlaying, setIsPlaying, setCurrentMusic } =
-        usePlayerStore((state) => state);
+        useMusicStore((state) => state);
 
     const isPlayingPlaylist = isPlaying && currentMusic?.playlist.id === id;
 
     const handleClick = () => {
-        if (isPlayingPlaylist) {
-            setIsPlaying(false);
-            return;
-        }
-
-        fetch(`/api/get-info-playlist.json?id=${id}`)
-            .then((res) => res.json())
-            .then((data) => {
-                const { songs, playlist } = data;
-
-                setIsPlaying(true);
-                setCurrentMusic({ songs, playlist, song: songs[0] });
-            });
+        setIsPlaying(!isPlaying);
     };
 
     const handleAdd = () => {

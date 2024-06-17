@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { Pause, Play } from '../ui/Player';
 import { useMusicStore } from '@/store/musicStore';
 
-export function CardPlayButton({ id, size = 'small' }) {
+export function CardPlayButton({ size = 'small' }) {
     const {
         currentMusic,
         isPlaying,
@@ -13,12 +13,7 @@ export function CardPlayButton({ id, size = 'small' }) {
     } = useMusicStore((state) => state);
 
     const handleClick = () => {
-        if (isPlaying) {
-            setIsPlaying(false);
-            return;
-        } else {
-            setIsPlaying(true);
-        }
+        setIsPlaying(!isPlaying);
     };
 
     const iconClassName = size === 'small' ? 'w-4 h-4' : 'w-5 h-5';
