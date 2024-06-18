@@ -360,7 +360,7 @@ export function SongBar({
     };
 
     useEffect(() => {
-        const song_data = JSON.parse(localStorage.getItem('currentMusic'))[0];
+        const song_data = JSON.parse(localStorage.getItem('currentMusic'))?.[0];
         localStorage.setItem('playing', 'false');
         setIsPlaying(false);
         if (song_data) {

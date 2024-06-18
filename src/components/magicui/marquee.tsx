@@ -27,8 +27,7 @@ export default function Marquee({
                 {
                     'flex-row': !vertical,
                     'flex-col': vertical,
-                },
-                className
+                }
             )}>
             {Array(repeat)
                 .fill(0)

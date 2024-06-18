@@ -11,36 +11,34 @@ const ReviewCard = ({ id, author_image, title, position, author }) => {
                 'border-gray-950/[.1] bg-zinc-600   hover:bg-gray-700',
                 // dark styles
                 'dark:border-gray-50/[.1] dark:bg-zinc-600  dark:hover:bg-gray-500/80 '
-            )}>
-            <a
-                href={`/song/${id}`}
-                className="flex flex-row items-center gap-2  pl-2 pr-6 min-w-64 ">
+            )}
+            onClick={() => {
+                window.location.href = `/song/${id}`;
+            }}>
+            <button className=" flex items-center min-w-44">
                 <img
                     className="rounded-full"
                     width="32"
                     height="32"
-                    alt=""
+                    alt={id}
                     src={author_image}
                 />
-                <div className="flex flex-row">
-                    <div className=" w-full">
-                        <h1 className=" text-[16px] font-extrabold dark:text-white z-10 ">
-                            <a
-                                href={`/song/${id}`}
-                                className="text-[16px] font-extrabold hover:text-md">
-                                {title}
-                            </a>
-                        </h1>
-                        <p className="text-xs font-normal dark:text-white/40">
-                            {author}
-                        </p>
-                    </div>
+                <div className="flex flex-col gap-2 ml-2">
+                    <a
+                        href={`/song/${id}`}
+                        className="text-[16px] block font-extrabold hover:text-md  dark:text-white z-10 ">
+                        {title}
+                    </a>
+
+                    <p className="text-xs text-start font-normal dark:text-white/40">
+                        {author}
+                    </p>
 
                     <p className=" font-extrabold absolute -bottom-[28px] -right-0 -z-20">
                         {position}
                     </p>
                 </div>
-            </a>
+            </button>
         </div>
     );
 };
@@ -89,29 +87,23 @@ const MarqueeChartSongs = () => {
     return (
         <div className="relative flex h-full flex-col items-center justify-center overflow-hidden py-12 min-w-full border-transparent">
             <div className="">
-                <h2 class="text-center md:lg:text-4xl text-2xl font-bold mb-4">
+                <h2 className="text-center md:lg:text-4xl text-2xl font-bold mb-4">
                     Discover the trending songs:
                 </h2>
                 <Marquee pauseOnHover className="[--duration:20s]">
                     {charts
                         ? charts
                               .slice(0, charts.length / 2)
-                              .map(
-                                  (review) => (
-                                      console.log(review),
-                                      (
-                                          <ReviewCard
-                                              id={review.id}
-                                              author_image={
-                                                  review.artist.picture
-                                              }
-                                              title={review.title}
-                                              author={review.artist.name}
-                                              position={review.position}
-                                          />
-                                      )
-                                  )
-                              )
+                              .map((review) => (
+                                  <ReviewCard
+                                      key={review.id}
+                                      id={review.id}
+                                      author_image={review.artist.picture}
+                                      title={review.title}
+                                      author={review.artist.name}
+                                      position={review.position}
+                                  />
+                              ))
                         : [...Array(4)].map((_, i) => (
                               <ReviewCardSkeleton key={i} />
                           ))}
@@ -119,16 +111,18 @@ const MarqueeChartSongs = () => {
 
                 <Marquee reverse pauseOnHover className="[--duration:20s]">
                     {charts
-                        ? charts.slice(charts.length / 2).map((review) => (
-                              //console.log(review),
-                              <ReviewCard
-                                  id={`${review.id}`}
-                                  author_image={review.artist.picture}
-                                  title={review.title}
-                                  author={review.artist.name}
-                                  position={review.position}
-                              />
-                          ))
+                        ? charts
+                              .slice(charts.length / 2)
+                              .map((review) => (
+                                  <ReviewCard
+                                      key={review.id}
+                                      id={`${review.id}`}
+                                      author_image={review.artist.picture}
+                                      title={review.title}
+                                      author={review.artist.name}
+                                      position={review.position}
+                                  />
+                              ))
                         : [...Array(4)].map((_, i) => (
                               <ReviewCardSkeleton key={`${i}`} />
                           ))}
