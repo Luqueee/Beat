@@ -155,7 +155,7 @@ export const SearchBar = () => {
             }
         }
     });
-    const [searchResult, setSearchResult] = useState([]);
+    const [searchResult, setSearchResult] = useState(null);
     const [thumbnails, setThumbnails] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 

@@ -3,7 +3,6 @@ import { supabase } from '../../../lib/supabase';
 import type { Provider } from '@supabase/supabase-js';
 
 export const GET: APIRoute = async ({ url, cookies, redirect }) => {
-    console.log('aaa');
     const urlData = new URL(url);
     const urlOrigin = urlData.origin;
     console.log(urlOrigin);

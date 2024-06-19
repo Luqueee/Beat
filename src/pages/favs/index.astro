@@ -1,0 +1,51 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Rank from '@/icons/Rank.astro';
+import { SongBar } from '@/components/songBar';
+import { getTimeSong } from '@/components/ui/searchBar';
+import Footer from '@/components/blocks/Footer.astro';
+import Back from '@/icons/Back.astro';
+import Home from '@/icons/Home.astro';
+import { supabase } from '@/lib/supabase';
+let bg = 'https://pbs.twimg.com/media/ESmuaQOXgAEvo67?format=jpg&name=large';
+let blurBG = true;
+---
+
+<Layout title="Spotify Clone">
+    <div
+        id="playlist-container"
+        class="relative flex flex-col bg-zinc-900 w-full h-full">
+        <div
+            class="fixed right-0 md:lg:top-4 top-0 md:lg:right-4 hidden md:lg:flex w-full md:lg:w-fit z-[9999999] justify-center md:lg:justify-normal md:lg:pr-6 pr-0">
+            <div
+                class="w-full h-full flex bg-gray-800 bg-opacity-50 z-[999999] md:lg:bg-opacity-0 py-4 justify-center md:lg:justify-between gap-4">
+                <a
+                    href="/"
+                    class="m-auto w-12 h-12 rounded-full bg-zinc-900 hover:bg-zinc-800 transition-all duration-200 flex justify-center items-center z-[9999999999]">
+                    <Back />
+                </a>
+                <a
+                    href="/"
+                    class="m-auto w-12 h-12 rounded-full bg-zinc-900 hover:bg-zinc-800 transition-all duration-200 flex justify-center items-center text-white">
+                    <Home />
+                </a>
+            </div>
+        </div>
+        <header
+            class="flex flex-row gap-4 pt-14 md:lg:pt-4 z-10 w-full min-h-[78vh] px-6">
+            <div class="md:lg:flex block w-full min-h-full text-center">
+                <p class="text-7xl font-medium pt-2 pl-4">Favoritos</p>
+            </div>
+            <img
+                src={bg}
+                class={`absolute object-cover w-full h-[100dvh] shadow-lg -z-10 top-0 right-0 opacity-20 object-center ${blurBG ? 'filter blur-[0px]' : ''}`}
+                draggable="false"
+                alt="Album cover"
+                loading="lazy"
+                style="mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 80%, rgba(0,0,0,0) 100%);"
+            />
+        </header>
+
+        <Footer />
+    </div>
+</Layout>
