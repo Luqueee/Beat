@@ -15,7 +15,7 @@ export function getTimeSong(duration) {
     return `${hours > 0 ? hours + 'h ' : ''}${remainingMinutes}m ${seconds}s`;
 }
 
-export const Result = ({ song }) => (
+const Result = ({ song }) => (
     console.log('Song:', song),
     (
         <article className="w-full group h-20 px-2 relative overflow-hidden backdrop-blur-sm">
@@ -143,7 +143,7 @@ export const ResultPlaylist = ({ song }) => (
     </article>
 );
 
-export const SearchBar = () => {
+export const Favs = () => {
     //const { inputSearch, setInput } = useinputsSearch((state) => state);
     const inputRef = React.createRef();
     const [searchTerm, setSearchTerm] = useState(() => {
@@ -157,55 +157,24 @@ export const SearchBar = () => {
             }
         }
     });
-
     const [searchResult, setSearchResult] = useState(null);
-    const [thumbnails, setThumbnails] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        const timer = setTimeout(() => {
-            //console.log('Search term changed:', searchTerm, inputSearch);
+        fetch(`/api/music/getFavs`)
+            .then((res) => res.json())
+            .then((data) => {
+                //console.log('Search result:', data);
+                setSearchResult(data);
+                setIsLoading(true);
 
-            setIsLoading(true);
-            fetch(`/api/music/search?song=${encodeURIComponent(searchTerm)}`)
-                .then((res) => res.json())
-                .then((data) => {
-                    //console.log('Search result:', data);
-                    setSearchResult(data);
-                    localStorage.setItem('searchResult', JSON.stringify(data));
-                    setIsLoading(true);
-
-                    //console.log('Search result:', searchResult);
-                    //console.log('thumbnails:', thumbnails);
-                });
-        }, 100);
-
-        return () => clearTimeout(timer);
+                //console.log('Search result:', searchResult);
+                //console.log('thumbnails:', thumbnails);
+            });
     }, [searchTerm]);
 
-    const handleChange = (e) => {
-        e.preventDefault();
-        setSearchTerm(e.target.value);
-        localStorage.setItem('input', e.target.value);
-    };
-
     return (
-        <div className=" w-full overflow-hidden flex flex-col justify-center pb-8 px-6">
-            <section className=" w-full lg:w-[60%] md:w-[80%] m-auto gap-2 z-50 flex justify-center items-center  px-2">
-                <div className=" flex-grow my-4">
-                    <input
-                        type="text"
-                        name="searchbox"
-                        id="searchbox"
-                        className="w-full rounded-md bg-gray-800 bg-opacity-40 backdrop-blur-sm p-2 text-white text-xl"
-                        placeholder="Type a song..."
-                        value={searchTerm || ''}
-                        onChange={handleChange}
-                        ref={inputRef}
-                    />
-                </div>
-            </section>
-            <section className=" w-full lg:w-[60%] md:w-[80%] m-auto overflow-hidden">
+        <div className=" w-full overflow-hidden flex flex-col justify-center px-6">
+            <section className=" w-full lg:w-[60%] md:w-[80%] m-auto overflow-hidden min-h-[50vh]">
                 {searchResult ? (
                     <div className=" flex flex-col gap-4 overflow-hidden">
                         {searchResult.map((song) => Result({ song }))}
@@ -216,8 +185,8 @@ export const SearchBar = () => {
                             <div className="bg-opacity-50 rounded-md flex gap-2 shadow-md px-2 relative">
                                 <Skeleton className="w-[68px] h-[68px] rounded-md" />
                                 <Skeleton className="w-full h-[68px] rounded-md bg-opacity-50" />
-                                <Skeleton className="w-[300px] h-[20px] rounded-md absolute z-50 left-24 top-2" />
-                                <Skeleton className="w-[200px] h-[20px] rounded-md absolute z-50 left-24 top-10" />
+                                <Skeleton className="w-[200px] md:lg:w-[300px] h-[20px] rounded-md absolute z-50 left-24 top-2" />
+                                <Skeleton className="w-[100px] md:lg:w-[200px] h-[20px] rounded-md absolute z-50 left-24 top-10" />
                             </div>
                         </article>
                     ))

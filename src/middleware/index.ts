@@ -16,7 +16,7 @@ export const onRequest = defineMiddleware(
         if (micromatch.isMatch(url.pathname, protectedRoutes)) {
             const accessToken = cookies.get('sb-access-token');
             const refreshToken = cookies.get('sb-refresh-token');
-            console.log(accessToken, refreshToken, 'aaa');
+            //console.log(accessToken, refreshToken, 'aaa');
             if (!accessToken || !refreshToken) {
                 return redirect('/signin');
             }

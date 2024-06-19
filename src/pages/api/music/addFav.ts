@@ -17,22 +17,35 @@ export async function GET({
     } = await supabase.auth.getUser();
 
     const userdata = await user;
+    const { url } = request;
+
+    const urlObject = new URL(url);
+
+    const id = urlObject.searchParams.get('id');
+
+    const trackReq = await fetch(
+        `${urlObject.origin}/api/music/getTrack?id=${id}`
+    );
+    const track = await trackReq.json();
+
     //console.log(userdata);
     try {
         //console.log(userdata?.id);
-
-        let { data: playlists, error } = await supabase
+        console.log(track, track.id);
+        const { data, error } = await supabase
             .from('favs')
-            .select('data_song')
-            .eq('user_id', userdata?.id);
+            .insert([
+                { user_id: userdata?.id, song_id: track.id, data_song: track },
+            ])
+            .select();
 
         if (error) {
-            return new Response(error.message, { status: 500 });
+            return new Response(JSON.stringify(null), {
+                headers: { 'content-type': 'application/json' },
+            });
         }
 
-        const songs = playlists?.map((playlist) => playlist.data_song) ?? [];
-
-        return new Response(JSON.stringify(songs), {
+        return new Response(JSON.stringify(data), {
             headers: { 'content-type': 'application/json' },
         });
     } catch (error: any) {

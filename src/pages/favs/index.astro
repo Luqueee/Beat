@@ -1,14 +1,16 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import Rank from '@/icons/Rank.astro';
-import { SongBar } from '@/components/songBar';
-import { getTimeSong } from '@/components/ui/searchBar';
+import { Favs } from '@/components/favs/favs';
 import Footer from '@/components/blocks/Footer.astro';
 import Back from '@/icons/Back.astro';
 import Home from '@/icons/Home.astro';
-import { supabase } from '@/lib/supabase';
 let bg = 'https://pbs.twimg.com/media/ESmuaQOXgAEvo67?format=jpg&name=large';
 let blurBG = true;
+
+const origin = Astro.url.origin;
+
+const favsreq = await fetch(`${origin}/api/music/getFavs`);
+const favs = await favsreq.json();
 ---
 
 <Layout title="Spotify Clone">
@@ -32,7 +34,7 @@ let blurBG = true;
             </div>
         </div>
         <header
-            class="flex flex-row gap-4 pt-14 md:lg:pt-4 z-10 w-full min-h-[78vh] px-6">
+            class="flex flex-row gap-4 pt-14 md:lg:pt-4 z-10 w-full min-h-[20vh] px-6 z-1">
             <div class="md:lg:flex block w-full min-h-full text-center">
                 <p class="text-7xl font-medium pt-2 pl-4">Favoritos</p>
             </div>
@@ -45,7 +47,8 @@ let blurBG = true;
                 style="mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 80%, rgba(0,0,0,0) 100%);"
             />
         </header>
-
-        <Footer />
+        <div class="z-50">
+            <Favs client:visible />
+        </div>
     </div>
 </Layout>
