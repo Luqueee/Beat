@@ -109,7 +109,7 @@ export const Next = () => (
     </svg>
 );
 
-const CurrentSong = ({ image, title, artists }) => {
+const CurrentSong = ({ image, id, title, artists }) => {
     return (
         <div
             className={`
@@ -120,8 +120,12 @@ const CurrentSong = ({ image, title, artists }) => {
                 <img src={image} alt={title} />
             </picture>
 
-            <div className="flex flex-col">
-                <h3 className="font-semibold text-sm block">{title}</h3>
+            <div className="flex flex-col gap-2 h-full">
+                <a
+                    href="/"
+                    className="font-semibold text-sm block hover:underline transition-all bg-blue-500">
+                    {title}
+                </a>
                 <span className="text-xs opacity-80">{artists}</span>
             </div>
         </div>
@@ -248,6 +252,7 @@ export function SongBar({
     preview_image = null,
     title = null,
     artist = null,
+    id = null,
 }) {
     const {
         currentMusic,
@@ -375,6 +380,7 @@ export function SongBar({
                     title={titleSong}
                     artists={artistSong}
                     image={imageSong}
+                    id={id}
                 />
             </div>
             <div className="flex w-full h-full justify-center px-8 items-center z-50">

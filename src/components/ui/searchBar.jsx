@@ -196,7 +196,7 @@ export const SearchBar = () => {
                         type="text"
                         name="searchbox"
                         id="searchbox"
-                        className="w-full rounded-md bg-gray-800 bg-opacity-40 backdrop-blur-sm p-2 text-white text-xl"
+                        className="w-full rounded-md border-none ring-0 bg-gray-800  bg-opacity-40 backdrop-blur-sm p-2 text-white text-xl"
                         placeholder="Type a song..."
                         value={searchTerm || ''}
                         onChange={handleChange}
@@ -214,7 +214,7 @@ export const SearchBar = () => {
                         <article key={i} className="w-full group h-20">
                             <div className="bg-opacity-50 rounded-md flex gap-2 shadow-md px-2 relative">
                                 <Skeleton className="w-[68px] h-[68px] rounded-md" />
-                                <Skeleton className="w-full h-[68px] rounded-md bg-opacity-50" />
+                                <Skeleton className="w-full h-[68px] rounded-md bg-opacity-20" />
                                 <Skeleton className="w-[300px] h-[20px] rounded-md absolute z-50 left-24 top-2" />
                                 <Skeleton className="w-[200px] h-[20px] rounded-md absolute z-50 left-24 top-10" />
                             </div>
