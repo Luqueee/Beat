@@ -4,16 +4,12 @@ import { Favs } from '@/components/favs/favs';
 import Footer from '@/components/blocks/Footer.astro';
 import Back from '@/icons/Back.astro';
 import Home from '@/icons/Home.astro';
+import { FavoriteFilled } from '@/components/ui/Player';
 let bg = 'https://pbs.twimg.com/media/ESmuaQOXgAEvo67?format=jpg&name=large';
 let blurBG = true;
-
-const origin = Astro.url.origin;
-
-const favsreq = await fetch(`${origin}/api/music/getFavs`);
-const favs = await favsreq.json();
 ---
 
-<Layout title="Spotify Clone">
+<Layout title="Favoritos">
     <div
         id="playlist-container"
         class="relative flex flex-col bg-zinc-900 w-full h-full">
@@ -30,6 +26,11 @@ const favs = await favsreq.json();
                     href="/"
                     class="m-auto w-12 h-12 rounded-full bg-zinc-900 hover:bg-zinc-800 transition-all duration-200 flex justify-center items-center text-white">
                     <Home />
+                </a>
+                <a
+                    href="/favs"
+                    class="m-auto w-12 h-12 rounded-full bg-zinc-900 hover:bg-zinc-800 transition-all duration-200 flex justify-center items-center text-white">
+                    <FavoriteFilled />
                 </a>
             </div>
         </div>

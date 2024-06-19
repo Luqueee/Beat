@@ -22,7 +22,7 @@ const Result = ({ song }) => (
             <a
                 href={`/song/${song.id}`}
                 className=" absolute w-full h-full z-10"></a>
-            <div className=" bg-gray-800 bg-opacity-10 rounded-md p-2 flex gap-2 w-full shadow-md h-full">
+            <div className=" bg-gray-800 bg-opacity-30 rounded-md p-2 flex gap-2 w-full shadow-md h-full">
                 <section className=" min-w-16 ">
                     <img
                         src={song.album.cover}
@@ -145,18 +145,7 @@ export const ResultPlaylist = ({ song }) => (
 
 export const Favs = () => {
     //const { inputSearch, setInput } = useinputsSearch((state) => state);
-    const inputRef = React.createRef();
-    const [searchTerm, setSearchTerm] = useState(() => {
-        if (typeof window !== 'undefined') {
-            try {
-                const input = localStorage.getItem('input');
-                return input;
-            } catch (e) {
-                localStorage.setItem('input', '');
-                return '';
-            }
-        }
-    });
+
     const [searchResult, setSearchResult] = useState(null);
 
     useEffect(() => {
@@ -165,12 +154,11 @@ export const Favs = () => {
             .then((data) => {
                 //console.log('Search result:', data);
                 setSearchResult(data);
-                setIsLoading(true);
 
                 //console.log('Search result:', searchResult);
                 //console.log('thumbnails:', thumbnails);
             });
-    }, [searchTerm]);
+    }, []);
 
     return (
         <div className=" w-full overflow-hidden flex flex-col justify-center px-6">

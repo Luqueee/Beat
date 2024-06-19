@@ -1,16 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
-import { Favorite, FavoriteFilled } from '../ui/Player';
+import { Favorite, FavoriteFilledBlack } from '../ui/Player';
 
 export function CardAddFav({ size = 'small', id }) {
-    const [fav, setFav] = useState(false);
-    const [isFav, setIsFav] = useState(null);
+    const [fav, setFav] = useState(null);
 
     useEffect(() => {
         fetch(`/api/music/isFav?id=${id}`)
             .then((res) => res.json())
             .then((data) => {
                 console.log('isFav:', data, id);
-                setIsFav(data);
                 data ? setFav(true) : setFav(false);
             });
     }, []);
@@ -21,12 +19,18 @@ export function CardAddFav({ size = 'small', id }) {
                 .then((res) => res.json())
                 .then((data) => {
                     console.log('addFav:', data);
+                    if (data.error) {
+                        window.location.href = '/signin';
+                    }
                 });
         } else {
             fetch(`/api/music/removeFav?id=${id}`)
                 .then((res) => res.json())
                 .then((data) => {
                     console.log('removeFav:', data);
+                    if (data.error) {
+                        window.location.href = '/signin';
+                    }
                 });
         }
         setFav(!fav);
@@ -39,9 +43,9 @@ export function CardAddFav({ size = 'small', id }) {
             onClick={handleClick}
             className="card-play-button rounded-full bg-green-500 p-4 hover:scale-105 transition hover:bg-green-400 z-50">
             {fav ? (
-                <FavoriteFilled className={iconClassName} />
+                <FavoriteFilledBlack className={`${iconClassName} bg-black`} />
             ) : (
-                <Favorite className={iconClassName} />
+                <Favorite className={`${iconClassName} text-black`} />
             )}
         </button>
     );

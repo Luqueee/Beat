@@ -90,7 +90,7 @@ const MarqueeChartSongs = () => {
                 <h2 className="text-center md:lg:text-4xl text-2xl font-bold mb-4">
                     Discover the trending songs:
                 </h2>
-                <Marquee pauseOnHover className="[--duration:20s]">
+                <Marquee pauseOnHover className="[--duration:1s]">
                     {charts
                         ? charts
                               .slice(0, charts.length / 2)
@@ -109,7 +109,7 @@ const MarqueeChartSongs = () => {
                           ))}
                 </Marquee>
 
-                <Marquee reverse pauseOnHover className="[--duration:20s]">
+                <Marquee reverse pauseOnHover className="[--duration:5s]">
                     {charts
                         ? charts
                               .slice(charts.length / 2)

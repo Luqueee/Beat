@@ -9,6 +9,9 @@ const proptectedAPIRoutes: any = [
     '/api/playlist/:id(|/)',
     '/api/search(|/)',
     '/api/search(|/:id(|/))',
+    '/api/music/isFav(|/:id(|/))',
+    '/api/music/addFav(|/:id(|/))',
+    '/api/music/removeFav(|/:id(|/))',
 ];
 
 export const onRequest = defineMiddleware(

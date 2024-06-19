@@ -10,7 +10,7 @@ import MarqueeChartSongs from '@/components/ui/marqueeChartSongs';
 import { SongBar } from '@/components/songBar';
 ---
 
-<Layout title="Spotify Clone">
+<Layout title="Beat">
     <div id="playlist-container" class="elative w-screen h-full">
         <!-- <PageHeader /> -->
 
@@ -39,8 +39,23 @@ import { SongBar } from '@/components/songBar';
                 />
             </section>
 
-            <div class="w-full h-full">
-                <MarqueeChartSongs client:load />
+            <div class="w-full h-full flex flex-col items-center">
+                <MarqueeChartSongs client:visible />
+                <div class="w-full lg:w-[60%] md:w-[80%] px-2 m-auto">
+                    <div
+                        class="rounded-full py-2 px-3 flex gap-4 basis-1/2 group">
+                        <a
+                            href="/"
+                            class="flex-grow text-center rounded-full text-xl font-normal border-zinc-500 py-2 px-3 bg-gray-700 bg-opacity-40 hover:bg-opacity-90 hover:font-bold backdrop-blur-sm transition-all duration-300 ease-in-out"
+                            >Buscar</a
+                        >
+                        <a
+                            href="/favs"
+                            class="flex-grow text-center rounded-full text-xl font-normal border-zinc-500 py-2 px-3 bg-gray-700 bg-opacity-40 hover:bg-opacity-90 hover:font-bold backdrop-blur-sm transition-all duration-300 ease-in-out"
+                            >Favoritos</a
+                        >
+                    </div>
+                </div>
                 <SearchBar client:visible />
             </div>
         </div>

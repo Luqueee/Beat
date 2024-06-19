@@ -159,14 +159,12 @@ export const SearchBar = () => {
     });
 
     const [searchResult, setSearchResult] = useState(null);
-    const [thumbnails, setThumbnails] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         const timer = setTimeout(() => {
             //console.log('Search term changed:', searchTerm, inputSearch);
 
-            setIsLoading(true);
             fetch(`/api/music/search?song=${encodeURIComponent(searchTerm)}`)
                 .then((res) => res.json())
                 .then((data) => {
@@ -174,9 +172,10 @@ export const SearchBar = () => {
                     setSearchResult(data);
                     localStorage.setItem('searchResult', JSON.stringify(data));
                     setIsLoading(true);
-
-                    //console.log('Search result:', searchResult);
-                    //console.log('thumbnails:', thumbnails);
+                })
+                .catch((e) => {
+                    setIsLoading(false);
+                    console.log('Error:', e);
                 });
         }, 100);
 

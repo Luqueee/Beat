@@ -9,6 +9,8 @@ import Home from '@/icons/Home.astro';
 import { CardPlayButton } from '@/components/buttons/CardPlayButton';
 import { CardAddFav } from '@/components/buttons/CardAddFav';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Favorite } from '@/components/ui/Player';
+import { FavoriteFilled } from '@/components/ui/Player';
 
 const { id } = Astro.params;
 
@@ -72,7 +74,7 @@ let blurBG = true;
 //console.log(dataSong.items[0].snippet.thumbnails.maxres.url);
 ---
 
-<Layout title="Spotify Clone">
+<Layout title=`Beat - ${titleSong}`>
     <div
         id="playlist-container"
         class="relative flex flex-col bg-zinc-900 w-full h-full">
@@ -89,6 +91,11 @@ let blurBG = true;
                     href="/"
                     class="m-auto w-12 h-12 rounded-full bg-zinc-900 hover:bg-zinc-800 transition-all duration-200 flex justify-center items-center text-white">
                     <Home />
+                </a>
+                <a
+                    href="/favs"
+                    class="m-auto w-12 h-12 rounded-full bg-zinc-900 hover:bg-zinc-800 transition-all duration-200 flex justify-center items-center text-white">
+                    <FavoriteFilled />
                 </a>
             </div>
         </div>
@@ -128,7 +135,7 @@ let blurBG = true;
                     <div
                         class="text-sm text-gray-300 font-normal flex justify-center md:lg:justify-start w-full"
                         transition:name={`playlist ${id} artists`}>
-                        <div class="text-xl font-thin block text-white w-full">
+                        <div class="text-xl font-thin text-white w-full">
                             <div
                                 class="flex h-10 items-center gap-2 justify-center md:lg:w-fit sm:w-full py-4">
                                 <img
@@ -145,17 +152,22 @@ let blurBG = true;
                                 </span>
                             </div>
                             <div
-                                class="flex gap-4 w-fit md:lg:justify-start justify-center items-center py-4 font-medium mx-auto md:lg:mx-0">
-                                <p
-                                    class="bg-green-400 text-white rounded-full flex justify-center w-fit md:lg:w-[70%] bg-opacity-50 p-2 px-4">
-                                    {getTimeSong(duration)}
-                                </p>
-                                <p
-                                    class="bg-green-400 text-white rounded-full flex justify-center w-fit md:lg:w-[70%] bg-opacity-50 gap-1 p-2 px-3">
-                                    <Rank />{rank}
-                                </p>
-                                <CardPlayButton client:load />
-                                <CardAddFav client:load id={id} />
+                                class="flex gap-4 flex-col md:lg:flex-row md:lg:justify-start justify-center items-center py-4 font-medium mx-auto min-w-40 max-w-[600px] md:lg:mx-0">
+                                <div class="w-full flex gap-4 basis-1/2">
+                                    <p
+                                        class="bg-green-400 text-white rounded-full flex basis-1/2 justify-center bg-opacity-50 py-2 px-4">
+                                        {getTimeSong(duration)}
+                                    </p>
+                                    <p
+                                        class="bg-green-400 text-white rounded-full flex basis-1/2 justify-center bg-opacity-50 py-2 px-4">
+                                        <Rank />{rank}
+                                    </p>
+                                </div>
+                                <div
+                                    class="w-full flex gap-4 basis-1/2 justify-center md:lg:justify-start">
+                                    <CardPlayButton client:load />
+                                    <CardAddFav client:load id={id} />
+                                </div>
                             </div>
                         </div>
                     </div>
