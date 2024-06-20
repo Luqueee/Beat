@@ -113,18 +113,22 @@ const CurrentSong = ({ image, id, title, artists }) => {
     return (
         <div
             className={`
-        flex items-center gap-4 relative
-        overflow-hidden
+        flex items-center gap-4 absolute
+                h-full w-full  top-0 left-0 p-4
       `}>
-            <picture className="w-16 h-16 bg-zinc-800 rounded-md shadow-lg overflow-hidden">
-                <img src={image} alt={title} />
+            <picture className="w-16 h-16 bg-zinc-800 rounded-md shadow-lg overflow-hidden object-cover">
+                <img
+                    src={image}
+                    className=" object-cover h-full w-full"
+                    alt={title}
+                />
             </picture>
 
-            <div className="flex flex-col gap-2 h-full">
+            <div className="flex flex-col gap-2 h-full z-50">
                 <a
-                    href="/"
-                    className="font-semibold text-sm block hover:underline transition-all bg-blue-500">
-                    {title}
+                    href={`/song/${id}`}
+                    className="font-semibold text-sm block hover:underline transition-all ">
+                    <p>{title}</p>
                 </a>
                 <span className="text-xs opacity-80">{artists}</span>
             </div>
@@ -237,7 +241,7 @@ const VolumeControl = () => {
                 max={100}
                 min={0}
                 value={[volume * 100]}
-                className="w-[95px]"
+                className="w-[95px] py-2"
                 onValueChange={(value) => {
                     const [newVolume] = value;
                     const volumeValue = newVolume / 100;
@@ -267,6 +271,7 @@ export function SongBar({
     const [titleSong, setTitle] = useState(null);
     const [artistSong, setArtist] = useState(null);
     const [imageSong, setImage] = useState(null);
+    const [idSong, setId] = useState(null);
 
     useEffect(() => {
         const song_data =
@@ -290,12 +295,13 @@ export function SongBar({
                 }
                 localStorage.setItem(
                     'currentMusic',
-                    JSON.stringify([{ song, preview_image, title, artist }])
+                    JSON.stringify([{ song, preview_image, title, artist, id }])
                 );
 
                 setImage(preview_image);
                 setTitle(title);
                 setArtist(artist);
+                setId(id);
             }
         } catch (error) {
             if (
@@ -303,16 +309,18 @@ export function SongBar({
                 song !== null &&
                 preview_image !== null &&
                 title !== null &&
-                artist !== null
+                artist !== null &&
+                id !== null
             ) {
                 localStorage.setItem(
                     'currentMusic',
-                    JSON.stringify([{ song, preview_image, title, artist }])
+                    JSON.stringify([{ song, preview_image, title, artist, id }])
                 );
 
                 setImage(preview_image);
                 setTitle(title);
                 setArtist(artist);
+                setId(id);
             }
         }
     }, [song]);
@@ -328,6 +336,7 @@ export function SongBar({
         setImage(song_data.preview_image);
         setTitle(song_data.title);
         setArtist(song_data.artist);
+        setId(song_data.id);
     }, []);
 
     useEffect(() => {
@@ -374,13 +383,13 @@ export function SongBar({
     }, []);
 
     return (
-        <div className="flex flex-row justify-center relative items-center w-full z-50 bg-gray-800 bg-opacity-30 py-6 md:lg:pl-8 pl-0 gap-2 shadow-md h-full backdrop-filter ">
-            <div className=" md:lg:block hidden absolute left-4 top-2 bottom-0 ">
+        <div className="flex flex-row justify-center relative items-center w-full z-50 bg-gray-800 bg-opacity-30 py-6 md:lg:pl-8 pl-0 gap-2 shadow-md h-full backdrop-filter  ">
+            <div className=" md:lg:block hidden h-full ">
                 <CurrentSong
                     title={titleSong}
                     artists={artistSong}
                     image={imageSong}
-                    id={id}
+                    id={idSong}
                 />
             </div>
             <div className="flex w-full h-full justify-center px-8 items-center z-50">

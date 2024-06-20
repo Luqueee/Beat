@@ -1,10 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { Favs } from '@/components/favs/favs';
-import Footer from '@/components/blocks/Footer.astro';
-import Back from '@/icons/Back.astro';
-import Home from '@/icons/Home.astro';
-import { FavoriteFilled } from '@/components/ui/Player';
+
+import { SongBar } from '@/components/songBar';
 let bg = 'https://pbs.twimg.com/media/ESmuaQOXgAEvo67?format=jpg&name=large';
 let blurBG = true;
 ---
@@ -12,28 +10,7 @@ let blurBG = true;
 <Layout title="Favoritos">
     <div
         id="playlist-container"
-        class="relative flex flex-col bg-zinc-900 w-full h-full">
-        <div
-            class="fixed right-0 md:lg:top-4 top-0 md:lg:right-4 hidden md:lg:flex w-full md:lg:w-fit z-[9999999] justify-center md:lg:justify-normal md:lg:pr-6 pr-0">
-            <div
-                class="w-full h-full flex bg-gray-800 bg-opacity-50 z-[999999] md:lg:bg-opacity-0 py-4 justify-center md:lg:justify-between gap-4">
-                <a
-                    href="/"
-                    class="m-auto w-12 h-12 rounded-full bg-zinc-900 hover:bg-zinc-800 transition-all duration-200 flex justify-center items-center z-[9999999999]">
-                    <Back />
-                </a>
-                <a
-                    href="/"
-                    class="m-auto w-12 h-12 rounded-full bg-zinc-900 hover:bg-zinc-800 transition-all duration-200 flex justify-center items-center text-white">
-                    <Home />
-                </a>
-                <a
-                    href="/favs"
-                    class="m-auto w-12 h-12 rounded-full bg-zinc-900 hover:bg-zinc-800 transition-all duration-200 flex justify-center items-center text-white">
-                    <FavoriteFilled />
-                </a>
-            </div>
-        </div>
+        class="relative flex flex-col bg-zinc-900 w-full h-full py-20">
         <header
             class="flex flex-row gap-4 pt-14 md:lg:pt-4 z-10 w-full min-h-[20vh] px-6 z-1">
             <div class="md:lg:flex block w-full min-h-full text-center">
@@ -50,6 +27,27 @@ let blurBG = true;
         </header>
         <div class="z-50">
             <Favs client:visible />
+            <footer class="sm:w-[60%] w-full h-20 mt-16 mb-12 m-auto px-2">
+                <div
+                    class="w-full h-[80%] py-8 text-white justify-center items-center bg-gray-800 bg-opacity-10 rounded-md p-2 flex gap-2">
+                    <p>
+                        Made with 💖 by{' '}
+                        <a
+                            href="https://github.com/Luqueee"
+                            target="_blank"
+                            class="font-extrabold hover:border-b-2 hover:border-b-white border-b-2 border-b-transparent transition-all duration-200">
+                            Adria Cabrera Luque
+                        </a>
+                    </p>
+                </div>
+            </footer>
+        </div>
+        <div class="fixed bottom-0 z-[9999999] w-full">
+            <SongBar
+                client:load
+                transition:name="media-player"
+                transition:persist
+            />
         </div>
     </div>
 </Layout>

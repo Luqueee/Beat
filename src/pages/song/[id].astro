@@ -4,13 +4,11 @@ import Rank from '@/icons/Rank.astro';
 import { SongBar } from '@/components/songBar';
 import { getTimeSong } from '@/components/ui/searchBar';
 import Footer from '@/components/blocks/Footer.astro';
-import Back from '@/icons/Back.astro';
-import Home from '@/icons/Home.astro';
+
 import { CardPlayButton } from '@/components/buttons/CardPlayButton';
 import { CardAddFav } from '@/components/buttons/CardAddFav';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Favorite } from '@/components/ui/Player';
-import { FavoriteFilled } from '@/components/ui/Player';
 
 const { id } = Astro.params;
 
@@ -39,7 +37,7 @@ const artists = dataSong.contributors
 //console.log(artists);
 const artistImg = dataSong.artist.picture;
 const albumImg = dataSong.album.cover_xl;
-const artistLink = dataSong.artist.link;
+const trackId = dataSong.id;
 const trackLink = dataSong.link;
 const thumbnail = dataSong.album.cover_xl;
 const rank = dataSong.rank;
@@ -78,30 +76,9 @@ let blurBG = true;
     <div
         id="playlist-container"
         class="relative flex flex-col bg-zinc-900 w-full h-full">
-        <div
-            class="fixed right-0 md:lg:top-4 top-0 md:lg:right-4 flex w-full md:lg:w-fit z-[9999999] justify-center md:lg:justify-normal md:lg:pr-6 pr-0">
-            <div
-                class="w-full h-full flex bg-gray-800 bg-opacity-50 z-[999999] md:lg:bg-opacity-0 py-4 justify-center md:lg:justify-between gap-4">
-                <a
-                    href="/"
-                    class="m-auto w-12 h-12 rounded-full bg-zinc-900 hover:bg-zinc-800 transition-all duration-200 flex justify-center items-center z-[9999999999]">
-                    <Back />
-                </a>
-                <a
-                    href="/"
-                    class="m-auto w-12 h-12 rounded-full bg-zinc-900 hover:bg-zinc-800 transition-all duration-200 flex justify-center items-center text-white">
-                    <Home />
-                </a>
-                <a
-                    href="/favs"
-                    class="m-auto w-12 h-12 rounded-full bg-zinc-900 hover:bg-zinc-800 transition-all duration-200 flex justify-center items-center text-white">
-                    <FavoriteFilled />
-                </a>
-            </div>
-        </div>
         <header
             class="flex flex-row gap-4 pt-14 md:lg:pt-4 z-10 w-full min-h-full px-6">
-            <div class="md:lg:flex block w-full md:lg:mb-0 mt-8">
+            <div class="md:lg:flex block w-full md:lg:mb-0 mt-20">
                 <picture
                     class="aspect-square md:lg:w-72 w-36 h-auto flex-none shadow-2xl">
                     <section class="rounded-md overflow-hidden">
@@ -263,7 +240,7 @@ let blurBG = true;
                 preview_image={thumbnail}
                 title={titleSong}
                 artist={artists}
-                id={dataSong.id}
+                id={trackId}
             />
         </div>
 

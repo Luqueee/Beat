@@ -180,19 +180,6 @@ export const Favs = () => {
                     ))
                 )}
             </section>
-            <footer className="sm:w-[60%] w-full h-20 mt-16 mb-12 m-auto px-2">
-                <div className="w-full h-[80%] py-8  text-white  justify-center items-center bg-gray-800 bg-opacity-10 rounded-md p-2 flex gap-2">
-                    <p>
-                        Made with 💖 by{' '}
-                        <a
-                            href="https://github.com/Luqueee"
-                            target="_blank"
-                            className="font-extrabold hover:border-b-2 hover:border-b-white border-b-2 border-b-transparent transition-all duration-200">
-                            Adria Cabrera Luque
-                        </a>
-                    </p>
-                </div>
-            </footer>
         </div>
     );
 };
