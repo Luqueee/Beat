@@ -1,5 +1,7 @@
 import { supabase } from '@/lib/supabase';
 
+// Intentar usar una store para no tener que hacer fetch a la api para verificar q si es favorito
+
 export async function GET({
     params,
     request,
