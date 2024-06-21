@@ -49,7 +49,7 @@ const ReviewCardSkeleton = ({ id }) => {
             className={cn(
                 'relative w-fit cursor-pointer overflow-hidden rounded-xl p-4 backdrop-blur-sm  shadow-md group text-8xl  transition-all duration-200 ease-in-out  min-h-18'
             )}>
-            <div className="flex flex-row items-center gap-2  pl-2 pr-6 min-w-64 ">
+            <div className="flex flex-row items-center gap-2 pl-2 pr-6 min-w-64 ">
                 <Skeleton key={id} className="w-[32px] h-[32px] rounded-md" />
                 <div className="flex flex-row">
                     <Skeleton

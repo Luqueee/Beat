@@ -5,6 +5,7 @@ import {
     CardPlayButtonSearch,
     CardPlayButtonPlayPlaylist,
 } from '../buttons/CardPlayButtonSearch';
+import { CardRemoveButton } from '../buttons/CardRemoveButton';
 
 export function getTimeSong(duration) {
     const minutes = Math.floor(duration / 60);
@@ -16,72 +17,65 @@ export function getTimeSong(duration) {
 }
 
 const Result = ({ song }) => (
-    console.log('Song:', song),
-    (
-        <article className="w-full group h-20 px-2 relative overflow-hidden backdrop-blur-sm">
-            <a
-                href={`/song/${song.id}`}
-                className=" absolute w-full h-full z-10"></a>
-            <div className=" bg-gray-800 bg-opacity-30 rounded-md p-2 flex gap-2 w-full shadow-md h-full">
-                <section className=" min-w-16 ">
-                    <img
-                        src={song.album.cover}
-                        draggable="false"
-                        className=" rounded-md shadow-md h-full w-full object-cover"
-                    />
-                </section>
-                <section className=" flex-grow flex gap-2 flex-col relative">
-                    <div className=" flex gap-4">
-                        <section className=" flex flex-col gap-2 w-full overflow-x-hidden ">
-                            <h1 className=" w-fit pr-4 md:lg:text-2xl text-xl font-bold z-50 hover:font-extrabold md:lg:hover:text-[1.6rem] hover:text-[1.3rem] hover:underline md:lg:hover:no-underline transition-all duration-300 truncate marquee">
-                                <span className=" block md:lg:hidden">
-                                    <a
-                                        href={`/song/${song.id}`}
-                                        className=" z-50 py-4 w-full truncate">
-                                        {song.title.length > 20
-                                            ? `${song.title.slice(0, 20)}...`
-                                            : song.title}
-                                    </a>
-                                </span>
-                                <span className="hidden md:lg:block">
-                                    <a
-                                        href={`/song/${song.id}`}
-                                        className=" z-50 py-4 w-full truncate">
-                                        {song.title.length > 40
-                                            ? `${song.title.slice(0, 40)}...`
-                                            : song.title}
-                                    </a>
-                                </span>
-                            </h1>
+    //console.log('Song:', song),
+    <article className="w-full group h-20 px-2 relative overflow-hidden backdrop-blur-sm">
+        <a
+            href={`/song/${song.id}`}
+            className=" absolute w-full h-full z-10"></a>
+        <div className=" bg-gray-800 bg-opacity-30 rounded-md p-2 flex gap-2 w-full shadow-md h-full">
+            <section className=" min-w-16 ">
+                <img
+                    src={song.album.cover}
+                    draggable="false"
+                    className=" rounded-md shadow-md h-full w-full object-cover"
+                />
+            </section>
+            <section className=" flex-grow flex gap-2 flex-col relative">
+                <div className=" flex gap-4">
+                    <section className=" flex flex-col gap-2 w-full overflow-x-hidden ">
+                        <h1 className=" w-fit pr-4 md:lg:text-2xl text-xl font-bold z-50 hover:font-extrabold md:lg:hover:text-[1.6rem] hover:text-[1.3rem] hover:underline md:lg:hover:no-underline transition-all duration-300 truncate marquee">
+                            <span className=" block md:lg:hidden">
+                                <a
+                                    href={`/song/${song.id}`}
+                                    className=" z-50 py-4 w-full truncate">
+                                    {song.title.length > 20
+                                        ? `${song.title.slice(0, 20)}...`
+                                        : song.title}
+                                </a>
+                            </span>
+                            <span className="hidden md:lg:block">
+                                <a
+                                    href={`/song/${song.id}`}
+                                    className=" z-50 py-4 w-full truncate">
+                                    {song.title.length > 40
+                                        ? `${song.title.slice(0, 40)}...`
+                                        : song.title}
+                                </a>
+                            </span>
+                        </h1>
 
-                            <section className="flex flex-col gap-2">
-                                <p className=" w-fit truncate">
-                                    {song.artist.name}
-                                    <span className=" ml-4 font-medium">
-                                        {getTimeSong(song.duration)}
-                                    </span>
-                                </p>
-                            </section>
+                        <section className="flex flex-col gap-2">
+                            <p className=" w-fit truncate">
+                                {song.artist.name}
+                                <span className=" ml-4 font-medium">
+                                    {getTimeSong(song.duration)}
+                                </span>
+                            </p>
                         </section>
-                        <section className="h-full flex flex-col justify-end ml-6"></section>
-                    </div>
-                    <div
-                        className={` absolute right-4 bottom-3 translate-y-2
+                    </section>
+                    <section className="h-full flex flex-col justify-end ml-6"></section>
+                </div>
+                <div
+                    className={` absolute right-4 bottom-1 translate-y-1
                                     transition-all duration-500 opacity-0
                                     group-hover:translate-y-0 group-hover:opacity-100
                                     z-10
                                 `}>
-                        <CardPlayButtonSearch
-                            id={song.id}
-                            album_id="1"
-                            title={song.title}
-                            client:visible
-                        />
-                    </div>
-                </section>
-            </div>
-        </article>
-    )
+                    <CardRemoveButton id={song.id} client:load />
+                </div>
+            </section>
+        </div>
+    </article>
 );
 
 export const ResultPlaylist = ({ song }) => (
@@ -89,10 +83,10 @@ export const ResultPlaylist = ({ song }) => (
     <article className="w-full group">
         <div className=" bg-gray-800 bg-opacity-10 rounded-md p-2 flex gap-2  shadow-md relative">
             <a
-                href="/"
+                href={`/song/${song.song_id}`}
                 className=" absolute w-full bg-blue h-20 top-0 mr-8"></a>
             <section className=" z-50">
-                <a href="/aa" className=" z-50">
+                <a href={`/song/${song.song_id}`} className=" z-50">
                     <img
                         src={song.data_song.album.cover}
                         draggable="false"
@@ -161,8 +155,8 @@ export const Favs = () => {
     }, []);
 
     return (
-        <div className=" w-full overflow-hidden flex flex-col justify-center px-6">
-            <section className=" w-full lg:w-[60%] md:w-[80%] m-auto overflow-hidden min-h-[50vh]">
+        <div className=" basis-1/2 flex-grow flex flex-col px-6">
+            <section className=" w-full  overflow-hidden min-h-[50vh]">
                 {searchResult ? (
                     <div className=" flex flex-col gap-4 overflow-hidden">
                         {searchResult.map((song) => Result({ song }))}

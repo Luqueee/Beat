@@ -1,6 +1,6 @@
 import { useMusicStore } from '@/store/musicStore';
 import { useEffect, useRef, useState } from 'react';
-
+import { FavoriteFilledBlack } from './ui/Player';
 import { Slider } from './ui/slider';
 
 export const Pause = ({ className }) => (
@@ -24,6 +24,42 @@ export const Play = ({ className }) => (
         aria-hidden="true"
         viewBox="0 0 16 16">
         <path d="M3 1.713a.7.7 0 0 1 1.05-.607l10.89 6.288a.7.7 0 0 1 0 1.212L4.05 14.894A.7.7 0 0 1 3 14.288V1.713z"></path>
+    </svg>
+);
+
+export const Add = () => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="icon icon-tabler icons-tabler-outline icon-tabler-plus">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M12 5l0 14"></path>
+        <path d="M5 12l14 0"></path>
+    </svg>
+);
+
+export const AddBlack = () => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="black"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="icon icon-tabler icons-tabler-outline icon-tabler-plus">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M12 5l0 14"></path>
+        <path d="M5 12l14 0"></path>
     </svg>
 );
 
@@ -113,8 +149,8 @@ const CurrentSong = ({ image, id, title, artists }) => {
     return (
         <div
             className={`
-        flex items-center gap-4 absolute
-                h-full w-full  top-0 left-0 p-4
+        flex items-center gap-4 
+                h-full w-full   p-4
       `}>
             <picture className="w-16 h-16 bg-zinc-800 rounded-md shadow-lg overflow-hidden object-cover">
                 <img
@@ -272,6 +308,7 @@ export function SongBar({
     const [artistSong, setArtist] = useState(null);
     const [imageSong, setImage] = useState(null);
     const [idSong, setId] = useState(null);
+    const [fav, setFav] = useState(false);
 
     useEffect(() => {
         const song_data =
@@ -302,6 +339,13 @@ export function SongBar({
                 setTitle(title);
                 setArtist(artist);
                 setId(id);
+
+                fetch(`/api/music/isFav?id=${id}`)
+                    .then((res) => res.json())
+                    .then((data) => {
+                        console.log('isFav:', data, id);
+                        data ? setFav(true) : setFav(false);
+                    });
             }
         } catch (error) {
             if (
@@ -321,6 +365,13 @@ export function SongBar({
                 setTitle(title);
                 setArtist(artist);
                 setId(id);
+
+                fetch(`/api/music/isFav?id=${id}`)
+                    .then((res) => res.json())
+                    .then((data) => {
+                        console.log('isFav:', data, id);
+                        data ? setFav(true) : setFav(false);
+                    });
             }
         }
     }, [song]);
@@ -373,6 +424,29 @@ export function SongBar({
         setIsPlaying(!isPlaying);
     };
 
+    const handleAdd = () => {
+        if (!fav) {
+            fetch(`/api/music/addFav?id=${idSong}`)
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log('addFav:', data);
+                    if (data.error) {
+                        window.location.href = '/signin';
+                    }
+                });
+        } else {
+            fetch(`/api/music/removeFav?id=${idSong}`)
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log('removeFav:', data);
+                    if (data.error) {
+                        window.location.href = '/signin';
+                    }
+                });
+        }
+        setFav(!fav);
+    };
+
     useEffect(() => {
         const song_data = JSON.parse(localStorage.getItem('currentMusic'))?.[0];
         localStorage.setItem('playing', 'false');
@@ -384,13 +458,14 @@ export function SongBar({
 
     return (
         <div className="flex flex-row justify-center relative items-center w-full z-50 bg-gray-800 bg-opacity-30 py-6 md:lg:pl-8 pl-0 gap-2 shadow-md h-full backdrop-filter  ">
-            <div className=" md:lg:block hidden h-full ">
+            <div className=" md:lg:block hidden h-full absolute  left-0 ">
                 <CurrentSong
                     title={titleSong}
                     artists={artistSong}
                     image={imageSong}
                     id={idSong}
                 />
+                <div className=" absolute top-2 right-8 text-end z-[999999999] "></div>
             </div>
             <div className="flex w-full h-full justify-center px-8 items-center z-50">
                 <button
@@ -399,6 +474,7 @@ export function SongBar({
                     className="bg-white rounded-full p-2">
                     {isPlaying ? <Pause /> : <Play />}
                 </button>
+
                 <SongControl audio={audioRef} />
 
                 <VolumeControl />
@@ -411,3 +487,24 @@ export function SongBar({
         </div>
     );
 }
+
+/* 
+<button
+    onClick={handleAdd}
+    className=" hidden md:lg:block w-fit h-fit p-1 z-[999999999] bg-opacity-50 backdrop-blur-sm bg-zinc-900 rounded-full">
+    {fav ? (
+        <Add />
+    ) : (
+        <FavoriteFilledBlack className={` bg-black`} />
+    )}
+</button>
+
+
+<button
+    onClick={handleAdd}
+    className=" block md:lg:hidden w-fit h-fit p-1 mr-4 z-[999999999] bg-white rounded-full">
+    <AddBlack />
+</button>
+
+
+*/

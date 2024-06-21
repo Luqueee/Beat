@@ -1,14 +1,18 @@
 ---
 import Back from '@/icons/Back.astro';
 import Home from '@/icons/Home.astro';
+import Profile from '@/icons/Profile.astro';
 import { FavoriteFilled } from '@/components/ui/Player';
+import Screen from '@/icons/Screen.astro';
 ---
 
 <div class="fixed right-0 top-0 flex w-full z-[9999999] justify-center">
     <div
         class="w-full h-full flex bg-gray-800 bg-opacity-50 justify-between z-[999999] items-center py-4 gap-4 px-8">
-        <p class="h-full text-4xl font-bold items-center flex">Beat</p>
-        <div class="w-fit px-2 flex gap-4">
+        <p class="h-full text-4xl font-bold items-center hidden md:lg:flex">
+            Beat
+        </p>
+        <div class="w-full md:lg:w-fit px-2 flex gap-4">
             <a
                 href="/"
                 class="m-auto w-12 h-12 rounded-full bg-zinc-900 hover:bg-zinc-800 transition-all duration-200 flex justify-center items-center z-[9999999999]">
@@ -23,6 +27,16 @@ import { FavoriteFilled } from '@/components/ui/Player';
                 href="/favs"
                 class="m-auto w-12 h-12 rounded-full bg-zinc-900 hover:bg-zinc-800 transition-all duration-200 flex justify-center items-center text-white">
                 <FavoriteFilled />
+            </a>
+            <a
+                href="/player"
+                class="m-auto w-12 h-12 rounded-full bg-zinc-900 hover:bg-zinc-800 transition-all duration-200 flex justify-center items-center text-white">
+                <Screen />
+            </a>
+            <a
+                href="/profile"
+                class="m-auto w-12 h-12 rounded-full bg-zinc-900 hover:bg-zinc-800 transition-all duration-200 flex justify-center items-center text-white">
+                <Profile />
             </a>
         </div>
     </div>

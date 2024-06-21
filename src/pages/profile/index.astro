@@ -1,21 +1,24 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { Favs } from '@/components/favs/favs';
-
+import { supabase } from '@/lib/supabase';
 import { SongBar } from '@/components/songBar';
 const bg = 'https://pbs.twimg.com/media/ESmuaQOXgAEvo67?format=jpg&name=large';
 let blurBG = true;
+
+const {
+    data: { user },
+} = await supabase.auth.getUser();
+
+const usermetadata = await user?.user_metadata;
+console.log(usermetadata);
 ---
 
 <Layout title="Favoritos">
     <div
         id="playlist-container"
-        class="relative flex flex-col bg-zinc-900 w-full h-full py-20">
-        <header
-            class="flex flex-row gap-4 pt-14 md:lg:pt-4 z-10 w-full min-h-[20vh] px-6 z-1">
-            <div class="md:lg:flex block w-full min-h-full text-center">
-                <p class="text-8xl font-medium pt-2 pl-4">Favoritos</p>
-            </div>
+        class="relative flex flex-col bg-zinc-900 w-full h-full">
+        <header class="flex flex-row gap-4 z-10 w-full min-h-[15vh] px-6 z-1">
             <img
                 src={bg}
                 class={`absolute object-cover w-full h-[100dvh] shadow-lg -z-10 top-0 right-0 opacity-20 object-center ${blurBG ? 'filter blur-[0px]' : ''}`}
@@ -25,13 +28,28 @@ let blurBG = true;
                 style="mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 80%, rgba(0,0,0,0) 100%);"
             />
         </header>
-        <div class="z-50 flex gap-4 justify-between w-full">
-            <Favs client:visible />
-            <div class="basis-1/2 md:lg:block hidden">
-                <p>aaa</p>
-            </div>
+        <div
+            class="z-50 flex flex-col items-center gap-4 w-fit mx-auto min-h-[80vh]">
+            <picture
+                class="w-52 h-52 bg-zinc-800 rounded-md shadow-lg overflow-hidden">
+                <img
+                    src={usermetadata?.picture}
+                    alt="Profile picture"
+                    class="w-full h-full"
+                />
+            </picture>
+            <p class="text-4xl font-bold">{usermetadata?.full_name}</p>
+            <p class="text-xl">{usermetadata?.email}</p>
+            <a
+                href="/api/auth/signout"
+                class="w-full h-fit py-2 bg-zinc-900 bg-opacity-40 group backdrop-blur-sm text-white text-center rounded-md flex hover:bg-opacity-80 items-center justify-center transition-all duration-500 ease-in-out"
+                ><p
+                    class="transition-all duration-200 ease-in-out font-normal group-hover:font-bold">
+                    Cerrar sesión
+                </p></a
+            >
         </div>
-        <footer class="w-full h-20 mt-16 mb-12 m-auto px-8">
+        <footer class="w-full h-20 my-16 m-auto px-8">
             <div
                 class="w-full h-[80%] py-8 text-white justify-center items-center bg-gray-800 bg-opacity-10 rounded-md p-2 flex gap-2">
                 <p>

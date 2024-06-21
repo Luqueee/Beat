@@ -1,0 +1,19 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { Favs } from '@/components/favs/favs';
+
+import { SongBar } from '@/components/songBar';
+let bg = 'https://pbs.twimg.com/media/ESmuaQOXgAEvo67?format=jpg&name=large';
+let blurBG = true;
+import Video from '@/components/player/Video';
+---
+
+<Layout title="Favoritos">
+    <div
+        id="playlist-container"
+        class="relative flex flex-col bg-zinc-900 w-full h-full">
+        <header class="w-full h-screen overflow-hidden">
+            <Video client:load />
+        </header>
+    </div>
+</Layout>

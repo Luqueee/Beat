@@ -26,12 +26,33 @@ export async function GET({
     const trackReq = await fetch(
         `${urlObject.origin}/api/music/getTrack?id=${id}`
     );
+    const fav = await fetch(`${urlObject.origin}/api/music/getFavs`)
+        .then((res) => res.json())
+        .then((data) => {
+            //console.log(data);
+            let isFav = false;
+            data.forEach((element: any) => {
+                if (element.id == id) {
+                    isFav = true;
+                }
+            });
+            return isFav;
+        });
+
+    console.log(fav);
+
+    if (fav) {
+        return new Response(JSON.stringify(null), {
+            headers: { 'content-type': 'application/json' },
+        });
+    }
+
     const track = await trackReq.json();
 
     //console.log(userdata);
     try {
         //console.log(userdata?.id);
-        console.log(track, track.id);
+        //console.log(track, track.id);
         const { data, error } = await supabase
             .from('favs')
             .insert([
