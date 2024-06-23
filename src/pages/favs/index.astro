@@ -30,14 +30,13 @@ let blurBG = true;
             <div class="basis-1/2 md:lg:block hidden">
                 <MarqueeChartSongsVertical client:load />
             </div>
-
-            <div class="fixed bottom-0 z-[9999999] w-full">
-                <SongBar
-                    client:load
-                    transition:name="media-player"
-                    transition:persist
-                />
-            </div>
+        </div>
+        <div class="fixed bottom-0 z-[9999999] w-full">
+            <SongBar
+                client:load
+                transition:name="media-player"
+                transition:persist
+            />
         </div>
         <footer class="w-full h-20 mt-16 mb-12 m-auto px-8">
             <div

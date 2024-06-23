@@ -198,7 +198,7 @@ export const MenuReproductor = () => {
                 ref={video}
             />
             <div className=" absolute z-50 bottom-4 h-32 md:lg:h-14 left-4 rounded-md bg-opacity-10 backdrop-blur-sm bg-blue-600 min-w-[80vw] flex flex-col md:lg:flex-row justify-between gap-4">
-                <div className="flex-grow flex gap-4 h-full items-center">
+                <div className="flex-grow flex gap-4 h-full items-center justify-center md:lg:justify-normal">
                     <button
                         className=" p-4 h-full bg-zinc-900 rounded-md bg-opacity-0 hover:bg-opacity-40 transition-all duration-300 backdrop-blur-sm"
                         onClick={handlePlay}>

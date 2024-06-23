@@ -17,9 +17,9 @@ const ReviewCard = ({ id, author_image, title, position, author }) => {
             }}>
             <button className=" flex items-center min-w-44">
                 <img
-                    className="rounded-full"
-                    width="32"
-                    height="32"
+                    className="rounded-full shadow-md shadow-slate-900"
+                    width="42"
+                    height="42"
                     alt={id}
                     src={author_image}
                 />
@@ -190,6 +190,44 @@ export const MarqueeChartSongsVertical = () => {
                           <ReviewCardSkeleton key={`${i}`} />
                       ))}
             </Marquee>
+        </div>
+    );
+};
+
+export const MarqueeChartSongsIndividual = () => {
+    const [charts, setCharts] = useState(null);
+
+    useEffect(() => {
+        fetch('/api/music/charts')
+            .then((res) => res.json())
+            .then((data) => {
+                //console.log(data);
+                setCharts(data.tracks.data);
+            });
+
+        //console.log(window.innerWidth);
+    }, []);
+
+    return (
+        <div className="relative flex h-full flex-col items-center justify-center overflow-hidden py-2 min-w-full border-transparent z-50">
+            <div className="">
+                <Marquee pauseOnHover className="[--duration:1s]">
+                    {charts
+                        ? charts.map((review) => (
+                              <ReviewCard
+                                  key={review.id}
+                                  id={review.id}
+                                  author_image={review.artist.picture}
+                                  title={review.title}
+                                  author={review.artist.name}
+                                  position={review.position}
+                              />
+                          ))
+                        : [...Array(4)].map((_, i) => (
+                              <ReviewCardSkeleton key={i} />
+                          ))}
+                </Marquee>
+            </div>
         </div>
     );
 };
