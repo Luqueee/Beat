@@ -151,6 +151,13 @@ export const MenuReproductor = () => {
 
     const urlInput = useRef();
     const video = useRef();
+    const buttonPlay = useRef();
+
+    useEffect(() => {
+        setTimeout(() => {
+            buttonPlay.current.click();
+        }, 1000);
+    }, []);
 
     const handlePlay = () => {
         setPlay(!play);
@@ -178,7 +185,8 @@ export const MenuReproductor = () => {
         <div className=" min-w-screen min-h-screen">
             <button
                 className="min-w-full min-h-full absolute z-50"
-                onClick={handlePlay}></button>
+                onClick={handlePlay}
+                ref={buttonPlay}></button>
             <ReactPlayer
                 playing={play}
                 volume={volume}
