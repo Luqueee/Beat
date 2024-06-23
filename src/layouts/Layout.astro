@@ -64,7 +64,9 @@ const { title } = Astro.props;
             ::-webkit-scrollbar {
                 width: 5px;
                 height: 5px;
-                border-radius: 20px;
+                position: fixed;
+
+                background: rgb(60, 60, 66);
             }
 
             /* Track */
@@ -74,7 +76,7 @@ const { title } = Astro.props;
 
             /* Handle */
             ::-webkit-scrollbar-thumb {
-                background: #159d48;
+                background: rgb(24 24 27);
                 border-radius: 20px;
             }
 

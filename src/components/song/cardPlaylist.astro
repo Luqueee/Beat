@@ -1,0 +1,33 @@
+---
+interface Props {
+    name: string;
+    src: string;
+    description: string;
+}
+
+const { name, src, description } = Astro.props;
+---
+
+<button
+    class="w-56 flex justify-center items-center flex-col z-50 rounded-xl bg-zinc-900 bg-opacity-10 backdrop-blur-sm p-4 group">
+    <picture class="w-full h-full absolute -z-20 rounded-md overflow-hidden"
+        ><img
+            src={src}
+            class="w-full h-full absolute -z-10 rounded-md opacity-10 object-cover group-hover:scale-110 transition-all duration-1000 ease-out"
+            alt=""
+        /></picture
+    >
+
+    <div class="flex-grow flex flex-col items-center justify-center px-2">
+        <picture class="w-full h-40 rounded-xl overflow-hidden">
+            <img
+                src={src}
+                draggable="false"
+                class="w-full h-full object-cover group-hover:scale-110 transition-all duration-700 ease-in"
+            />
+        </picture>
+
+        <h1 class="text-2xl font-bold mt-4">{name}</h1>
+        <p class="text-center mt-2">{description}</p>
+    </div>
+</button>

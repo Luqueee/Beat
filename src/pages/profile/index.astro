@@ -5,6 +5,7 @@ import { supabase } from '@/lib/supabase';
 import { SongBar } from '@/components/songBar';
 import { ProfileModal } from '@/components/ui/profileModal';
 import { MarqueeChartSongsIndividual } from '@/components/ui/marqueeChartSongs';
+import CardPlaylist from '../../components/song/cardPlaylist.astro';
 const invited =
     'https://cdn.icon-icons.com/icons2/37/PNG/512/Guest_theapplication_2906.png';
 const bg = 'https://pbs.twimg.com/media/ESmuaQOXgAEvo67?format=jpg&name=large';
@@ -32,7 +33,7 @@ console.log(usermetadata);
                 style="mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 80%, rgba(0,0,0,0) 100%);"
             />
         </header>
-        <div class="flex flex-col min-w-full min-h-screen">
+        <div class="flex flex-col min-w-full min-h-screen gap-4">
             <div class="min-w-full z-50 px-4 md:lg:px-8">
                 <div
                     class="z-50 flex flex-row gap-4 w-full items-center justify-between min-h-fit p-5 bg-zinc-900 bg-opacity-30 mx-1 rounded-md">
@@ -53,7 +54,47 @@ console.log(usermetadata);
                     <ProfileModal data={usermetadata} client:load />
                 </div>
             </div>
-            <MarqueeChartSongsIndividual client:load />
+            <!-- <MarqueeChartSongsIndividual client:load />-->
+            <div class="flex flex-col gap-2 px-4 md:lg:px-8 mt-8">
+                <h1 class="text-5xl font-extrabold">Albums</h1>
+                <div class="w-full h-full flex gap-8 flex-col md:lg:flex-row">
+                    <div class="flex-grow min-h-full flex flex-wrap gap-4">
+                        <CardPlaylist
+                            name="Favoritos"
+                            description="Favoritos"
+                            src="https://mussica.info/wp-content/uploads/2021/03/juan-pablo-machado-profesional-work-chilledcow-1.jpeg"
+                        />
+                        <CardPlaylist
+                            name="Favoritos"
+                            description="Favoritos"
+                            src="https://mussica.info/wp-content/uploads/2021/03/juan-pablo-machado-profesional-work-chilledcow-1.jpeg"
+                        />
+                        <CardPlaylist
+                            name="Favoritos"
+                            description="Favoritos"
+                            src="https://mussica.info/wp-content/uploads/2021/03/juan-pablo-machado-profesional-work-chilledcow-1.jpeg"
+                        />
+                        <CardPlaylist
+                            name="Favoritos"
+                            description="Favoritos"
+                            src="https://mussica.info/wp-content/uploads/2021/03/juan-pablo-machado-profesional-work-chilledcow-1.jpeg"
+                        />
+                        <CardPlaylist
+                            name="Favoritos"
+                            description="Favoritos"
+                            src="https://mussica.info/wp-content/uploads/2021/03/juan-pablo-machado-profesional-work-chilledcow-1.jpeg"
+                        />
+                        <CardPlaylist
+                            name="Favoritos"
+                            description="Favoritos"
+                            src="https://mussica.info/wp-content/uploads/2021/03/juan-pablo-machado-profesional-work-chilledcow-1.jpeg"
+                        />
+                    </div>
+                    <div class="w-[30%]">
+                        <p>aaaaaa</p>
+                    </div>
+                </div>
+            </div>
         </div>
         <footer class="w-full h-20 my-20 m-auto px-8 z-50">
             <div
