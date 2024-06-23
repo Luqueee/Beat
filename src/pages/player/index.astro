@@ -5,7 +5,6 @@ import { Favs } from '@/components/favs/favs';
 import { SongBar } from '@/components/songBar';
 let bg = 'https://pbs.twimg.com/media/ESmuaQOXgAEvo67?format=jpg&name=large';
 let blurBG = true;
-import Video from '@/components/player/Video';
 import { MenuReproductor } from '@/components/menu/MenuReproductor';
 ---
 
@@ -13,10 +12,6 @@ import { MenuReproductor } from '@/components/menu/MenuReproductor';
     <div
         id="playlist-container"
         class="relative flex flex-col bg-zinc-900 w-full h-full min-w-screen min-h-screen">
-        <div class="min-w-full min-h-full absolute z-50"></div>
-        <header class="w-full h-screen overflow-hidden">
-            <Video client:visible />
-            <MenuReproductor client:load />
-        </header>
+        <MenuReproductor client:load />
     </div>
 </Layout>

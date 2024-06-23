@@ -1,7 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { Favs } from '@/components/favs/favs';
-
+import { MarqueeChartSongsVertical } from '@/components/ui/marqueeChartSongs';
 import { SongBar } from '@/components/songBar';
 const bg = 'https://pbs.twimg.com/media/ESmuaQOXgAEvo67?format=jpg&name=large';
 let blurBG = true;
@@ -28,7 +28,15 @@ let blurBG = true;
         <div class="z-50 flex gap-4 justify-between w-full">
             <Favs client:visible />
             <div class="basis-1/2 md:lg:block hidden">
-                <p>aaa</p>
+                <MarqueeChartSongsVertical client:load />
+            </div>
+
+            <div class="fixed bottom-0 z-[9999999] w-full">
+                <SongBar
+                    client:load
+                    transition:name="media-player"
+                    transition:persist
+                />
             </div>
         </div>
         <footer class="w-full h-20 mt-16 mb-12 m-auto px-8">
@@ -45,12 +53,5 @@ let blurBG = true;
                 </p>
             </div>
         </footer>
-        <div class="fixed bottom-0 z-[9999999] w-full">
-            <SongBar
-                client:load
-                transition:name="media-player"
-                transition:persist
-            />
-        </div>
     </div>
 </Layout>

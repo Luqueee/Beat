@@ -17,8 +17,8 @@ export const useMusicStore = create((set) => ({
 export const musicStore = useMusicStore;
 
 export const useLofiStore = create((set) => ({
-    playing: false,
-    url: 'https://www.youtube.com/watch?v=akW7qWS_p-g',
+    playing: true,
+    url: 'https://www.youtube.com/watch?v=7zp1TbLFPp8',
     volume: 1,
     setVolume: (volume) => set({ volume }),
     setPlaying: (playing) => set({ playing }),

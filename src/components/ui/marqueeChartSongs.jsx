@@ -6,7 +6,7 @@ const ReviewCard = ({ id, author_image, title, position, author }) => {
     return (
         <div
             className={cn(
-                'relative w-fit cursor-pointer overflow-hidden rounded-xl p-4 backdrop-blur-sm  shadow-md group text-8xl hover:text-[115px] text-zinc-800/80 hover:text-zinc-800 transition-all duration-200 ease-in-out hover:overflow-visible min-h-18 hover:shadow-lg',
+                'relative min-w-72 w-fit cursor-pointer overflow-hidden rounded-xl p-4 backdrop-blur-sm  shadow-md group text-8xl hover:text-[115px] text-zinc-800/80 hover:text-zinc-800 transition-all duration-200 ease-in-out hover:overflow-visible min-h-18 hover:shadow-lg',
                 // light styles
                 'border-gray-950/[.1] bg-zinc-600   hover:bg-gray-700',
                 // dark styles
@@ -136,3 +136,60 @@ const MarqueeChartSongs = () => {
 };
 
 export default MarqueeChartSongs;
+
+export const MarqueeChartSongsVertical = () => {
+    const [charts, setCharts] = useState(null);
+
+    useEffect(() => {
+        fetch('/api/music/charts')
+            .then((res) => res.json())
+            .then((data) => {
+                //console.log(data);
+                setCharts(data.tracks.data);
+            });
+
+        //console.log(window.innerWidth);
+    }, []);
+
+    return (
+        <div className=" flex h-full flex-row items-center justify-center overflow-hidden -z-1 border-transparent absolute top-0 left-[70vw]">
+            <Marquee pauseOnHover vertical className="[--duration:0s]">
+                {charts
+                    ? charts
+                          .slice(0, charts.length / 2)
+                          .map((review) => (
+                              <ReviewCard
+                                  key={review.id}
+                                  id={review.id}
+                                  author_image={review.artist.picture}
+                                  title={review.title}
+                                  author={review.artist.name}
+                                  position={review.position}
+                              />
+                          ))
+                    : [...Array(4)].map((_, i) => (
+                          <ReviewCardSkeleton key={i} />
+                      ))}
+            </Marquee>
+
+            <Marquee reverse vertical pauseOnHover className="[--duration:0s]">
+                {charts
+                    ? charts
+                          .slice(charts.length / 2)
+                          .map((review) => (
+                              <ReviewCard
+                                  key={review.id}
+                                  id={`${review.id}`}
+                                  author_image={review.artist.picture}
+                                  title={review.title}
+                                  author={review.artist.name}
+                                  position={review.position}
+                              />
+                          ))
+                    : [...Array(4)].map((_, i) => (
+                          <ReviewCardSkeleton key={`${i}`} />
+                      ))}
+            </Marquee>
+        </div>
+    );
+};

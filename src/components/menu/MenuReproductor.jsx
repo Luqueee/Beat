@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import ReactPlayer from 'react-player';
+import ReactPlayer from 'react-player/youtube';
 import { useLofiStore } from '@/store/musicStore';
 import { Slider } from './slider';
+import FilePlayer from 'react-player/lib/players/FilePlayer';
 
 export const Pause = ({ className }) => (
     <svg
@@ -26,6 +27,46 @@ export const Play = ({ className }) => (
         aria-hidden="true"
         viewBox="0 0 16 16">
         <path d="M3 1.713a.7.7 0 0 1 1.05-.607l10.89 6.288a.7.7 0 0 1 0 1.212L4.05 14.894A.7.7 0 0 1 3 14.288V1.713z"></path>
+    </svg>
+);
+
+export const Rest10 = () => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="icon icon-tabler icons-tabler-outline icon-tabler-rewind-backward-10">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <path d="M7 9l-3 -3l3 -3" />
+        <path d="M15.997 17.918a6.002 6.002 0 0 0 -.997 -11.918h-11" />
+        <path d="M6 14v6" />
+        <path d="M9 15.5v3a1.5 1.5 0 0 0 3 0v-3a1.5 1.5 0 0 0 -3 0z" />
+    </svg>
+);
+
+const Add10 = () => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="icon icon-tabler icons-tabler-outline icon-tabler-rewind-forward-10">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <path d="M17 9l3 -3l-3 -3" />
+        <path d="M8 17.918a5.997 5.997 0 0 1 -5 -5.918a6 6 0 0 1 6 -6h11" />
+        <path d="M12 14v6" />
+        <path d="M15 15.5v3a1.5 1.5 0 0 0 3 0v-3a1.5 1.5 0 0 0 -3 0z" />
     </svg>
 );
 
@@ -58,7 +99,7 @@ export const Volume = () => (
     </svg>
 );
 
-const SongControl = ({ audio }) => {
+const VolumeControl = ({ audio }) => {
     // ...
 
     const volume = useLofiStore((state) => state.volume);
@@ -103,13 +144,25 @@ const SongControl = ({ audio }) => {
 export const MenuReproductor = () => {
     const [urlTerm, setUrlTerm] = useState('');
 
+    const [play, setPlay] = useState(false);
+
     const { playing, url, volume, setPlaying, setUrl, setVolume } =
         useLofiStore((state) => state);
 
     const urlInput = useRef();
+    const video = useRef();
 
     const handlePlay = () => {
-        setPlaying(!playing);
+        setPlay(!play);
+        console.log(playing);
+    };
+
+    const handleAdd10 = () => {
+        video.current.seekTo(video.current.getCurrentTime() + 10);
+    };
+
+    const handleRest10 = () => {
+        video.current.seekTo(video.current.getCurrentTime() - 10);
     };
 
     const handleUrl = () => {
@@ -122,29 +175,55 @@ export const MenuReproductor = () => {
     };
 
     return (
-        <div className=" absolute z-50 bottom-4 h-32 md:lg:h-14 left-4 rounded-md bg-opacity-10 backdrop-blur-sm bg-blue-600 min-w-[80vw] flex flex-col md:lg:flex-row justify-between gap-4">
-            <div className="flex-grow flex gap-4 h-full items-center">
-                <button
-                    className=" p-4 h-full bg-zinc-900 rounded-md bg-opacity-0 hover:bg-opacity-40 transition-all duration-300 backdrop-blur-sm"
-                    onClick={handlePlay}>
-                    {!playing ? <Play /> : <Pause />}
-                </button>
-                <div className=" h-full">
-                    <SongControl />
+        <div className=" min-w-screen min-h-screen">
+            <button
+                className="min-w-full min-h-full absolute z-50"
+                onClick={handlePlay}></button>
+            <ReactPlayer
+                playing={play}
+                volume={volume}
+                controls={false}
+                className="react-player"
+                url={url}
+                width="100%"
+                height="100%"
+                ref={video}
+            />
+            <div className=" absolute z-50 bottom-4 h-32 md:lg:h-14 left-4 rounded-md bg-opacity-10 backdrop-blur-sm bg-blue-600 min-w-[80vw] flex flex-col md:lg:flex-row justify-between gap-4">
+                <div className="flex-grow flex gap-4 h-full items-center">
+                    <button
+                        className=" p-4 h-full bg-zinc-900 rounded-md bg-opacity-0 hover:bg-opacity-40 transition-all duration-300 backdrop-blur-sm"
+                        onClick={handlePlay}>
+                        {!play ? <Play /> : <Pause />}
+                    </button>
+                    <button
+                        className=" p-4 h-full bg-zinc-900 rounded-md bg-opacity-0 hover:bg-opacity-40 transition-all duration-300 backdrop-blur-sm"
+                        onClick={handleRest10}>
+                        <Rest10 />
+                    </button>
+                    <button
+                        className=" p-4 h-full bg-zinc-900 rounded-md bg-opacity-0 hover:bg-opacity-40 transition-all duration-300 backdrop-blur-sm"
+                        onClick={handleAdd10}>
+                        <Add10 />
+                    </button>
+
+                    <div className=" h-full">
+                        <VolumeControl />
+                    </div>
                 </div>
-            </div>
-            <div className=" w-full md:lg:w-[50%] h-full flex justify-center items-center p-4 gap-4">
-                <input
-                    type="text"
-                    className=" w-full rounded-md bg-opacity-70 backdrop-blur-md bg-white text-black px-4"
-                    ref={urlInput}
-                    onChange={handleUrl}
-                />
-                <button
-                    className=" m-4 px-8 rounded-md bg-opacity-40 backdrop-blur-md bg-zinc-900"
-                    onClick={handleSearch}>
-                    Buscar
-                </button>
+                <div className=" w-full md:lg:w-[50%] h-full flex justify-center items-center p-4 gap-4">
+                    <input
+                        type="text"
+                        className=" w-full rounded-md bg-opacity-70 backdrop-blur-md bg-white text-black px-4"
+                        ref={urlInput}
+                        onChange={handleUrl}
+                    />
+                    <button
+                        className=" m-4 px-8 rounded-md bg-opacity-40 backdrop-blur-md bg-zinc-900"
+                        onClick={handleSearch}>
+                        Buscar
+                    </button>
+                </div>
             </div>
         </div>
     );
