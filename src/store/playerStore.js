@@ -21,12 +21,3 @@ export const useinputsSearch = create((set) => ({
 }));
 
 export const inputsSearch = useinputsSearch;
-
-// Create a function to update the session
-export function updateSession(session) {
-    return playerStore.getState().setSession(session);
-}
-
-export function getSession() {
-    playerStore.getState().userSession;
-}

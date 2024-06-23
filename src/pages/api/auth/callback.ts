@@ -1,6 +1,5 @@
 import type { APIRoute } from 'astro';
 import { supabase } from '../../../lib/supabase';
-import { updateSession, getSession } from '@/store/playerStore';
 
 export const GET: APIRoute = async ({ url, cookies, redirect }) => {
     const authCode = url.searchParams.get('code');
@@ -16,10 +15,6 @@ export const GET: APIRoute = async ({ url, cookies, redirect }) => {
     if (error) {
         return new Response(error.message, { status: 500 });
     }
-
-    updateSession({ data });
-
-    console.log(getSession());
 
     const { access_token, refresh_token } = data.session;
 
