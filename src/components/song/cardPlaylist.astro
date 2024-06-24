@@ -8,12 +8,13 @@ interface Props {
 const { name, src, description } = Astro.props;
 ---
 
-<button
-    class="w-56 flex justify-center items-center flex-col z-50 rounded-xl bg-zinc-900 bg-opacity-10 backdrop-blur-sm p-4 group">
+<a
+    href="#"
+    class="md:lg:w-56 w-40 h-72 flex justify-center items-center flex-col z-50 rounded-xl bg-zinc-900 bg-opacity-10 backdrop-blur-sm p-4 group">
     <picture class="w-full h-full absolute -z-20 rounded-md overflow-hidden"
         ><img
             src={src}
-            class="w-full h-full absolute -z-10 rounded-md opacity-10 object-cover group-hover:scale-110 transition-all duration-1000 ease-out"
+            class="w-full h-full absolute -z-10 rounded-md opacity-30 object-cover group-hover:scale-110 transition-all duration-1000 group-hover:opacity-30 grayscale group-hover:grayscale-0 ease-out"
             alt=""
         /></picture
     >
@@ -30,4 +31,4 @@ const { name, src, description } = Astro.props;
         <h1 class="text-2xl font-bold mt-4">{name}</h1>
         <p class="text-center mt-2">{description}</p>
     </div>
-</button>
+</a>
