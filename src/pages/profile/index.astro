@@ -19,7 +19,9 @@ const {
 const usermetadata = await user?.user_metadata;
 console.log(usermetadata);
 
-const playlistsReq = await fetch(`${Astro.url.origin}/api/music/getPlaylists`);
+const playlistsReq = await fetch(
+    `${Astro.url.origin}/api/playlist/getPlaylists`
+);
 const playlist = await playlistsReq.json();
 console.log(playlist);
 ---
@@ -75,6 +77,7 @@ console.log(playlist);
                                     name={playlist.name}
                                     description={playlist.description}
                                     src={playlist.cover}
+                                    id={playlist.playlist_id}
                                 />
                             ))
                         }

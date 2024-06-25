@@ -17,15 +17,33 @@ export async function GET({
     } = (await supabase.auth.getUser()) ?? null;
     console.log(user);
 
+    const { url } = request;
+    const urlObject = new URL(url);
+    const id = urlObject.searchParams.get('id');
+
     const userdata = await user;
+    let { data: playlists, error } = await supabase
+        .from('playlist_songs')
+        .select('*')
+        .eq('user_id', userdata?.id);
+
+    const exists = playlists?.find(
+        (playlist) =>
+            playlist.user_id == userdata?.id && playlist.playlist_id == id
+    );
+    console.log(exists);
+    if (typeof exists === 'undefined') {
+        return new Response('Playlist not found', { status: 404 });
+    }
     //console.log(userdata);
     if (user) {
         //console.log(userdata?.id);
 
         let { data: playlists, error } = await supabase
-            .from('playlists')
-            .select('playlist_id, name , color, cover, artists')
-            .eq('user_id', userdata?.id);
+            .from('playlist_songs')
+            .select('id, song_id , data_song')
+            .eq('user_id', userdata?.id)
+            .eq('playlist_id', id);
 
         console.log(playlists);
 

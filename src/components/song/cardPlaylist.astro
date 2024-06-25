@@ -3,19 +3,20 @@ interface Props {
     name: string;
     src: string;
     description: string;
+    id: string;
 }
 
-const { name, src, description } = Astro.props;
+const { name, src, description, id } = Astro.props;
 ---
 
 <a
-    href="#"
+    href={`/playlist/${id}`}
     class="md:lg:w-56 w-40 h-72 flex justify-center items-center flex-col z-50 rounded-xl bg-zinc-900 bg-opacity-10 backdrop-blur-sm p-4 group">
     <picture class="w-full h-full absolute -z-20 rounded-md overflow-hidden"
         ><img
             src={src}
             class="w-full h-full absolute -z-10 rounded-md opacity-30 object-cover group-hover:scale-110 transition-all duration-1000 group-hover:opacity-30 grayscale group-hover:grayscale-0 ease-out"
-            alt=""
+            alt={name}
         /></picture
     >
 
@@ -24,6 +25,7 @@ const { name, src, description } = Astro.props;
             <img
                 src={src}
                 draggable="false"
+                alt={name}
                 class="w-full h-full object-cover group-hover:scale-110 transition-all duration-700 ease-in"
             />
         </picture>

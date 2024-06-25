@@ -1,6 +1,5 @@
 import { useMusicStore } from '@/store/musicStore';
 import { useEffect, useRef, useState } from 'react';
-import { FavoriteFilledBlack } from './ui/Player';
 import { Slider } from './ui/slider';
 
 export const Pause = ({ className }) => (
@@ -308,37 +307,42 @@ export function SongBar({
     const [artistSong, setArtist] = useState(null);
     const [imageSong, setImage] = useState(null);
     const [idSong, setId] = useState(null);
+    const [play, setPlay] = useState(false);
     const [fav, setFav] = useState(false);
+    const [songChange, setSongChange] = useState(false);
 
-    useEffect(() => {
+    const configMusicInitial = () => {
         const song_data =
             JSON.parse(localStorage.getItem('currentMusic'))?.[0] || null;
         audioRef.current.volume = localStorage.getItem('volume') || 1;
         setVolume(localStorage.getItem('volume') || 1);
         console.log(song, preview_image, title, artist);
         console.log(song_data);
+
+        setVolume(localStorage.getItem('volume') || 1);
+
         try {
-            if (song !== null && song !== song_data.song) {
+            if (song_data && song_data.id != idSong) {
                 const wasPlaying = !audioRef.current.paused; // Check if music was playing
-                audioRef.current.src = song; // Change the source
+                audioRef.current.src = song_data.song; // Change the source
                 audioRef.current.load(); // Load the new source
                 audioRef.current.currentTime = 0; // Reset time to start
                 if (wasPlaying) {
                     audioRef.current.play().catch(
                         (
                             error // Play if it was playing before
-                        ) => console.error('Error playing the audio:', error)
+                        ) =>
+                            console.error(
+                                'Error playing the audio:',
+                                error.message
+                            )
                     );
                 }
-                localStorage.setItem(
-                    'currentMusic',
-                    JSON.stringify([{ song, preview_image, title, artist, id }])
-                );
 
-                setImage(preview_image);
-                setTitle(title);
-                setArtist(artist);
-                setId(id);
+                setImage(song_data.preview_image);
+                setTitle(song_data.title);
+                setArtist(song_data.artist);
+                setId(song_data.id);
 
                 fetch(`/api/music/isFav?id=${id}`)
                     .then((res) => res.json())
@@ -348,23 +352,28 @@ export function SongBar({
                     });
             }
         } catch (error) {
-            if (
-                !song_data &&
-                song !== null &&
-                preview_image !== null &&
-                title !== null &&
-                artist !== null &&
-                id !== null
-            ) {
-                localStorage.setItem(
-                    'currentMusic',
-                    JSON.stringify([{ song, preview_image, title, artist, id }])
-                );
+            console.error('Error loading audio:', error);
+        }
+    };
 
-                setImage(preview_image);
-                setTitle(title);
-                setArtist(artist);
-                setId(id);
+    const configMusic = () => {
+        const song_data =
+            JSON.parse(localStorage.getItem('currentMusic'))?.[0] || null;
+
+        console.log(song_data, idSong);
+        try {
+            if (song_data.id != idSong) {
+                console.log('cancion diferente');
+                audioRef.current.volume = localStorage.getItem('volume') || 1;
+                setVolume(localStorage.getItem('volume') || 1);
+                audioRef.current.src = song_data.song; // Change the source
+                audioRef.current.load(); // Load the new source
+                audioRef.current.currentTime = 0; // Reset time to start
+
+                setImage(song_data.preview_image);
+                setTitle(song_data.title);
+                setArtist(song_data.artist);
+                setId(song_data.id);
 
                 fetch(`/api/music/isFav?id=${id}`)
                     .then((res) => res.json())
@@ -373,35 +382,22 @@ export function SongBar({
                         data ? setFav(true) : setFav(false);
                     });
             }
+        } catch (error) {
+            console.error('Error loading audio:', error);
         }
-    }, [song]);
+    };
 
     useEffect(() => {
-        const song_data = JSON.parse(localStorage.getItem('currentMusic'))[0];
-        if (song_data) {
-            audioRef.current.src = song_data.song;
-            audioRef.current.load();
-            setCurrentMusic(song_data.song);
-            setIsPlaying(true);
-        }
-        setImage(song_data.preview_image);
-        setTitle(song_data.title);
-        setArtist(song_data.artist);
-        setId(song_data.id);
-    }, []);
-
-    useEffect(() => {
-        localStorage.setItem('playing', isPlaying);
-        if (!isPlaying) {
+        if (!play) {
             audioRef.current.pause();
         } else {
             audioRef.current
                 .play()
                 .catch((error) =>
-                    console.error('Error playing the audio:', error)
+                    console.error('Error playing the audio:', error.message)
                 );
         }
-    }, [isPlaying]);
+    }, [play]);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -416,11 +412,26 @@ export function SongBar({
     }, [audioRef]);
 
     useEffect(() => {
+        console.log('cambio isplaying');
+        if (isPlaying) {
+            configMusicInitial();
+            setPlay(true);
+        }
+
+        if (isPlaying == false && play == true) {
+            setPlay(false);
+        }
+    }, [isPlaying]);
+
+    useEffect(() => {
         audioRef.current.volume = volume;
         localStorage.setItem('volume', volume);
     }, [volume]);
 
     const handleClick = () => {
+        localStorage.setItem('playing', !play);
+
+        setPlay(!play);
         setIsPlaying(!isPlaying);
     };
 
@@ -448,16 +459,16 @@ export function SongBar({
     };
 
     useEffect(() => {
-        const song_data = JSON.parse(localStorage.getItem('currentMusic'))?.[0];
-        localStorage.setItem('playing', 'false');
-        setIsPlaying(false);
-        if (song_data) {
-            setCurrentMusic(song_data.song);
+        configMusicInitial();
+        const change = localStorage.getItem('songchange') || null;
+
+        if (change == null) {
+            localStorage.setItem('songchange', false);
         }
     }, []);
 
     return (
-        <div className="flex flex-row justify-center relative items-center w-full z-50 bg-gray-800 bg-opacity-30 py-6 md:lg:pl-8 pl-0 gap-2 shadow-md h-full backdrop-filter  ">
+        <div className="flex flex-row justify-center relative items-center w-full z-50 bg-gray-800 backdrop-blur-sm bg-opacity-30 py-6 md:lg:pl-8 pl-0 gap-2 shadow-md h-full backdrop-filter  ">
             <div className=" md:lg:block hidden h-full absolute  left-0 ">
                 <CurrentSong
                     title={titleSong}
@@ -472,7 +483,7 @@ export function SongBar({
                     title="Play / Pause"
                     onClick={handleClick}
                     className="bg-white rounded-full p-2">
-                    {isPlaying ? <Pause /> : <Play />}
+                    {play == true ? <Pause /> : <Play />}
                 </button>
 
                 <SongControl audio={audioRef} />

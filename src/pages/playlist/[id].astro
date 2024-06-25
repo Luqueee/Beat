@@ -16,13 +16,6 @@ console.log(id);
 const { cookies, redirect } = Astro;
 const url = Astro.url.origin;
 
-const accessToken = cookies.get('sb-access-token') ? true : false;
-const refreshToken = cookies.get('sb-refresh-token') ? true : false;
-//console.log(accessToken, refreshToken);
-
-const sessionReq = await fetch(`${url}/api/getSession`);
-//console.log(`${url}/api/music/getMusicInfo?song=${id}`);
-
 const dataSongReq = await fetch(`${url}/api/music/getTrack?id=${id}`);
 const dataSong = await dataSongReq.json();
 //console.log('data song', dataSong);
