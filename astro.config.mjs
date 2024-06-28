@@ -4,9 +4,6 @@ import tailwind from '@astrojs/tailwind';
 import react from '@astrojs/react';
 import svelte from '@astrojs/svelte';
 import ssrPrepass from 'react-ssr-prepass';
-import minify from 'astro-min';
-
-import compressor from 'astro-compressor';
 
 // https://astro.build/config
 export default defineConfig({
