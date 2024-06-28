@@ -1,5 +1,5 @@
 import { useMusicStore } from '@/store/musicStore';
-import { Pause, Play } from '../ui/Player';
+import { Pause, Play } from '../songBar';
 import { usePlayerStore } from '@/store/playerStore';
 import ReactPlayer from 'react-player';
 

@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import ReactPlayer from 'react-player/youtube';
 import { useLofiStore } from '@/store/musicStore';
 import { Slider } from './slider';
-import FilePlayer from 'react-player/lib/players/FilePlayer';
 
 export const Pause = ({ className }) => (
     <svg

@@ -51,7 +51,7 @@ export async function GET({
                 (playlist) => playlist.playlist_id == playlist_id
             );
 
-            // TODO: Verificar si la cancion dentro de la playlist existe dentro de la base de datos. En el caso que sea asi, se devolvera 404.
+            // TODO: Verificar si la cancion dentro de la playlist existe dentro de la base de datos. En el caso que sea asi, se devolvera 504.
 
             console.log(exists);
             if (typeof exists === 'undefined') {

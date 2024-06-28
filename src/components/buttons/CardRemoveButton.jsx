@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { Remove } from '../ui/Player';
+import { Remove } from '../songBar';
 
 export function CardRemoveButton({ id }) {
     const handleClick = () => {

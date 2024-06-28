@@ -25,19 +25,10 @@ let blurBG = true;
                 style="mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 80%, rgba(0,0,0,0) 100%);"
             />
         </header>
-        <div class="z-50 flex gap-4 justify-between w-full">
+        <div class="z-50 flex gap-4 justify-between w-full md:lg:w-[50%]">
             <Favs client:visible />
-            <div class="basis-1/2 md:lg:block hidden">
-                <MarqueeChartSongsVertical client:load />
-            </div>
         </div>
-        <div class="fixed bottom-0 z-[9999999] w-full">
-            <SongBar
-                client:load
-                transition:name="media-player"
-                transition:persist
-            />
-        </div>
+
         <footer class="w-full h-20 mt-16 mb-12 m-auto px-8">
             <div
                 class="w-full h-[80%] py-8 text-white justify-center items-center bg-gray-800 bg-opacity-10 rounded-md p-2 flex gap-2">

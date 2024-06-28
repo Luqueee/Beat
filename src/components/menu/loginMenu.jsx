@@ -1,7 +1,3 @@
-import { supabase } from '../../lib/supabase';
-import { useState, useEffect } from 'react';
-import { usePlayerStore } from '@/store/playerStore';
-
 export function LoginCard() {
     return (
         <div>

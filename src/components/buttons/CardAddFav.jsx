@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Favorite, FavoriteFilledBlack } from '../ui/Player';
+import { Favorite, FavoriteFilledBlack } from '../songBar';
 
 export function CardAddFav({ size = 'small', id }) {
     const [fav, setFav] = useState(null);

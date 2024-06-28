@@ -21,20 +21,16 @@ const { title } = Astro.props;
         <title>{title}</title>
         <ViewTransitions fallback="none" />
     </head>
-    <body class="bg-zinc-900 min-h-full transition-all duration-500 relative">
+    <body
+        class="bg-zinc-900 min-h-full transition-all duration-500 overflow-x-hidden relative">
         <div id="app" class="relative h-full w-full">
             <MenuBar />
             <main class="min-w-full h-full">
                 <slot class="" />
             </main>
-            <div class="fixed bottom-0 z-[9999999] w-full">
-                <SongBar
-                    client:load
-                    transition:name="media-player"
-                    transition:persist
-                />
-            </div>
         </div>
+
+        <style></style>
 
         <style is:global>
             html,
@@ -48,7 +44,7 @@ const { title } = Astro.props;
             }
 
             body {
-                min-height: 100dvh; /* Full screen height */
+                min-height: 100vh; /* Full screen height */
                 display: flex;
                 flex-direction: column;
             }
@@ -69,6 +65,8 @@ const { title } = Astro.props;
                 width: 5px;
                 height: 5px;
                 position: fixed;
+
+                background: rgb(60, 60, 66);
             }
 
             /* Track */

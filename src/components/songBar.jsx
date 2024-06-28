@@ -144,20 +144,65 @@ export const Next = () => (
     </svg>
 );
 
+export const Favorite = () => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        stroke="black"
+        fill="none"
+        className="icon icon-tabler icons-tabler-outline icon-tabler-heart">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
+    </svg>
+);
+
+export const FavoriteFilled = () => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        className="icon icon-tabler icons-tabler-filled icon-tabler-heart">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <path d="M6.979 3.074a6 6 0 0 1 4.988 1.425l.037 .033l.034 -.03a6 6 0 0 1 4.733 -1.44l.246 .036a6 6 0 0 1 3.364 10.008l-.18 .185l-.048 .041l-7.45 7.379a1 1 0 0 1 -1.313 .082l-.094 -.082l-7.493 -7.422a6 6 0 0 1 3.176 -10.215z" />
+    </svg>
+);
+
+export const FavoriteFilledBlack = () => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="black"
+        className="icon icon-tabler icons-tabler-filled icon-tabler-heart">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <path d="M6.979 3.074a6 6 0 0 1 4.988 1.425l.037 .033l.034 -.03a6 6 0 0 1 4.733 -1.44l.246 .036a6 6 0 0 1 3.364 10.008l-.18 .185l-.048 .041l-7.45 7.379a1 1 0 0 1 -1.313 .082l-.094 -.082l-7.493 -7.422a6 6 0 0 1 3.176 -10.215z" />
+    </svg>
+);
+
 const CurrentSong = ({ image, id, title, artists }) => {
     return (
-        <div
+        <a
+            href={`/song/${id}`}
             className={`
         flex items-center gap-4 
-                h-full w-full   p-4
+                h-full w-full p-4 z-[999999]
       `}>
-            <picture className="w-16 h-16 bg-zinc-800 rounded-md shadow-lg overflow-hidden object-cover">
-                <img
-                    src={image}
-                    className=" object-cover h-full w-full"
-                    alt={title}
-                />
-            </picture>
+            {image ? (
+                <picture className="w-16 h-16 bg-zinc-800 rounded-md shadow-lg overflow-hidden object-cover">
+                    <img
+                        src={image}
+                        className=" object-cover h-full w-full"
+                        alt={title}
+                    />
+                </picture>
+            ) : (
+                <div className="w-16 h-16 bg-zinc-800 rounded-md shadow-lg overflow-hidden"></div>
+            )}
 
             <div className="flex flex-col gap-2 h-full z-50">
                 <a
@@ -167,7 +212,7 @@ const CurrentSong = ({ image, id, title, artists }) => {
                 </a>
                 <span className="text-xs opacity-80">{artists}</span>
             </div>
-        </div>
+        </a>
     );
 };
 
@@ -280,19 +325,15 @@ const VolumeControl = () => {
                 onValueChange={(value) => {
                     const [newVolume] = value;
                     const volumeValue = newVolume / 100;
-                    setVolume(volumeValue);
+
+                    localStorage.setItem('volume', volumeValue);
+                    setVolume(localStorage.getItem('volume') || 1);
                 }}
             />
         </div>
     );
 };
-export function SongBar({
-    song = null,
-    preview_image = null,
-    title = null,
-    artist = null,
-    id = null,
-}) {
+export function SongBar() {
     const {
         currentMusic,
         isPlaying,
@@ -315,11 +356,9 @@ export function SongBar({
         const song_data =
             JSON.parse(localStorage.getItem('currentMusic'))?.[0] || null;
         audioRef.current.volume = localStorage.getItem('volume') || 1;
-        setVolume(localStorage.getItem('volume') || 1);
-        console.log(song, preview_image, title, artist);
+        setVolume(localStorage.getItem('volume'));
+        console.log(volume);
         console.log(song_data);
-
-        setVolume(localStorage.getItem('volume') || 1);
 
         try {
             if (song_data && song_data.id != idSong) {
@@ -425,7 +464,6 @@ export function SongBar({
 
     useEffect(() => {
         audioRef.current.volume = volume;
-        localStorage.setItem('volume', volume);
     }, [volume]);
 
     const handleClick = () => {
@@ -468,7 +506,7 @@ export function SongBar({
     }, []);
 
     return (
-        <div className="flex flex-row justify-center relative items-center w-full z-50 bg-gray-800 backdrop-blur-sm bg-opacity-30 py-6 md:lg:pl-8 pl-0 gap-2 shadow-md h-full backdrop-filter  ">
+        <div className="flex flex-row justify-center relative items-center w-full z-50 bg-zinc-900 backdrop-blur-sm bg-opacity-5 py-6 md:lg:pl-8 pl-0 gap-2 shadow-lg h-full backdrop-filter  ">
             <div className=" md:lg:block hidden h-full absolute  left-0 ">
                 <CurrentSong
                     title={titleSong}
@@ -478,7 +516,7 @@ export function SongBar({
                 />
                 <div className=" absolute top-2 right-8 text-end z-[999999999] "></div>
             </div>
-            <div className="flex w-full h-full justify-center px-8 items-center z-50">
+            <div className="flex w-full h-full justify-center px-8 items-center">
                 <button
                     title="Play / Pause"
                     onClick={handleClick}

@@ -5,52 +5,12 @@ import { SongBar } from '@/components/songBar';
 import { getTimeSong } from '@/components/ui/searchBar';
 import Footer from '@/components/blocks/Footer.astro';
 
-import { CardPlayButton } from '@/components/buttons/CardPlayButton';
-import { CardAddFav } from '@/components/buttons/CardAddFav';
-
-
-const { id } = Astro.params;
-
-console.log(id);
-const { cookies, redirect } = Astro;
-const url = Astro.url.origin;
-
-const dataSongReq = await fetch(`${url}/api/music/getTrack?id=${id}`);
-const dataSong = await dataSongReq.json();
-//console.log('data song', dataSong);
-
-const titleSong = dataSong.title;
-//console.log(dataSongDezz);
-
-const artists = dataSong.contributors
-    .map((artist: any) => artist.name)
-    .join(', ');
-
-//console.log(artists);
-const artistImg = dataSong.artist.picture;
-const albumImg = dataSong.album.cover_xl;
-const trackId = dataSong.id;
-const trackLink = dataSong.link;
-const thumbnail = dataSong.album.cover_xl;
-const rank = dataSong.rank;
-const songSrc = dataSong.preview;
-
-const duration = dataSong.duration;
-
-const artistsData = dataSong.contributors;
-//console.log(artistsData);
-
-async function getTrackArtist(artist: any) {
-    const req = await fetch(`${url}/api/music/getTracksArtist?id=${artist.id}`);
-    const data = await req.json();
-    return data;
-}
-
-const tracksArtist = await Promise.all(
-    dataSong.contributors.map((artist: any) => getTrackArtist(artist))
-);
+const titleSong = 'MEC';
 
 let blurBG = true;
+
+const thumbnail =
+    'https://www.neo2.com/wp-content/uploads/2021/07/trueno-concierto-mad-beach-festival-14.jpg';
 
 //console.log(songSrc, id);
 
@@ -70,86 +30,8 @@ let blurBG = true;
         class="relative flex flex-col bg-zinc-900 w-full h-full">
         <header
             class="flex flex-row gap-4 pt-14 md:lg:pt-4 z-10 w-full min-h-full px-6">
-            <div class="md:lg:flex block w-full md:lg:mb-0 mt-20">
-                <picture
-                    class="aspect-square md:lg:w-72 w-36 h-auto flex-none shadow-2xl">
-                    <section class="rounded-md overflow-hidden">
-                        <img
-                            src={thumbnail}
-                            class="object-cover w-full h-full rounded-md transition-all duration-500 hover:scale-110"
-                            draggable="false"
-                            alt="Album cover"
-                            loading="lazy"
-                            transition:name={`playlist ${id} image`}
-                        />
-                    </section>
-                </picture>
-                <div
-                    class="flex flex-col gap-2 pt-12 h-full md:lg:h-full sm:mx-4 mx-0 md:lg:mt-0">
-                    <section class="flex items-center flex-col">
-                        <h2 class="self-start hidden md:lg:block text-2xl">
-                            Canción
-                        </h2>
-                        <a
-                            href={trackLink}
-                            target="_blank"
-                            class="text-center md:lg:text-start w-full">
-                            <h1
-                                class="md:lg:text-6xl w-fit text-6xl font-bold flex mx-auto md:lg:mx-0 text-white md:lg:hover:border-b-white border-b-2 border-b-transparent transition-all duration-200">
-                                {titleSong}
-                            </h1>
-                        </a>
-                    </section>
-
-                    <div
-                        class="text-sm text-gray-300 font-normal flex justify-center md:lg:justify-start w-full"
-                        transition:name={`playlist ${id} artists`}>
-                        <div
-                            class="text-xl font-thin text-white w-full md:lg:w-[100vw]">
-                            <div
-                                class="flex h-10 items-center gap-2 justify-center md:lg:w-fit sm:w-full py-4">
-                                <img
-                                    src={artistImg}
-                                    alt=""
-                                    class="w-10 h-10 rounded-full shadow-md hidden md:lg:block"
-                                />
-                                <span
-                                    class="items-center justify-center w-full flex gap-2 my-4">
-                                    <p
-                                        class="md:lg:font-[400] text-white md:lg:text-xl text-xl font-bold flex justify-center w-full text-center">
-                                        {artists}
-                                    </p>
-                                </span>
-                            </div>
-                            <div
-                                class="flex gap-4 flex-col md:lg:flex-row md:lg:justify-start justify-center items-center py-4 font-medium mx-auto max-w-[600px] md:lg:mx-0">
-                                <div class="w-full flex gap-4 basis-1/2">
-                                    <p
-                                        class="bg-green-400 text-white rounded-full flex basis-1/2 justify-center bg-opacity-50 py-2 px-4">
-                                        {getTimeSong(duration)}
-                                    </p>
-                                    <p
-                                        class="bg-green-400 text-white rounded-full gap-2 flex basis-1/2 justify-center bg-opacity-50 py-2 px-4">
-                                        <Rank />{rank}
-                                    </p>
-                                </div>
-                                <div
-                                    class="w-full flex gap-4 basis-1/2 justify-center md:lg:justify-start">
-                                    <CardPlayButton client:load 
-                                            song = { songSrc };
-                                            preview_image = { thumbnail };
-                                            title = { titleSong };
-                                            artist = { artists };
-                                            id = { trackId }; />
-                                    <CardAddFav client:load id={id} />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <img
-                src={albumImg}
+                src={'https://www.neo2.com/wp-content/uploads/2021/07/trueno-concierto-mad-beach-festival-14.jpg'}
                 class={`absolute object-cover w-full h-[100dvh] shadow-lg -z-10 top-0 right-0 opacity-20 object-center ${blurBG ? 'filter blur-[3px]' : ''}`}
                 draggable="false"
                 alt="Album cover"
@@ -157,147 +39,17 @@ let blurBG = true;
                 style="mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 80%, rgba(0,0,0,0) 100%);"
             />
         </header>
-
         <div
-            class="lg:w-[80%] md:sm:w-full h-max md:lg:flex sm:block flex-col md:lg:flex-row md:lg:gap-8 flex-wrap justify-center px-6">
-            {
-                artistsData.map((artist: any, _: any) => (
-                    <div class="md:lg:w-[49%] sm:w-full h-auto flex-grow mt-6">
-                        <div class="w-full h-full bg-opacity-50 bg-slate-500 rounded-xl flex flex-col relative group overflow-hidden ">
-                            {
-                                <img
-                                    src={artist.picture_xl}
-                                    alt="Artist Image"
-                                    draggable="false"
-                                    class="absolute object-cover z-10 w-full h-full shadow-lg top-0 right-0 opacity-50 group-hover:opacity-60 grayscale group-hover:grayscale-0 object-center rounded-xl transition-all duration-1000 transform group-hover:scale-110"
-                                />
-                            }
-                            <div class="ml-6 my-6 h-full">
-                                <p class="relative z-10 font-extrabold md:lg:text-5xl text-4xl">
-                                    <a
-                                        href={artist.share}
-                                        target="_blank"
-                                        class="hover:border-b-2 hover:border-b-white border-b-2  border-b-transparent transition-all duration-200 font-[600] text-white">
-                                        {artist.name}
-                                    </a>
-                                </p>
-
-                                <section class="w-full my-8 flex flex-col gap-8 relative overflow-auto max-h-[calc(60vh-200px)] z-20">
-                                    {tracksArtist.map((trackGroup) =>
-                                        trackGroup.map(
-                                            (track: any) => (
-                                                track.contributors[0].name == artist.name ? 
-                                                (
-                                                    <div
-                                                        id={track.id}
-                                                        class="w-full flex gap-4 items-center h-auto group">
-                                                        <section class="md:lg:w-[10%] w-[30%] h-full overflow-hidden rounded-md track-image">
-                                                            <a
-                                                                href={`/song/${track.id}`}
-                                                                class="rounded-md">
-                                                                <img
-                                                                    src={
-                                                                        track
-                                                                            .album
-                                                                            .cover_medium
-                                                                    }
-                                                                    draggable="false"
-                                                                    class="rounded-md shadow-md h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
-                                                                />
-                                                            </a>
-                                                        </section>
-                                                        <section class="w-[70%] md:lg:w-[80%] h-full justify-center flex gap-2 flex-col relative overflow-hidden">
-                                                            <a
-                                                                href={`/song/${track.id}`}
-                                                                class="w-fit md:lg:text-3xl text-xl font-semibold z-30 hover:border-b-2 hover:border-b-white border-b-2  border-b-transparent transition-all duration-200">
-                                                                {track.title}
-                                                            </a>
-                                                            <p class="flex flex-row w-full gap-4 truncate">
-                                                                {
-                                                                    track.contributors.map((artist: any) => artist.name).join(', ')
-                                                                }
-                                                                <span class="font-semibold">
-                                                                    {getTimeSong(
-                                                                        track.duration
-                                                                    )}
-                                                                </span>
-                                                            </p>
-                                                        </section>
-                                                    </div>
-                                                ): (
-                                                    <></>)
-
-                                                
-                                            )
-                                        ),
-                                        
-                                        
-                                    )}
-                                    {tracksArtist.map((trackGroup) =>
-                                        trackGroup.map(
-                                            (track: any) => (
-                                                track.contributors[0].name != artist.name ? 
-                                                (
-                                                    <div
-                                                        id={track.id}
-                                                        class="w-full flex gap-4 items-center h-auto group">
-                                                        <section class="md:lg:w-[10%] w-[30%] h-full overflow-hidden rounded-md track-image">
-                                                            <a
-                                                                href={`/song/${track.id}`}
-                                                                class="rounded-md">
-                                                                <img
-                                                                    src={
-                                                                        track
-                                                                            .album
-                                                                            .cover_medium
-                                                                    }
-                                                                    draggable="false"
-                                                                    class="rounded-md shadow-md h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
-                                                                />
-                                                            </a>
-                                                        </section>
-                                                        <section class="w-[70%] md:lg:w-[80%] h-full justify-center flex gap-2 flex-col relative overflow-hidden">
-                                                            <a
-                                                                href={`/song/${track.id}`}
-                                                                class="w-fit md:lg:text-4xl text-xl font-bold z-30 hover:border-b-2 hover:border-b-white border-b-2  border-b-transparent transition-all duration-200">
-                                                                {track.title}
-                                                            </a>
-                                                            <p class="flex flex-row w-full gap-4 truncate">
-                                                                {
-                                                                    track.contributors.map((artist: any) => artist.name).join(', ')
-                                                                }
-                                                                <span class="font-semibold">
-                                                                    {getTimeSong(
-                                                                        track.duration
-                                                                    )}
-                                                                </span>
-                                                            </p>
-                                                        </section>
-                                                    </div>
-                                                ): (
-                                                    <></>)
-
-                                                
-                                            )
-                                        ),
-                                        
-                                        
-                                    )}
-                                </section>
-                            </div>
-                        </div>
-                    </div>
-                ))
-            }
+            class="h-[90vh] w-full flex flex-col justify-center items-center gap-4 z-50">
+            <p class="text-6xl font-semibold">En construcción</p>
+            <a
+                href="/"
+                class="border-0 border-transparent border-b-[1px] hover:border-white transition-all duration-200"
+                >Volver al inicio</a
+            >
         </div>
-        <div class="fixed bottom-0 z-[9999999] w-full">
-            <SongBar
-                client:load
-                transition:name="media-player"
-                transition:persist
-                
-            />
-        </div>
+
+        <div class="fixed bottom-0 z-[9999999] w-full"></div>
 
         <Footer />
     </div>

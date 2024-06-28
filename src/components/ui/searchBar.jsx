@@ -196,7 +196,7 @@ export const SearchBar = () => {
                         type="text"
                         name="searchbox"
                         id="searchbox"
-                        className="w-full rounded-md border-none ring-0 bg-gray-800  bg-opacity-40 backdrop-blur-sm p-2 text-white text-xl"
+                        className="w-full rounded-md border-none ring-0 bg-gray-800 bg-opacity-40 backdrop-blur-sm p-2 text-white text-xl"
                         placeholder="Type a song..."
                         value={searchTerm || ''}
                         onChange={handleChange}

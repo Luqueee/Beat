@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Pause, Play } from '../ui/Player';
+import { Pause, Play } from '../songBar';
 import { useMusicStore } from '@/store/musicStore';
 
 export function CardPlayButton({
