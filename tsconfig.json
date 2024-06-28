@@ -1,15 +1,15 @@
 {
-    "compilerOptions": {
-        "baseUrl": ".",
-        "verbatimModuleSyntax": false,
-        "paths": {
-            "@/*": ["src/*"],
-            "@/components": ["src/components/*"],
-            "@/icons": ["src/icons/*"],
-            "@/lib": ["src/lib/*"]
-        },
-        "jsx": "react-jsx",
-        "jsxImportSource": "react"
+  "compilerOptions": {
+    "baseUrl": ".",
+    "verbatimModuleSyntax": false,
+    "paths": {
+      "@/*": ["src/*"],
+      "@/components": ["src/components/*"],
+      "@/icons": ["src/icons/*"],
+      "@/lib": ["src/lib/*"]
     },
-    "extends": "astro/tsconfigs/strict"
+    "jsx": "react-jsx",
+    "jsxImportSource": "react"
+  },
+  "extends": "astro/tsconfigs/strict"
 }

@@ -1,16 +1,16 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import Rank from '@/icons/Rank.astro';
-import { SongBar } from '@/components/songBar';
-import { getTimeSong } from '@/components/ui/searchBar';
-import Footer from '@/components/blocks/Footer.astro';
+import Layout from "../../layouts/Layout.astro";
+import Rank from "@/icons/Rank.astro";
+import { SongBar } from "@/components/songBar";
+import { getTimeSong } from "@/components/ui/searchBar";
+import Footer from "@/components/blocks/Footer.astro";
 
-const titleSong = 'MEC';
+const titleSong = "MEC";
 
 let blurBG = true;
 
 const thumbnail =
-    'https://www.neo2.com/wp-content/uploads/2021/07/trueno-concierto-mad-beach-festival-14.jpg';
+  "https://www.neo2.com/wp-content/uploads/2021/07/trueno-concierto-mad-beach-festival-14.jpg";
 
 //console.log(songSrc, id);
 
@@ -25,32 +25,35 @@ const thumbnail =
 ---
 
 <Layout title=`Beat - ${titleSong}`>
+  <div
+    id="playlist-container"
+    class="relative flex flex-col bg-zinc-900 w-full h-full"
+  >
+    <header
+      class="flex flex-row gap-4 pt-14 md:lg:pt-4 z-10 w-full min-h-full px-6"
+    >
+      <img
+        src={"https://www.neo2.com/wp-content/uploads/2021/07/trueno-concierto-mad-beach-festival-14.jpg"}
+        class={`absolute object-cover w-full h-[100dvh] shadow-lg -z-10 top-0 right-0 opacity-20 object-center ${blurBG ? "filter blur-[3px]" : ""}`}
+        draggable="false"
+        alt="Album cover"
+        loading="lazy"
+        style="mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 80%, rgba(0,0,0,0) 100%);"
+      />
+    </header>
     <div
-        id="playlist-container"
-        class="relative flex flex-col bg-zinc-900 w-full h-full">
-        <header
-            class="flex flex-row gap-4 pt-14 md:lg:pt-4 z-10 w-full min-h-full px-6">
-            <img
-                src={'https://www.neo2.com/wp-content/uploads/2021/07/trueno-concierto-mad-beach-festival-14.jpg'}
-                class={`absolute object-cover w-full h-[100dvh] shadow-lg -z-10 top-0 right-0 opacity-20 object-center ${blurBG ? 'filter blur-[3px]' : ''}`}
-                draggable="false"
-                alt="Album cover"
-                loading="lazy"
-                style="mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 80%, rgba(0,0,0,0) 100%);"
-            />
-        </header>
-        <div
-            class="h-[90vh] w-full flex flex-col justify-center items-center gap-4 z-50">
-            <p class="text-6xl font-semibold">En construcción</p>
-            <a
-                href="/"
-                class="border-0 border-transparent border-b-[1px] hover:border-white transition-all duration-200"
-                >Volver al inicio</a
-            >
-        </div>
-
-        <div class="fixed bottom-0 z-[9999999] w-full"></div>
-
-        <Footer />
+      class="h-[90vh] w-full flex flex-col justify-center items-center gap-4 z-50"
+    >
+      <p class="text-6xl font-semibold">En construcción</p>
+      <a
+        href="/"
+        class="border-0 border-transparent border-b-[1px] hover:border-white transition-all duration-200"
+        >Volver al inicio</a
+      >
     </div>
+
+    <div class="fixed bottom-0 z-[9999999] w-full"></div>
+
+    <Footer />
+  </div>
 </Layout>

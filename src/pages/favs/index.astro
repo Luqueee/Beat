@@ -1,47 +1,51 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import { Favs } from '@/components/favs/favs';
-import { MarqueeChartSongsVertical } from '@/components/ui/marqueeChartSongs';
-import { SongBar } from '@/components/songBar';
-const bg = 'https://pbs.twimg.com/media/ESmuaQOXgAEvo67?format=jpg&name=large';
+import Layout from "../../layouts/Layout.astro";
+import { Favs } from "@/components/favs/favs";
+import { MarqueeChartSongsVertical } from "@/components/ui/marqueeChartSongs";
+import { SongBar } from "@/components/songBar";
+const bg = "https://pbs.twimg.com/media/ESmuaQOXgAEvo67?format=jpg&name=large";
 let blurBG = true;
 ---
 
 <Layout title="Favoritos">
-    <div
-        id="playlist-container"
-        class="relative flex flex-col bg-zinc-900 w-full h-full py-20">
-        <header
-            class="flex flex-row gap-4 pt-14 md:lg:pt-4 z-10 w-full min-h-[20vh] px-6 z-1">
-            <div class="md:lg:flex block w-full min-h-full text-center">
-                <p class="text-8xl font-medium pt-2 pl-4">Favoritos</p>
-            </div>
-            <img
-                src={bg}
-                class={`absolute object-cover w-full h-[100dvh] shadow-lg -z-10 top-0 right-0 opacity-20 object-center ${blurBG ? 'filter blur-[0px]' : ''}`}
-                draggable="false"
-                alt="Album cover"
-                loading="lazy"
-                style="mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 80%, rgba(0,0,0,0) 100%);"
-            />
-        </header>
-        <div class="z-50 flex gap-4 justify-between w-full md:lg:w-[50%]">
-            <Favs client:visible />
-        </div>
-
-        <footer class="w-full h-20 mt-16 mb-12 m-auto px-8">
-            <div
-                class="w-full h-[80%] py-8 text-white justify-center items-center bg-gray-800 bg-opacity-10 rounded-md p-2 flex gap-2">
-                <p>
-                    Made with 💖 by{' '}
-                    <a
-                        href="https://github.com/Luqueee"
-                        target="_blank"
-                        class="font-extrabold hover:border-b-2 hover:border-b-white border-b-2 border-b-transparent transition-all duration-200">
-                        Adria Cabrera Luque
-                    </a>
-                </p>
-            </div>
-        </footer>
+  <div
+    id="playlist-container"
+    class="relative flex flex-col bg-zinc-900 w-full h-full py-20"
+  >
+    <header
+      class="flex flex-row gap-4 pt-14 md:lg:pt-4 z-10 w-full min-h-[20vh] px-6 z-1"
+    >
+      <div class="md:lg:flex block w-full min-h-full text-center">
+        <p class="text-8xl font-medium pt-2 pl-4">Favoritos</p>
+      </div>
+      <img
+        src={bg}
+        class={`absolute object-cover w-full h-[100dvh] shadow-lg -z-10 top-0 right-0 opacity-20 object-center ${blurBG ? "filter blur-[0px]" : ""}`}
+        draggable="false"
+        alt="Album cover"
+        loading="lazy"
+        style="mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 80%, rgba(0,0,0,0) 100%);"
+      />
+    </header>
+    <div class="z-50 flex gap-4 justify-between w-full md:lg:w-[50%]">
+      <Favs client:visible />
     </div>
+
+    <footer class="w-full h-20 mt-16 mb-12 m-auto px-8">
+      <div
+        class="w-full h-[80%] py-8 text-white justify-center items-center bg-gray-800 bg-opacity-10 rounded-md p-2 flex gap-2"
+      >
+        <p>
+          Made with 💖 by{" "}
+          <a
+            href="https://github.com/Luqueee"
+            target="_blank"
+            class="font-extrabold hover:border-b-2 hover:border-b-white border-b-2 border-b-transparent transition-all duration-200"
+          >
+            Adria Cabrera Luque
+          </a>
+        </p>
+      </div>
+    </footer>
+  </div>
 </Layout>

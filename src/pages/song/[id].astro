@@ -9,6 +9,7 @@ import { CardPlayButton } from '@/components/buttons/CardPlayButton';
 import { CardAddFav } from '@/components/buttons/CardAddFav';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Favorite } from '@/components/songBar';
+import { Image } from 'astro:assets';
 
 const { id } = Astro.params;
 
@@ -82,7 +83,8 @@ let blurBG = true;
                 <picture
                     class="aspect-square md:lg:w-72 w-36 h-auto flex-none shadow-2xl">
                     <section class="rounded-md overflow-hidden">
-                        <img
+                        <Image
+                            inferSize={true}
                             src={thumbnail}
                             class="object-cover w-full h-full rounded-md transition-all duration-500 hover:scale-110"
                             draggable="false"
@@ -116,7 +118,8 @@ let blurBG = true;
                             class="text-xl font-thin text-white w-full md:lg:w-[100vw]">
                             <div
                                 class="flex h-10 items-center gap-2 justify-center md:lg:w-fit sm:w-full py-4">
-                                <img
+                                <Image
+                                    inferSize={true}
                                     src={artistImg}
                                     alt=""
                                     class="w-10 h-10 rounded-full shadow-md hidden md:lg:block"
@@ -173,7 +176,8 @@ let blurBG = true;
                     <div class="md:lg:w-[49%] sm:w-full h-auto flex-grow mt-6">
                         <div class="w-full h-full bg-opacity-50 bg-slate-500 rounded-xl flex flex-col relative group overflow-hidden ">
                             {
-                                <img
+                                <Image
+                                    inferSize={true}
                                     src={artist.picture_xl}
                                     alt="Artist Image"
                                     draggable="false"
@@ -204,13 +208,15 @@ let blurBG = true;
                                                             <a
                                                                 href={`/song/${track.id}`}
                                                                 class="rounded-md">
-                                                                <img
+                                                                <Image
+                                                                    inferSize={true}
                                                                     src={
                                                                         track
                                                                             .album
                                                                             .cover_medium
                                                                     }
-                                                                    draggable="false"
+                                                                      draggable="false"
+                                                                    alt={track.title}
                                                                     class="rounded-md shadow-md h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
                                                                 />
                                                             </a>
@@ -254,12 +260,14 @@ let blurBG = true;
                                                             <a
                                                                 href={`/song/${track.id}`}
                                                                 class="rounded-md">
-                                                                <img
+                                                                <Image
+                                                                inferSize={true}
                                                                     src={
                                                                         track
                                                                             .album
                                                                             .cover_medium
                                                                     }
+                                                                    alt={track.title}
                                                                     draggable="false"
                                                                     class="rounded-md shadow-md h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
                                                                 />
