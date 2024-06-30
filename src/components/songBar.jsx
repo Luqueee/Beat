@@ -364,6 +364,7 @@ export function SongBar() {
         if (!play) {
             audioRef.current.pause();
         } else {
+            setPlay(localStorage.getItem('playing') == 'true');
             audioRef.current
                 .play()
                 .catch((error) =>
@@ -388,10 +389,6 @@ export function SongBar() {
         console.log('cambio isplaying');
         configMusicInitial();
         setPlay(isPlaying);
-
-        if (!isPlaying) {
-            setPlay(true);
-        }
     }, [isPlaying]);
 
     useEffect(() => {
@@ -399,7 +396,8 @@ export function SongBar() {
             if (event.keyCode === 32) {
                 // 32 es el código de la tecla de espacio
                 event.preventDefault(); // Prevenir cualquier acción predeterminada
-                setIsPlaying(!isPlaying); // Alternar entre pausa y reproducción
+                localStorage.setItem('playing', !play);
+                setPlay(!play); // Alternar entre pausa y reproducción
             }
         };
 
@@ -410,7 +408,7 @@ export function SongBar() {
         return () => {
             document.removeEventListener('keydown', togglePlayPause);
         };
-    }, [isPlaying]); // Dependencias del efecto
+    }, [play]); // Dependencias del efecto
 
     useEffect(() => {
         audioRef.current.volume = volume;
@@ -424,7 +422,6 @@ export function SongBar() {
     const handleClick = () => {
         localStorage.setItem('playing', !play);
         setPlay(!play);
-        configMusicInitial();
     };
 
     useEffect(() => {
