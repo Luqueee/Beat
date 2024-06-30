@@ -315,13 +315,8 @@ const VolumeControl = () => {
     );
 };
 export function SongBar() {
-    const {
-        isPlaying,
-
-        setIsPlaying,
-        volume,
-        setVolume,
-    } = useMusicStore((state) => state);
+    const { isPlaying, currentMusic, setIsPlaying, volume, setVolume } =
+        useMusicStore((state) => state);
     const audioRef = useRef();
 
     const [titleSong, setTitle] = useState(null);
@@ -340,20 +335,19 @@ export function SongBar() {
 
         try {
             if (song_data && song_data.id != idSong) {
-                const wasPlaying = !audioRef.current.paused; // Check if music was playing
                 audioRef.current.src = song_data.song; // Change the source
                 audioRef.current.load(); // Load the new source
+
                 audioRef.current.currentTime = 0; // Reset time to start
-                if (wasPlaying) {
-                    audioRef.current.play().catch(
-                        (
-                            error // Play if it was playing before
-                        ) =>
-                            console.error(
-                                'Error playing the audio:',
-                                error.message
-                            )
-                    );
+                if (localStorage.getItem('playing')) {
+                    try {
+                        audioRef.current.play().catch(() =>
+                            // Play if it was playing before
+                            console.error('el audio no se pudo reproducir:')
+                        );
+                    } catch (e) {
+                        console.error(e);
+                    }
                 }
 
                 setImage(song_data.preview_image);
@@ -392,29 +386,50 @@ export function SongBar() {
 
     useEffect(() => {
         console.log('cambio isplaying');
-        if (isPlaying) {
-            configMusicInitial();
+        configMusicInitial();
+        setPlay(isPlaying);
+
+        if (!isPlaying) {
             setPlay(true);
         }
-
-        if (isPlaying == false && play == true) {
-            setPlay(false);
-        }
     }, [isPlaying]);
+
+    useEffect(() => {
+        const togglePlayPause = (event) => {
+            if (event.keyCode === 32) {
+                // 32 es el código de la tecla de espacio
+                event.preventDefault(); // Prevenir cualquier acción predeterminada
+                setIsPlaying(!isPlaying); // Alternar entre pausa y reproducción
+            }
+        };
+
+        // Agregar el escuchador de eventos
+        document.addEventListener('keydown', togglePlayPause);
+
+        // Limpiar el escuchador al desmontar el componente
+        return () => {
+            document.removeEventListener('keydown', togglePlayPause);
+        };
+    }, [isPlaying]); // Dependencias del efecto
 
     useEffect(() => {
         audioRef.current.volume = volume;
     }, [volume]);
 
+    useEffect(() => {
+        configMusicInitial();
+        setPlay(isPlaying);
+    }, [currentMusic]);
+
     const handleClick = () => {
         localStorage.setItem('playing', !play);
-
         setPlay(!play);
-        setIsPlaying(!isPlaying);
+        configMusicInitial();
     };
 
     useEffect(() => {
         configMusicInitial();
+
         const change = localStorage.getItem('songchange') || null;
 
         if (change == null) {

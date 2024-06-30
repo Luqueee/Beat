@@ -1,18 +1,13 @@
 ---
-import Layout from "../../layouts/LayoutMusic.astro";
-import { Favs } from "@/components/favs/favs";
+import Layout from '../../layouts/LayoutMusic.astro';
 
-import { SongBar } from "@/components/songBar";
-let bg = "https://pbs.twimg.com/media/ESmuaQOXgAEvo67?format=jpg&name=large";
-let blurBG = true;
-import { MenuReproductor } from "@/components/menu/MenuReproductor";
+import { MenuReproductor } from '@/components/menu/MenuReproductor';
 ---
 
 <Layout title="Favoritos">
-  <div
-    id="playlist-container"
-    class="relative flex flex-col bg-zinc-900 w-full h-full min-w-screen min-h-screen"
-  >
-    <MenuReproductor client:load />
-  </div>
+    <div
+        id="playlist-container"
+        class="relative flex flex-col bg-zinc-900 w-full h-full min-w-screen min-h-screen">
+        <MenuReproductor client:load />
+    </div>
 </Layout>

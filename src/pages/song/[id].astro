@@ -9,16 +9,14 @@ import { CardPlayButton } from '@/components/buttons/CardPlayButton';
 import { Image } from 'astro:assets';
 
 const { id } = Astro.params;
-
-console.log(id);
-
 const url = Astro.url.origin;
+console.log(id);
 console.log(url);
 
 
 const dataSongReq = await fetch(`${url}/api/music/getTrack?id=${id}`);
 const dataSong = await dataSongReq.json();
-console.log('data song', dataSong);
+//console.log('data song', dataSong);
 
 const titleSong = dataSong.title;
 //console.log(dataSongDezz);

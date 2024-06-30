@@ -1,10 +1,10 @@
 ---
-import GradualSpacing from "@/components/magicui/gradual-spacing";
-import WordPullUp from "@/components/magicui/word-pull-up";
-import MarqueeChartSongs from "@/components/ui/marqueeChartSongs";
-import { SearchBar } from "@/components/ui/searchBar";
-import { Image } from "astro:assets";
-import Layout from "../layouts/Layout.astro";
+import GradualSpacing from '@/components/magicui/gradual-spacing';
+import WordPullUp from '@/components/magicui/word-pull-up';
+import MarqueeChartSongs from '@/components/ui/marqueeChartSongs';
+import { SearchBar } from '@/components/ui/searchBar';
+import { Image } from 'astro:assets';
+import Layout from '../layouts/Layout.astro';
 
 import bg from '@/assets/images/beat.webp';
 
@@ -12,55 +12,56 @@ export const prerender = true;
 ---
 
 <Layout title="Beat">
-  <section id="playlist-container" class="relative w-full h-full">
-    <!-- <PageHeader /> -->
+    <section id="playlist-container" class="relative w-full h-full">
+        <!-- <PageHeader /> -->
 
-    <div class="relative z-10 py-20">
-      <!-- <Greeting />-->
-      <section class="mt-16 text-center">
-        <GradualSpacing
-          client:load
-          className="font-display text-center text-9xl font-bold tracking-[-0.1em]  text-white  md:leading-[5rem]"
-          text="Beat"
-        />
-        <WordPullUp
-          client:load
-          className="text-4xl my-4 font-bold tracking-[-0.02em] text-white md:leading-[5rem] "
-          words="Search a song and feel the beat"
-        />
+        <div class="relative z-10 py-20">
+            <!-- <Greeting />-->
+            <section class="mt-16 text-center">
+                <GradualSpacing
+                    client:load
+                    className="font-display text-center text-9xl font-bold tracking-[-0.1em]  text-white  md:leading-[5rem]"
+                    text="Beat"
+                />
+                <WordPullUp
+                    client:load
+                    className="text-4xl my-4 font-bold tracking-[-0.02em] text-white md:leading-[5rem] "
+                    words="Search a song and feel the beat"
+                />
 
-        <Image
-          src={bg}
-          width={1920}
-          height={1080}
-          class="fixed -z-30 w-full h-full object-cover top-0 left-0 opacity-10 filter blur-[2px]"
-          alt="background image index page"
-        />
-      </section>
+                <Image
+                    src={bg}
+                    width={1920}
+                    height={1080}
+                    class="fixed -z-30 w-full h-full object-cover top-0 left-0 opacity-10 filter blur-[2px]"
+                    alt="background image index page"
+                />
+            </section>
 
-      <div class="w-full h-full flex flex-col items-center">
-        <MarqueeChartSongs client:visible />
-        <div class="w-full lg:w-[60%] md:w-[80%] px-2 m-auto">
-          <div class="rounded-full py-2 px-3 flex gap-4 basis-1/2 group">
-            <a
-              href="/"
-              class="flex-grow text-center rounded-full text-xl font-normal border-zinc-500 py-2 px-3 bg-gray-700 bg-opacity-40 hover:bg-opacity-90 hover:font-bold backdrop-blur-sm transition-all duration-300 ease-in-out"
-              >Buscar</a
-            >
-            <a
-              href="/favs"
-              class="flex-grow text-center rounded-full text-xl font-normal border-zinc-500 py-2 px-3 bg-gray-700 bg-opacity-40 hover:bg-opacity-90 hover:font-bold backdrop-blur-sm transition-all duration-300 ease-in-out"
-              >Favoritos</a
-            >
-            <a
-              href="/profile"
-              class="flex-grow text-center rounded-full text-xl font-normal border-zinc-500 py-2 px-3 bg-gray-700 bg-opacity-40 hover:bg-opacity-90 hover:font-bold backdrop-blur-sm transition-all duration-300 ease-in-out"
-              >Perfil</a
-            >
-          </div>
+            <div class="w-full h-full flex flex-col items-center">
+                <MarqueeChartSongs client:visible />
+                <div class="w-full lg:w-[60%] md:w-[80%] px-2 m-auto">
+                    <div
+                        class="rounded-full py-2 px-3 flex gap-4 basis-1/2 group">
+                        <a
+                            href="/"
+                            class="flex-grow text-center rounded-full text-xl font-normal border-zinc-500 py-2 px-3 bg-gray-700 bg-opacity-40 hover:bg-opacity-90 hover:font-bold backdrop-blur-sm transition-all duration-300 ease-in-out"
+                            >Buscar</a
+                        >
+                        <a
+                            href="/favs"
+                            class="flex-grow text-center rounded-full text-xl font-normal border-zinc-500 py-2 px-3 bg-gray-700 bg-opacity-40 hover:bg-opacity-90 hover:font-bold backdrop-blur-sm transition-all duration-300 ease-in-out"
+                            >Favoritos</a
+                        >
+                        <a
+                            href="/profile"
+                            class="flex-grow text-center rounded-full text-xl font-normal border-zinc-500 py-2 px-3 bg-gray-700 bg-opacity-40 hover:bg-opacity-90 hover:font-bold backdrop-blur-sm transition-all duration-300 ease-in-out"
+                            >Perfil</a
+                        >
+                    </div>
+                </div>
+                <SearchBar client:visible />
+            </div>
         </div>
-        <SearchBar client:visible />
-      </div>
-    </div>
-  </section>
+    </section>
 </Layout>
