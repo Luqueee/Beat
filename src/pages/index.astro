@@ -1,15 +1,18 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import { SearchBar } from "@/components/ui/searchBar";
-import WordPullUp from "@/components/magicui/word-pull-up";
 import GradualSpacing from "@/components/magicui/gradual-spacing";
+import WordPullUp from "@/components/magicui/word-pull-up";
 import MarqueeChartSongs from "@/components/ui/marqueeChartSongs";
+import { SearchBar } from "@/components/ui/searchBar";
+import { Image } from "astro:assets";
+import Layout from "../layouts/Layout.astro";
+
+import bg from '@/assets/images/beat.webp';
 
 export const prerender = true;
 ---
 
 <Layout title="Beat">
-  <div id="playlist-container" class="relative w-full h-full">
+  <section id="playlist-container" class="relative w-full h-full">
     <!-- <PageHeader /> -->
 
     <div class="relative z-10 py-20">
@@ -26,8 +29,10 @@ export const prerender = true;
           words="Search a song and feel the beat"
         />
 
-        <img
-          src="/bgindex.webp"
+        <Image
+          src={bg}
+          width={1920}
+          height={1080}
           class="fixed -z-30 w-full h-full object-cover top-0 left-0 opacity-10 filter blur-[2px]"
           alt="background image index page"
         />
@@ -57,5 +62,5 @@ export const prerender = true;
         <SearchBar client:visible />
       </div>
     </div>
-  </div>
+  </section>
 </Layout>

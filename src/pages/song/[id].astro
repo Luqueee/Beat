@@ -1,47 +1,40 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import Rank from '@/icons/Rank.astro';
-import { SongBar } from '@/components/songBar';
-import { getTimeSong } from '@/components/ui/searchBar';
 import Footer from '@/components/blocks/Footer.astro';
+import { getTimeSong } from '@/components/ui/searchBar';
+import Rank from '@/icons/Rank.astro';
+import Layout from '../../layouts/Layout.astro';
 
-import { CardPlayButton } from '@/components/buttons/CardPlayButton';
 import { CardAddFav } from '@/components/buttons/CardAddFav';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Favorite } from '@/components/songBar';
+import { CardPlayButton } from '@/components/buttons/CardPlayButton';
 import { Image } from 'astro:assets';
 
 const { id } = Astro.params;
 
 console.log(id);
-const { cookies, redirect } = Astro;
+
 const url = Astro.url.origin;
+console.log(url);
 
-const accessToken = cookies.get('sb-access-token') ? true : false;
-const refreshToken = cookies.get('sb-refresh-token') ? true : false;
-//console.log(accessToken, refreshToken);
-
-const sessionReq = await fetch(`${url}/api/getSession`);
-//console.log(`${url}/api/music/getMusicInfo?song=${id}`);
 
 const dataSongReq = await fetch(`${url}/api/music/getTrack?id=${id}`);
 const dataSong = await dataSongReq.json();
-//console.log('data song', dataSong);
+console.log('data song', dataSong);
 
 const titleSong = dataSong.title;
 //console.log(dataSongDezz);
 
-const artists = dataSong.contributors
-    .map((artist: any) => artist.name)
+const artists = (dataSong.contributors ?? [])
+    .map((artista: any) => artista.name)
     .join(', ');
 
 //console.log(artists);
-const artistImg = dataSong.artist.picture;
-const albumImg = dataSong.album.cover_big;
+const artistImg = dataSong.contributors ? dataSong.contributors[0].picture_medium : '';
+console.log(artistImg);
+const albumImg = dataSong.album?.cover_big ?? '';
 const trackId = dataSong.id;
 const trackLink = dataSong.link;
-const thumbnail = dataSong.album.cover_medium;
-const rank = dataSong.rank;
+const thumbnail = dataSong.album?.cover_medium ?? '';
+const rank = dataSong.rank ?? '';
 const songSrc = dataSong.preview;
 
 const duration = dataSong.duration;
@@ -56,12 +49,11 @@ async function getTrackArtist(artist: any) {
 }
 
 const tracksArtist = await Promise.all(
-    dataSong.contributors.map((artist: any) => getTrackArtist(artist))
+    dataSong.contributors?.map((artist: any) => getTrackArtist(artist)) ?? []
 );
 
 let blurBG = true;
 
-//console.log(songSrc, id);
 
 //console.log(tracksArtist);
 
@@ -83,7 +75,7 @@ let blurBG = true;
                 <picture
                     class="aspect-square md:lg:w-72 w-36 h-auto flex-none shadow-2xl">
                     <section class="rounded-md overflow-hidden">
-                        <Image
+                        {thumbnail ? <Image
                             inferSize={true}
                             src={thumbnail}
                             class="object-cover w-full h-full rounded-md transition-all duration-500 hover:scale-110"
@@ -91,7 +83,7 @@ let blurBG = true;
                             alt="Album cover"
                             loading="lazy"
                             transition:name={`playlist ${id} image`}
-                        />
+                        /> : ''}
                     </section>
                 </picture>
                 <div
@@ -118,12 +110,12 @@ let blurBG = true;
                             class="text-xl font-thin text-white w-full md:lg:w-[100vw]">
                             <div
                                 class="flex h-10 items-center gap-2 justify-center md:lg:w-fit sm:w-full py-4">
-                                <Image
+                                {artistImg ? <Image
                                     inferSize={true}
                                     src={artistImg}
-                                    alt=""
+                                    alt={artists}
                                     class="w-10 h-10 rounded-full shadow-md hidden md:lg:block"
-                                />
+                                /> : ''}
                                 <span
                                     class="items-center justify-center w-full flex gap-2 my-4">
                                     <p
@@ -147,11 +139,11 @@ let blurBG = true;
                                 <div
                                     class="w-full flex gap-4 basis-1/2 justify-center md:lg:justify-start">
                                     <CardPlayButton client:load 
-                                            song = { songSrc };
-                                            preview_image = { thumbnail };
-                                            title = { titleSong };
-                                            artist = { artists };
-                                            id = { trackId }; />
+                                        song = { songSrc }
+                                        preview_image = { thumbnail }
+                                        title = { titleSong }
+                                        artist = { artists }
+                                        id = { trackId } />
                                     <CardAddFav client:load id={id} />
                                 </div>
                             </div>
@@ -159,20 +151,20 @@ let blurBG = true;
                     </div>
                 </div>
             </div>
-            <img
+            {albumImg ? <Image
+                inferSize={true}
                 src={albumImg}
                 class={`fixed object-cover w-full h-[100dvh] shadow-lg -z-10 top-0 right-0 opacity-20 object-center ${blurBG ? 'filter blur-[3px]' : ''}`}
                 draggable="false"
                 alt="Album cover"
-                loading="lazy"
                 style="mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 80%, rgba(0,0,0,0) 100%);"
-            />
+            /> : ''}
         </header>
 
         <div
             class="lg:w-[80%] md:sm:w-full h-max md:lg:flex sm:block flex-col md:lg:flex-row md:lg:gap-8 flex-wrap justify-center px-6">
             {
-                artistsData.map((artist: any, _: any) => (
+                artistsData?.map((artist: any, _: any) => (
                     <div class="md:lg:w-[49%] sm:w-full h-auto flex-grow mt-6">
                         <div class="w-full h-full bg-opacity-50 bg-slate-500 rounded-xl flex flex-col relative group overflow-hidden ">
                             {
@@ -211,11 +203,8 @@ let blurBG = true;
                                                                 <Image
                                                                     inferSize={true}
                                                                     src={
-                                                                        track
-                                                                            .album
-                                                                            .cover_medium
+                                                                        track.album.cover_medium
                                                                     }
-                                                                      draggable="false"
                                                                     alt={track.title}
                                                                     class="rounded-md shadow-md h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
                                                                 />
@@ -264,7 +253,7 @@ let blurBG = true;
                                                                 inferSize={true}
                                                                     src={
                                                                         track
-                                                                            .album
+                                                                            ?.album
                                                                             .cover_medium
                                                                     }
                                                                     alt={track.title}
