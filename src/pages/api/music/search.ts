@@ -1,8 +1,6 @@
 export async function GET({
-  params,
   request,
 }: {
-  params: any;
   request: Request;
 }) {
   const { url } = request;
