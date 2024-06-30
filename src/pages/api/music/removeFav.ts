@@ -1,12 +1,11 @@
 import { supabase } from '@/lib/supabase';
-import { RedirectRouteData } from 'astro';
 
 export async function GET({
     request,
     redirect,
 }: {
     request: Request;
-    redirect: RedirectRouteData;
+    redirect: any;
 }) {
     // get the id from the url search params
 
