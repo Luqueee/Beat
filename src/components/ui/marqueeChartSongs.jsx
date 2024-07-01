@@ -6,7 +6,7 @@ const ReviewCard = ({ id, author_image, title, position, author }) => {
     return (
         <button
             className={cn(
-                'relative min-w-72 bg-zinc-800 bg-opacity-50  w-fit cursor-pointer overflow-hidden rounded-xl p-4 backdrop-blur-sm shadow-md group text-8xl hover:text-[115px] text-zinc-800/80 hover:text-zinc-800 transition-all duration-200 ease-in-out hover:overflow-visible min-h-18 hover:shadow-lg'
+                'relative min-w-72 bg-zinc-800 bg-opacity-50  w-fit cursor-pointer overflow-hidden rounded-xl p-4 backdrop-blur-sm shadow-md group text-8xl hover:text-[115px] text-zinc-800/80 hover:text-zinc-800 transition-all duration-200 ease-in-out hover:overflow-visible min-h-20 hover:shadow-lg'
             )}
             onClick={() => {
                 window.location.href = `/song/${id}`;
@@ -19,6 +19,7 @@ const ReviewCard = ({ id, author_image, title, position, author }) => {
                         height={42}
                         alt={id}
                         loading="lazy"
+                        decoding="async"
                         src={author_image} // Provide a default image URL if author_image is not valid
                     />
                 ) : (
@@ -48,7 +49,7 @@ const ReviewCardSkeleton = ({ id }) => {
     return (
         <div
             className={cn(
-                'relative w-fit cursor-pointer overflow-hidden rounded-xl p-4 backdrop-blur-sm  shadow-md group text-8xl  transition-all duration-200 ease-in-out  min-h-18'
+                'relative min-w-72 bg-zinc-800 bg-opacity-50  w-fit cursor-pointer overflow-hidden rounded-xl p-4 backdrop-blur-sm shadow-md group text-8xl hover:text-[115px] text-zinc-800/80 hover:text-zinc-800 transition-all duration-200 ease-in-out hover:overflow-visible min-h-20 hover:shadow-lg'
             )}>
             <div className="flex flex-row items-center gap-2 pl-2 pr-6 min-w-64 ">
                 <Skeleton key={id} className="w-[32px] h-[32px] rounded-md" />
@@ -150,7 +151,7 @@ export const MarqueeChartSongsVertical = () => {
     }, []);
 
     return (
-        <div className=" flex h-full flex-row items-center justify-center overflow-hidden -z-1 border-transparent absolute top-0 left-[70vw]">
+        <div className="flex h-full flex-row items-center justify-center overflow-hidden -z-1 border-transparent absolute top-0 left-[70vw]">
             <Marquee pauseOnHover vertical className="[--duration:0s]">
                 {charts
                     ? charts

@@ -1,99 +1,92 @@
 ---
-import Layout from "../../layouts/Layout.astro";
-import { Favs } from "@/components/favs/favs";
-import { supabase } from "@/lib/supabase";
-import { SongBar } from "@/components/songBar";
-import { ProfileModal } from "@/components/ui/profileModal";
-import Add from "@/icons/Add.astro";
-import CardPlaylist from "../../components/song/cardPlaylist.astro";
-import ModalAlbum from "../../components/song/modalAlbum";
+import { ProfileModal } from '@/components/ui/profileModal';
+import { supabase } from '@/lib/supabase';
+import CardPlaylist from '../../components/song/cardPlaylist.astro';
+import ModalAlbum from '../../components/song/modalAlbum';
+import Layout from '../../layouts/Layout.astro';
 const invited =
-  "https://cdn.icon-icons.com/icons2/37/PNG/512/Guest_theapplication_2906.png";
-const bg = "https://pbs.twimg.com/media/ESmuaQOXgAEvo67?format=jpg&name=large";
-let blurBG = true;
+    'https://cdn.icon-icons.com/icons2/37/PNG/512/Guest_theapplication_2906.png';
+const bg = 'https://pbs.twimg.com/media/ESmuaQOXgAEvo67?format=jpg&name=large';
+const blurBG = true;
 
 const {
-  data: { user },
+    data: { user },
 } = await supabase.auth.getUser();
 
 const usermetadata = await user?.user_metadata;
 console.log(usermetadata);
 
 const playlistsReq = await fetch(
-  `${Astro.url.origin}/api/playlist/getPlaylists`,
+    `${Astro.url.origin}/api/playlist/getPlaylists`
 );
 const playlist = await playlistsReq.json();
 console.log(playlist);
 ---
 
 <Layout title="Favoritos">
-  <div
-    id="playlist-container"
-    class="relative flex flex-col bg-zinc-900 w-full overflow-y-hidden min-h-[100vh]"
-  >
-    <header class="flex flex-row gap-4 z-10 w-full py-12 px-6 z-1">
-      <img
-        src={bg}
-        class={`absolute object-cover w-full h-full shadow-lg -z-10 top-0 right-0 opacity-20 object-center ${blurBG ? "filter blur-[0px]" : ""}`}
-        draggable="false"
-        alt="Album cover"
-        loading="lazy"
-        style="mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 80%, rgba(0,0,0,0) 100%);"
-      />
-    </header>
-    <div class="flex flex-col min-w-full gap-4">
-      <div class="w-full md:lg:w-[59vw] z-50 px-4 md:lg:px-8">
-        <div
-          class="z-50 flex flex-row gap-4 w-full items-center justify-between min-h-fit p-5 bg-zinc-900 bg-opacity-30 mx-1 rounded-md"
-        >
-          <div class="flex gap-2 items-center">
-            <picture class="w-12 h-12 rounded-md shadow-lg overflow-hidden">
-              <img
-                src={usermetadata?.picture}
-                alt="Profile picture"
+    <div
+        id="playlist-container"
+        class="relative flex flex-col bg-zinc-900 w-full overflow-y-hidden min-h-[100vh]">
+        <header class="flex flex-row gap-4 z-10 w-full py-12 px-6 z-1">
+            <img
+                src={bg}
+                class={`absolute object-cover w-full h-full shadow-lg -z-10 top-0 right-0 opacity-20 object-center ${blurBG ? 'filter blur-[0px]' : ''}`}
                 draggable="false"
-                class="w-full h-full rounded-full"
-              />
-            </picture>
-            <p class="text-2xl font-bold">
-              {usermetadata?.full_name}
-            </p>
-          </div>
-          <ProfileModal data={usermetadata} client:load />
+                alt="Album cover"
+                loading="lazy"
+                style="mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 80%, rgba(0,0,0,0) 100%);"
+            />
+        </header>
+        <div class="flex flex-col min-w-full gap-4">
+            <div class="w-full md:lg:w-[59vw] z-50 px-4 md:lg:px-8">
+                <div
+                    class="z-50 flex flex-row gap-4 w-full items-center justify-between min-h-fit p-5 bg-zinc-900 bg-opacity-30 mx-1 rounded-md">
+                    <div class="flex gap-2 items-center">
+                        <picture
+                            class="w-12 h-12 rounded-md shadow-lg overflow-hidden">
+                            <img
+                                src={usermetadata?.picture}
+                                alt="Profile avatar"
+                                draggable="false"
+                                class="w-full h-full rounded-full"
+                            />
+                        </picture>
+                        <p class="text-2xl font-bold">
+                            {usermetadata?.full_name}
+                        </p>
+                    </div>
+                    <ProfileModal data={usermetadata} client:load />
+                </div>
+            </div>
+            <!-- <MarqueeChartSongsIndividual client:load />-->
+            <div class="flex flex-col min-h-full gap-2 px-4 md:lg:px-8 mt-8">
+                <div class="flex gap-4">
+                    <h1 class="text-5xl font-extrabold">Albums</h1>
+                    <ModalAlbum client:load />
+                </div>
+                <div
+                    class="w-full md:lg:w-[59vw] min-h-screen flex gap-8 flex-col justify-between md:lg:flex-row">
+                    <div
+                        class="w-full min-h-full flex flex-wrap justify-center md:lg:justify-normal gap-4">
+                        {
+                            playlist.map((playlist: any) => (
+                                <CardPlaylist
+                                    name={playlist.name}
+                                    description={playlist.description}
+                                    src={playlist.cover}
+                                    id={playlist.playlist_id}
+                                />
+                            ))
+                        }
+                    </div>
+                    <div
+                        class="md:lg:w-[40vw] w-full h-[79vh] fixed right-4 top-24 hidden md:lg:block bg-zinc-900 rounded-md p-4 z-50 bg-opacity-20">
+                        <p>a</p>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-      <!-- <MarqueeChartSongsIndividual client:load />-->
-      <div class="flex flex-col min-h-full gap-2 px-4 md:lg:px-8 mt-8">
-        <div class="flex gap-4">
-          <h1 class="text-5xl font-extrabold">Albums</h1>
-          <ModalAlbum client:load />
-        </div>
-        <div
-          class="w-full md:lg:w-[59vw] min-h-screen flex gap-8 flex-col justify-between md:lg:flex-row"
-        >
-          <div
-            class="w-full min-h-full flex flex-wrap justify-center md:lg:justify-normal gap-4"
-          >
-            {
-              playlist.map((playlist: any) => (
-                <CardPlaylist
-                  name={playlist.name}
-                  description={playlist.description}
-                  src={playlist.cover}
-                  id={playlist.playlist_id}
-                />
-              ))
-            }
-          </div>
-          <div
-            class="md:lg:w-[40vw] w-full h-[79vh] fixed right-4 top-24 hidden md:lg:block bg-zinc-900 rounded-md p-4 z-50 bg-opacity-20"
-          >
-            <p>a</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- <footer class="w-full h-20 my-20 m-auto px-8 z-50">
+        <!-- <footer class="w-full h-20 my-20 m-auto px-8 z-50">
             <div
                 class="w-full h-[80%] py-8 text-white justify-center items-center bg-gray-800 bg-opacity-10 rounded-md p-2 flex gap-2">
                 <p>
@@ -107,5 +100,5 @@ console.log(playlist);
                 </p>
             </div>
         </footer>-->
-  </div>
+    </div>
 </Layout>

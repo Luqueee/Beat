@@ -1,20 +1,27 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
-export const useMusicStore = create((set) => ({
-    isPlaying: false,
-    songlink: false,
-    currentMusic: {
-        song: null,
-        preview_image: null,
-        title: null,
-        artist: null,
-    },
-    volume: 1,
-    setVolume: (volume) => set({ volume }),
-    setIsPlaying: (isPlaying) => set({ isPlaying }),
-    setCurrentMusic: (currentMusic) => set({ currentMusic }),
-    setSongLink: (songlink) => set({ songlink }),
-}));
+export const useMusicStore = create(
+    persist(
+        (set) => ({
+            isPlaying: false,
+            isPlayingBar: false,
+            songlink: false,
+            currentMusic: {},
+            volume: 1,
+            setVolume: (volume) => set({ volume }),
+            setIsPlaying: (isPlaying) => set({ isPlaying }),
+            setIsPlayingBar: (isPlayingBar) => set({ isPlayingBar }),
+            setCurrentMusic: (currentMusic) => set({ currentMusic }),
+            setSongLink: (songlink) => set({ songlink }),
+        }),
+        {
+            // ...
+            name: 'music-storage',
+            version: 1,
+        }
+    )
+);
 
 export const musicStore = useMusicStore;
 

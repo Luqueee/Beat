@@ -10,22 +10,35 @@ export function CardPlayButton({
     artist = null,
     id = null,
 }) {
-    const { currentMusic, setIsPlaying } = useMusicStore((state) => state);
+    const {
+        currentMusic,
+        setIsPlaying,
+        isPlaying,
+        setCurrentMusic,
 
-    const [play, setPlay] = useState(false);
+        setIsPlayingBar,
+    } = useMusicStore((state) => state);
 
-    const handleClick = () => {
-        setPlay(!play);
-        setIsPlaying(!play);
-        localStorage.setItem(
-            'currentMusic',
-            JSON.stringify([{ song, preview_image, title, artist, id }])
-        );
-    };
+    const [a] = useState(false);
 
     useEffect(() => {
         setIsPlaying(false);
-    }, [currentMusic]);
+    }, [a]);
+
+    const handleClick = () => {
+        if (currentMusic.id != id) {
+            setCurrentMusic({
+                song,
+                preview_image,
+                title,
+                artist,
+                id,
+            });
+        }
+
+        setIsPlaying(!isPlaying);
+        setIsPlayingBar(!isPlaying);
+    };
 
     const iconClassName = size === 'small' ? 'w-4 h-4' : 'w-5 h-5';
 
@@ -33,7 +46,7 @@ export function CardPlayButton({
         <button
             onClick={handleClick}
             className="card-play-button rounded-full bg-green-500 p-4 hover:scale-105 transition hover:bg-green-400 z-50">
-            {play ? (
+            {isPlaying ? (
                 <Pause className={iconClassName} />
             ) : (
                 <Play className={iconClassName} />

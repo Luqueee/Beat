@@ -201,6 +201,8 @@ const CurrentSong = ({ image, id, title, artists }) => {
                         src={image}
                         className=" object-cover h-full w-full"
                         alt={title}
+                        decoding="async"
+                        loading="eager"
                     />
                 </picture>
             ) : (
@@ -210,7 +212,7 @@ const CurrentSong = ({ image, id, title, artists }) => {
             <div className="flex flex-col justify-start gap-2 h-full z-50">
                 <a
                     href={`/song/${id}`}
-                    className="font-semibold text-sm block hover:underline transition-all ">
+                    className="font-semibold text-sm block hover:underline text-start transition-all ">
                     <p>{title}</p>
                 </a>
                 <span className="text-xs text-start opacity-80">{artists}</span>
@@ -259,7 +261,7 @@ const SongControl = ({ audio }) => {
                 value={[currentTime]}
                 max={audio?.current?.duration ?? 0}
                 min={0}
-                className="md:lg:w-[200px] w-[70px]"
+                className="md:lg:w-[200px] w-[70px] py-2"
                 onValueChange={(value) => {
                     const [newCurrentTime] = value;
                     audio.current.currentTime = newCurrentTime;
@@ -307,39 +309,44 @@ const VolumeControl = () => {
                     const [newVolume] = value;
                     const volumeValue = newVolume / 100;
 
-                    localStorage.setItem('volume', volumeValue);
-                    setVolume(localStorage.getItem('volume') || 1);
+                    setVolume(volumeValue || 1);
                 }}
             />
         </div>
     );
 };
 export function SongBar() {
-    const { isPlaying, currentMusic, setIsPlaying, volume, setVolume } =
-        useMusicStore((state) => state);
+    const {
+        currentMusic,
+        setIsPlaying,
+        songLink,
+        volume,
+        setVolume,
+        isPlayingBar,
+        isPlaying,
+        setSongLink,
+        setIsPlayingBar,
+        setCurrentMusic,
+    } = useMusicStore((state) => state);
     const audioRef = useRef();
 
     const [titleSong, setTitle] = useState(null);
     const [artistSong, setArtist] = useState(null);
     const [imageSong, setImage] = useState(null);
     const [idSong, setId] = useState(null);
-    const [play, setPlay] = useState(false);
 
     const configMusicInitial = () => {
-        const song_data =
-            JSON.parse(localStorage.getItem('currentMusic'))?.[0] || null;
+        const song_data = currentMusic;
         audioRef.current.volume = localStorage.getItem('volume') || 1;
         setVolume(localStorage.getItem('volume'));
         console.log(volume);
         console.log(song_data);
-
         try {
             if (song_data && song_data.id != idSong) {
                 audioRef.current.src = song_data.song; // Change the source
                 audioRef.current.load(); // Load the new source
-
                 audioRef.current.currentTime = 0; // Reset time to start
-                if (localStorage.getItem('playing')) {
+                if (isPlayingBar) {
                     try {
                         audioRef.current.play().catch(() =>
                             // Play if it was playing before
@@ -361,22 +368,24 @@ export function SongBar() {
     };
 
     useEffect(() => {
-        if (!play) {
+        if (!isPlayingBar) {
             audioRef.current.pause();
         } else {
-            setPlay(localStorage.getItem('playing') == 'true');
             audioRef.current
                 .play()
                 .catch((error) =>
                     console.error('Error playing the audio:', error.message)
                 );
         }
-    }, [play]);
+    }, [isPlayingBar]);
 
     useEffect(() => {
         const interval = setInterval(() => {
             if (audioRef.current.ended) {
                 setIsPlaying(false);
+                setIsPlayingBar(false);
+                setSongLink(false);
+                setCurrentMusic({});
             }
         }, 100);
 
@@ -386,18 +395,18 @@ export function SongBar() {
     }, [audioRef]);
 
     useEffect(() => {
-        console.log('cambio isplaying');
         configMusicInitial();
-        setPlay(isPlaying);
-    }, [isPlaying]);
+    }, [currentMusic]);
 
     useEffect(() => {
         const togglePlayPause = (event) => {
             if (event.keyCode === 32) {
                 // 32 es el código de la tecla de espacio
                 event.preventDefault(); // Prevenir cualquier acción predeterminada
-                localStorage.setItem('playing', !play);
-                setPlay(!play); // Alternar entre pausa y reproducción
+                setIsPlayingBar(!isPlayingBar); // Alternar entre pausa y reproducción
+                if (songLink == true) {
+                    setIsPlaying(!isPlaying);
+                }
             }
         };
 
@@ -408,53 +417,34 @@ export function SongBar() {
         return () => {
             document.removeEventListener('keydown', togglePlayPause);
         };
-    }, [play]); // Dependencias del efecto
+    }, [isPlayingBar]); // Dependencias del efecto
 
     useEffect(() => {
         audioRef.current.volume = volume;
     }, [volume]);
 
-    useEffect(() => {
-        configMusicInitial();
-        setPlay(isPlaying);
-    }, [currentMusic]);
-
     const handleClick = () => {
-        localStorage.setItem('playing', !play);
-        setPlay(!play);
+        setIsPlayingBar(!isPlayingBar);
     };
-
-    useEffect(() => {
-        configMusicInitial();
-
-        const change = localStorage.getItem('songchange') || null;
-
-        if (change == null) {
-            localStorage.setItem('songchange', false);
-        }
-    }, []);
 
     return (
         <div className="flex flex-row justify-center relative items-center w-full z-50 bg-zinc-900 backdrop-blur-sm bg-opacity-5 py-6 md:lg:pl-8 pl-0 gap-2 shadow-lg h-full backdrop-filter  ">
-            <div className=" md:lg:block hidden h-full absolute  left-0 ">
+            <div className=" md:lg:block hidden h-full absolute left-0 ">
                 <CurrentSong
                     title={titleSong}
                     artists={artistSong}
                     image={imageSong}
                     id={idSong}
                 />
-                <div className=" absolute top-2 right-8 text-end z-[999999999] "></div>
             </div>
             <div className="flex w-full h-full justify-center px-8 items-center">
                 <button
                     title="Play / Pause"
                     onClick={handleClick}
                     className="bg-white rounded-full p-2">
-                    {play == true ? <Pause /> : <Play />}
+                    {isPlayingBar == true ? <Pause /> : <Play />}
                 </button>
-
                 <SongControl audio={audioRef} />
-
                 <VolumeControl />
             </div>
             <audio
@@ -471,24 +461,3 @@ export function SongBar() {
         </div>
     );
 }
-
-/* 
-<button
-    onClick={handleAdd}
-    className=" hidden md:lg:block w-fit h-fit p-1 z-[999999999] bg-opacity-50 backdrop-blur-sm bg-zinc-900 rounded-full">
-    {fav ? (
-        <Add />
-    ) : (
-        <FavoriteFilledBlack className={` bg-black`} />
-    )}
-</button>
-
-
-<button
-    onClick={handleAdd}
-    className=" block md:lg:hidden w-fit h-fit p-1 mr-4 z-[999999999] bg-white rounded-full">
-    <AddBlack />
-</button>
-
-
-*/

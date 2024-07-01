@@ -33,12 +33,15 @@ export const prerender = true;
                     src={bg}
                     width={1920}
                     height={1080}
+                    decoding={'async'}
+                    loading={'eager'}
                     class="fixed -z-30 w-full h-full object-cover top-0 left-0 opacity-10 filter blur-[2px]"
                     alt="background image index page"
                 />
             </section>
 
-            <div class="w-full h-full flex flex-col items-center">
+            <div
+                class="w-full h-full flex flex-col gap-2 justify-center items-center">
                 <MarqueeChartSongs client:visible />
                 <div class="w-full lg:w-[60%] md:w-[80%] px-2 m-auto">
                     <div

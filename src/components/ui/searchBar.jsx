@@ -30,6 +30,9 @@ export const Result = ({ song }) => {
                     <img
                         alt={song.title}
                         src={song.album.cover}
+                        decoding="async"
+                        draggable="false"
+                        loading="lazy"
                         className="rounded-md shadow-md h-full w-full object-cover"
                     />
                 </section>
@@ -185,7 +188,7 @@ export const SearchBar = () => {
     };
 
     return (
-        <div className=" w-full overflow-hidden flex flex-col justify-center pb-8 px-6">
+        <div className=" w-full overflow-hidden flex flex-col justify-center mb-8 px-6">
             <section className=" w-full lg:w-[60%] md:w-[80%] m-auto gap-2 z-50 flex justify-center items-center  px-2">
                 <div className=" flex-grow my-4">
                     <input
