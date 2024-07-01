@@ -1,46 +1,39 @@
 ---
-import Back from "@/icons/Back.astro";
-import Home from "@/icons/Home.astro";
-import Profile from "@/icons/Profile.astro";
-import { FavoriteFilled } from "@/components/songBar";
-import Screen from "@/icons/Screen.astro";
+import { FavoriteFilled } from '@/components/songBar';
+import Home from '@/icons/Home.astro';
+import Profile from '@/icons/Profile.astro';
+import Screen from '@/icons/Screen.astro';
 ---
 
 <div class="fixed right-0 top-0 flex w-full z-[9999999] justify-center">
-  <div
-    class="w-full h-full flex bg-zinc-900 bg-opacity-5 backdrop-blur-sm justify-between z-[999999] items-center py-4 gap-4 px-8 rounded-lg isolate ring-1 shadow-lg ring-zinc-900 ring-opacity-10"
-  >
-    <a
-      href="/"
-      class="border-0 border-b-2 border-transparent hover:border-white transition-all duration-100 h-full text-4xl font-bold items-center hidden md:lg:flex"
-    >
-      Beat
-    </a>
-    <div class="w-full md:lg:w-fit px-2 flex gap-4">
-      <a
-        href="/"
-        class="m-auto w-12 h-12 rounded-full bg-zinc-900 hover:bg-zinc-800 transition-all duration-200 flex justify-center items-center text-white"
-      >
-        <Home />
-      </a>
-      <a
-        href="/favs"
-        class="m-auto w-12 h-12 rounded-full bg-zinc-900 hover:bg-zinc-800 transition-all duration-200 flex justify-center items-center text-white"
-      >
-        <FavoriteFilled />
-      </a>
-      <a
-        href="/player"
-        class="m-auto w-12 h-12 rounded-full bg-zinc-900 hover:bg-zinc-800 transition-all duration-200 flex justify-center items-center text-white"
-      >
-        <Screen />
-      </a>
-      <a
-        href="/profile"
-        class="m-auto w-12 h-12 rounded-full bg-zinc-900 hover:bg-zinc-800 transition-all duration-200 flex justify-center items-center text-white"
-      >
-        <Profile />
-      </a>
+    <div
+        class="w-full h-full flex bg-zinc-900 bg-opacity-5 justify-between backdrop-blur-sm z-[999999] items-center py-4 gap-4 md:lg:px-8 px-3 rounded-lg isolate ring-1 shadow-lg ring-zinc-900 ring-opacity-10">
+        <a
+            href="/"
+            class="border-0 border-b-2 border-transparent hover:border-white transition-all duration-100 h-full text-4xl font-bold items-center block">
+            Beat
+        </a>
+        <div class="w-fit px-2 flex gap-2 md:lg:gap-4">
+            <a
+                href="/"
+                class="m-auto w-12 h-12 rounded-full bg-zinc-900 hover:bg-zinc-800 transition-all duration-200 flex justify-center items-center text-white">
+                <Home />
+            </a>
+            <a
+                href="/favs"
+                class="m-auto w-12 h-12 rounded-full bg-zinc-900 hover:bg-zinc-800 transition-all duration-200 flex justify-center items-center text-white">
+                <FavoriteFilled />
+            </a>
+            <a
+                href="/player"
+                class="m-auto w-12 h-12 rounded-full bg-zinc-900 hover:bg-zinc-800 transition-all duration-200 flex justify-center items-center text-white">
+                <Screen />
+            </a>
+            <a
+                href="/profile"
+                class="m-auto w-12 h-12 rounded-full bg-zinc-900 hover:bg-zinc-800 transition-all duration-200 flex justify-center items-center text-white">
+                <Profile />
+            </a>
+        </div>
     </div>
-  </div>
 </div>

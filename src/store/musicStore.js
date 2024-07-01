@@ -1,15 +1,19 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
+// TODO: Add previousID to Music Store to look if the previousID match with the currentID
+
 export const useMusicStore = create(
     persist(
         (set) => ({
             isPlaying: false,
             isPlayingBar: false,
             songlink: false,
+            writing: false,
             currentMusic: {},
             volume: 1,
             setVolume: (volume) => set({ volume }),
+            setWriting: (writing) => set({ writing }),
             setIsPlaying: (isPlaying) => set({ isPlaying }),
             setIsPlayingBar: (isPlayingBar) => set({ isPlayingBar }),
             setCurrentMusic: (currentMusic) => set({ currentMusic }),

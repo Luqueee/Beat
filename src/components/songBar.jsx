@@ -295,6 +295,7 @@ const VolumeControl = () => {
         <div className="flex justify-center items-center gap-x-2 text-white">
             <button
                 className="opacity-70 hover:opacity-100 transition"
+                name="volume-button"
                 onClick={handleClickVolumen}>
                 {isVolumeSilenced ? <VolumeSilence /> : <Volume />}
             </button>
@@ -326,7 +327,6 @@ export function SongBar() {
         isPlaying,
         setSongLink,
         setIsPlayingBar,
-        setCurrentMusic,
     } = useMusicStore((state) => state);
     const audioRef = useRef();
 
@@ -343,6 +343,7 @@ export function SongBar() {
         console.log(song_data);
         try {
             if (song_data && song_data.id != idSong) {
+                console.log('new', currentMusic, idSong);
                 audioRef.current.src = song_data.song; // Change the source
                 audioRef.current.load(); // Load the new source
                 audioRef.current.currentTime = 0; // Reset time to start
@@ -385,7 +386,7 @@ export function SongBar() {
                 setIsPlaying(false);
                 setIsPlayingBar(false);
                 setSongLink(false);
-                setCurrentMusic({});
+                audioRef.current.currentTime = 0;
             }
         }, 100);
 
@@ -400,9 +401,9 @@ export function SongBar() {
 
     useEffect(() => {
         const togglePlayPause = (event) => {
-            if (event.keyCode === 32) {
+            if (event.keyCode === 32 && window.location.pathname != '/') {
                 // 32 es el código de la tecla de espacio
-                event.preventDefault(); // Prevenir cualquier acción predeterminada
+
                 setIsPlayingBar(!isPlayingBar); // Alternar entre pausa y reproducción
                 if (songLink == true) {
                     setIsPlaying(!isPlaying);
@@ -440,6 +441,7 @@ export function SongBar() {
             <div className="flex w-full h-full justify-center px-8 items-center">
                 <button
                     title="Play / Pause"
+                    name="play-button"
                     onClick={handleClick}
                     className="bg-white rounded-full p-2">
                     {isPlayingBar == true ? <Pause /> : <Play />}

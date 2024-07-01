@@ -1,5 +1,6 @@
 import { Skeleton } from '@/components/ui/skeleton';
 import React, { useEffect, useState } from 'react';
+
 import {
     CardPlayButtonPlayPlaylist,
     CardPlayButtonSearch,
@@ -24,7 +25,7 @@ export const Result = ({ song }) => {
         <button
             onClick={handleClick}
             key={`result line ${song.id}`}
-            className="w-full group h-20 px-2 z-[999999999] relative overflow-hidden backdrop-blur-sm">
+            className="w-full group h-20 px-2 z-[999999999] relative rounded-md overflow-hidden backdrop-blur-sm isolate">
             <div className="bg-gray-800 bg-opacity-10 rounded-md p-2 flex gap-2 w-full shadow-md h-full">
                 <section className="min-w-16 min-h-16">
                     <img
@@ -187,6 +188,13 @@ export const SearchBar = () => {
         localStorage.setItem('input', e.target.value);
     };
 
+    const handleFocus = () => {
+        setWriting(true);
+    };
+    const handleBlur = () => {
+        setWriting(false);
+    };
+
     return (
         <div className=" w-full overflow-hidden flex flex-col justify-center mb-8 px-6">
             <section className=" w-full lg:w-[60%] md:w-[80%] m-auto gap-2 z-50 flex justify-center items-center  px-2">
@@ -198,6 +206,8 @@ export const SearchBar = () => {
                         className="w-full rounded-md border-none ring-0 bg-gray-800 bg-opacity-40 backdrop-blur-sm p-2 text-white text-xl"
                         placeholder="Type a song..."
                         value={searchTerm || ''}
+                        onFocus={handleFocus}
+                        onBlur={handleBlur}
                         onChange={handleChange}
                         ref={inputRef}
                     />

@@ -41,6 +41,7 @@ export function CardAddFav({ size = 'small', id }) {
     return (
         <button
             onClick={handleClick}
+            name="fav-button"
             className="card-play-button rounded-full bg-green-500 p-4 hover:scale-105 transition hover:bg-green-400 z-50">
             {fav ? (
                 <FavoriteFilledBlack className={`${iconClassName} bg-black`} />

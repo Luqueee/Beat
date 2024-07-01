@@ -1,5 +1,5 @@
 import { useMusicStore } from '@/store/musicStore';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Pause, Play } from '../songBar';
 
 export function CardPlayButton({
@@ -19,11 +19,9 @@ export function CardPlayButton({
         setIsPlayingBar,
     } = useMusicStore((state) => state);
 
-    const [a] = useState(false);
-
     useEffect(() => {
         setIsPlaying(false);
-    }, [a]);
+    }, []);
 
     const handleClick = () => {
         if (currentMusic.id != id) {
@@ -45,6 +43,7 @@ export function CardPlayButton({
     return (
         <button
             onClick={handleClick}
+            name="play-button"
             className="card-play-button rounded-full bg-green-500 p-4 hover:scale-105 transition hover:bg-green-400 z-50">
             {isPlaying ? (
                 <Pause className={iconClassName} />
