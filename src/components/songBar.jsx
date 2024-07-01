@@ -222,13 +222,13 @@ const CurrentSong = ({ image, id, title, artists }) => {
 };
 
 const SongControl = ({ audio }) => {
-    const [currentTime, setCurrentTime] = useState(0);
+    const { currentTime, setCurrentTime } = useMusicStore((state) => state);
 
     useEffect(() => {
         audio.current.addEventListener('timeupdate', handleTimeUpdate);
 
         const interval = setInterval(() => {
-            localStorage.setItem('currentTime', audio.current.currentTime);
+            setCurrentTime(audio.current.currentTime);
         }, 100);
 
         return () => {
@@ -265,7 +265,7 @@ const SongControl = ({ audio }) => {
                 onValueChange={(value) => {
                     const [newCurrentTime] = value;
                     audio.current.currentTime = newCurrentTime;
-                    localStorage.setItem('currentTime', newCurrentTime);
+                    currentTime;
                 }}
             />
 
@@ -309,8 +309,7 @@ const VolumeControl = () => {
                 onValueChange={(value) => {
                     const [newVolume] = value;
                     const volumeValue = newVolume / 100;
-
-                    setVolume(volumeValue || 1);
+                    setVolume(volumeValue);
                 }}
             />
         </div>
@@ -322,7 +321,6 @@ export function SongBar() {
         setIsPlaying,
         songLink,
         volume,
-        setVolume,
         isPlayingBar,
         isPlaying,
         setSongLink,
@@ -337,8 +335,8 @@ export function SongBar() {
 
     const configMusicInitial = () => {
         const song_data = currentMusic;
-        audioRef.current.volume = localStorage.getItem('volume') || 1;
-        setVolume(localStorage.getItem('volume'));
+        audioRef.current.volume = volume;
+
         console.log(volume);
         console.log(song_data);
         try {
@@ -394,6 +392,14 @@ export function SongBar() {
             clearInterval(interval);
         };
     }, [audioRef]);
+
+    useEffect(() => {
+        const onUnload = () => setIsPlayingBar(false);
+
+        window.addEventListener('beforeunload', onUnload);
+
+        return () => window.removeEventListener('beforeunload', onUnload);
+    }, []);
 
     useEffect(() => {
         configMusicInitial();

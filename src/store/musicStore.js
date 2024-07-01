@@ -9,15 +9,17 @@ export const useMusicStore = create(
             isPlaying: false,
             isPlayingBar: false,
             songlink: false,
+            currentTime: 0,
             writing: false,
             currentMusic: {},
-            volume: 1,
+            volume: 1.0,
             setVolume: (volume) => set({ volume }),
             setWriting: (writing) => set({ writing }),
             setIsPlaying: (isPlaying) => set({ isPlaying }),
             setIsPlayingBar: (isPlayingBar) => set({ isPlayingBar }),
             setCurrentMusic: (currentMusic) => set({ currentMusic }),
             setSongLink: (songlink) => set({ songlink }),
+            setCurrentTime: (currentTime) => set({ currentTime }),
         }),
         {
             // ...
