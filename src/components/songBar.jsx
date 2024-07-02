@@ -1,5 +1,6 @@
 import { useMusicStore } from '@/store/musicStore';
 import { useEffect, useRef, useState } from 'react';
+import { DropdownVolume } from './song/dropdownVolume';
 import { Slider } from './ui/slider';
 
 export const Pause = ({ className }) => (
@@ -261,7 +262,7 @@ const SongControl = ({ audio }) => {
                 value={[currentTime]}
                 max={audio?.current?.duration ?? 0}
                 min={0}
-                className="md:lg:w-[200px] w-[70px] py-2"
+                className="md:lg:w-[200px] w-[100px] h-2 py-2"
                 onValueChange={(value) => {
                     const [newCurrentTime] = value;
                     audio.current.currentTime = newCurrentTime;
@@ -292,26 +293,31 @@ const VolumeControl = () => {
     };
 
     return (
-        <div className="flex justify-center items-center gap-x-2 text-white">
-            <button
-                className="opacity-70 hover:opacity-100 transition"
-                name="volume-button"
-                onClick={handleClickVolumen}>
-                {isVolumeSilenced ? <VolumeSilence /> : <Volume />}
-            </button>
+        <div className="flex justify-center min-h-full items-center gap-x-2 text-white z-[99999999]">
+            <div className="md:lg:flex gap-2 hidden">
+                <button
+                    className="opacity-70 hover:opacity-100 transition"
+                    name="volume-button"
+                    onClick={handleClickVolumen}>
+                    {isVolumeSilenced ? <VolumeSilence /> : <Volume />}
+                </button>
 
-            <Slider
-                defaultValue={[100]}
-                max={100}
-                min={0}
-                value={[volume * 100]}
-                className="w-[95px] py-2"
-                onValueChange={(value) => {
-                    const [newVolume] = value;
-                    const volumeValue = newVolume / 100;
-                    setVolume(volumeValue);
-                }}
-            />
+                <Slider
+                    defaultValue={[100]}
+                    max={100}
+                    min={0}
+                    value={[volume * 100]}
+                    className="w-[95px] py-2 "
+                    onValueChange={(value) => {
+                        const [newVolume] = value;
+                        const volumeValue = newVolume / 100;
+                        setVolume(volumeValue);
+                    }}
+                />
+            </div>
+            <div className="  md:lg:hidden block">
+                <DropdownVolume />
+            </div>
         </div>
     );
 };
@@ -323,6 +329,8 @@ export function SongBar() {
         volume,
         isPlayingBar,
         isPlaying,
+        previousID,
+        currentTime,
         setSongLink,
         setIsPlayingBar,
     } = useMusicStore((state) => state);
@@ -331,7 +339,6 @@ export function SongBar() {
     const [titleSong, setTitle] = useState(null);
     const [artistSong, setArtist] = useState(null);
     const [imageSong, setImage] = useState(null);
-    const [idSong, setId] = useState(null);
 
     const configMusicInitial = () => {
         const song_data = currentMusic;
@@ -340,11 +347,11 @@ export function SongBar() {
         console.log(volume);
         console.log(song_data);
         try {
-            if (song_data && song_data.id != idSong) {
-                console.log('new', currentMusic, idSong);
+            if (song_data && song_data.id != previousID) {
+                console.log('new', currentMusic, previousID);
                 audioRef.current.src = song_data.song; // Change the source
                 audioRef.current.load(); // Load the new source
-                audioRef.current.currentTime = 0; // Reset time to start
+                audioRef.current.currentTime = currentTime;
                 if (isPlayingBar) {
                     try {
                         audioRef.current.play().catch(() =>
@@ -359,7 +366,6 @@ export function SongBar() {
                 setImage(song_data.preview_image);
                 setTitle(song_data.title);
                 setArtist(song_data.artist);
-                setId(song_data.id);
             }
         } catch (error) {
             console.error('Error loading audio:', error);
@@ -394,14 +400,6 @@ export function SongBar() {
     }, [audioRef]);
 
     useEffect(() => {
-        const onUnload = () => setIsPlayingBar(false);
-
-        window.addEventListener('beforeunload', onUnload);
-
-        return () => window.removeEventListener('beforeunload', onUnload);
-    }, []);
-
-    useEffect(() => {
         configMusicInitial();
     }, [currentMusic]);
 
@@ -409,7 +407,7 @@ export function SongBar() {
         const togglePlayPause = (event) => {
             if (event.keyCode === 32 && window.location.pathname != '/') {
                 // 32 es el código de la tecla de espacio
-
+                event.preventDefault();
                 setIsPlayingBar(!isPlayingBar); // Alternar entre pausa y reproducción
                 if (songLink == true) {
                     setIsPlaying(!isPlaying);
@@ -435,13 +433,13 @@ export function SongBar() {
     };
 
     return (
-        <div className="flex flex-row justify-center relative items-center w-full z-50 bg-zinc-900 backdrop-blur-sm bg-opacity-5 py-6 md:lg:pl-8 pl-0 gap-2 shadow-lg h-full backdrop-filter  ">
+        <div className="flex flex-row justify-center relative items-center w-full z-50 bg-zinc-900 backdrop-blur-sm bg-opacity-5 py-6 md:lg:pl-8 pl-0 md:lg:gap-2 gap-8 shadow-lg h-full  ">
             <div className=" md:lg:block hidden h-full absolute left-0 ">
                 <CurrentSong
                     title={titleSong}
                     artists={artistSong}
                     image={imageSong}
-                    id={idSong}
+                    id={currentMusic.id}
                 />
             </div>
             <div className="flex w-full h-full justify-center px-8 items-center">

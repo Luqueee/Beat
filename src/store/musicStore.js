@@ -10,6 +10,7 @@ export const useMusicStore = create(
             isPlayingBar: false,
             songlink: false,
             currentTime: 0,
+            previousID: 0,
             writing: false,
             currentMusic: {},
             volume: 1.0,
@@ -20,6 +21,7 @@ export const useMusicStore = create(
             setCurrentMusic: (currentMusic) => set({ currentMusic }),
             setSongLink: (songlink) => set({ songlink }),
             setCurrentTime: (currentTime) => set({ currentTime }),
+            setPreviousID: (previousID) => set({ previousID }),
         }),
         {
             // ...

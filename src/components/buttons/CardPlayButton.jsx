@@ -15,16 +15,21 @@ export function CardPlayButton({
         setIsPlaying,
         isPlaying,
         setCurrentMusic,
-
+        setPreviousID,
+        setCurrentTime,
+        setSongLink,
         setIsPlayingBar,
     } = useMusicStore((state) => state);
 
     useEffect(() => {
         setIsPlaying(false);
+        setSongLink(false);
     }, []);
 
     const handleClick = () => {
         if (currentMusic.id != id) {
+            console.log(currentMusic.id);
+
             setCurrentMusic({
                 song,
                 preview_image,
@@ -32,8 +37,10 @@ export function CardPlayButton({
                 artist,
                 id,
             });
+            setSongLink(true);
+            setCurrentTime(0);
         }
-
+        setPreviousID(currentMusic.id || 0);
         setIsPlaying(!isPlaying);
         setIsPlayingBar(!isPlaying);
     };

@@ -6,6 +6,7 @@ import Layout from '../../layouts/Layout.astro';
 
 import { CardAddFav } from '@/components/buttons/CardAddFav';
 import { CardPlayButton } from '@/components/buttons/CardPlayButton';
+import { SongBar } from '@/components/songBar';
 import { Image } from 'astro:assets';
 
 const { id } = Astro.params;
@@ -308,5 +309,12 @@ let blurBG = true;
   
 
         <Footer />
+    </div>
+    <div class="fixed bottom-0 z-[9999999] w-full">
+        <SongBar
+            client:only="react"
+            transition:name="media-player"
+            transition:persist
+        />
     </div>
 </Layout>

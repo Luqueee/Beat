@@ -7,8 +7,7 @@ import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
 
 import bg from '@/assets/images/beat.webp';
-
-export const prerender = true;
+import { SongBar } from '@/components/songBar';
 ---
 
 <Layout title="Beat">
@@ -67,4 +66,11 @@ export const prerender = true;
             </div>
         </div>
     </section>
+    <div class="fixed bottom-0 z-[9999999] w-full">
+        <SongBar
+            client:only="react"
+            transition:name="media-player"
+            transition:persist
+        />
+    </div>
 </Layout>

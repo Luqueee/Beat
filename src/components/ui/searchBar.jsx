@@ -26,7 +26,7 @@ export const Result = ({ song }) => {
             onClick={handleClick}
             key={`result line ${song.id}`}
             className="w-full group h-20 px-2 z-[999999999] relative rounded-md overflow-hidden backdrop-blur-sm isolate">
-            <div className="bg-gray-800 bg-opacity-10 rounded-md p-2 flex gap-2 w-full shadow-md h-full">
+            <div className="bg-gray-800 bg-opacity-10 rounded-md p-2 flex gap-2 w-full shadow-md h-full overflow-x-hidden min-w-full">
                 <section className="min-w-16 min-h-16">
                     <img
                         alt={song.title}
@@ -37,29 +37,14 @@ export const Result = ({ song }) => {
                         className="rounded-md shadow-md h-full w-full object-cover"
                     />
                 </section>
-                <section className="flex-grow flex gap-2 flex-col relative">
-                    <div className="flex gap-4">
-                        <section className="flex flex-col gap-2 w-full overflow-x-hidden">
-                            <h1 className="w-fit pr-4 md:lg:text-2xl text-xl font-bold z-50 hover:font-extrabold md:lg:hover:text-[1.6rem] hover:text-[1.3rem] hover:underline md:lg:hover:no-underline transition-all duration-300 truncate marquee">
-                                <span className="block md:lg:hidden">
-                                    <a
-                                        href={`/song/${song.id}`}
-                                        className="z-50 py-4 w-full truncate">
-                                        {song.title.length > 20
-                                            ? `${song.title.slice(0, 20)}...`
-                                            : song.title}
-                                    </a>
-                                </span>
-                                <span className="hidden md:lg:block">
-                                    <a
-                                        href={`/song/${song.id}`}
-                                        className="z-50 py-4 w-full truncate">
-                                        {song.title.length > 40
-                                            ? `${song.title.slice(0, 40)}...`
-                                            : song.title}
-                                    </a>
-                                </span>
-                            </h1>
+                <section className="flex-grow flex gap-2 flex-col relative min-w-full">
+                    <div className="flex gap-4 min-w-full">
+                        <section className="flex flex-col gap-2 min-w-full ">
+                            <a
+                                href={`/song/${song.id}`}
+                                className="z-50  text-start md:lg:text-2xl pr-8  truncate  max-w-[90%] text-xl font-bold hover:font-extrabold md:lg:hover:text-[1.6rem] hover:text-[1.3rem] hover:underline md:lg:hover:no-underline transition-all duration-300">
+                                {song.title}
+                            </a>
 
                             <section className="flex flex-col gap-2">
                                 <p className="w-fit truncate">
@@ -73,7 +58,7 @@ export const Result = ({ song }) => {
                         <section className="h-full flex flex-col justify-end ml-6"></section>
                     </div>
                     <div
-                        className={`absolute right-4 bottom-3 translate-y-2
+                        className={`absolute hidden right-4 bottom-3 translate-y-2
                                     transition-all duration-500 opacity-0
                                     group-hover:translate-y-0 group-hover:opacity-100
                                     z-10
@@ -236,7 +221,7 @@ export const SearchBar = () => {
                                 />
                                 <Skeleton
                                     key={`skeleton line ${i}`}
-                                    className="w-[300px] h-[20px] rounded-md absolute z-50 left-24 top-2"
+                                    className="w-[270px] md:lg:w-[300px] h-[20px] rounded-md absolute z-50 left-24 top-2"
                                 />
                                 <Skeleton
                                     key={`skeleton subtitle ${i}`}
