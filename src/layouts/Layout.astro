@@ -1,5 +1,5 @@
 ---
-import MenuBar from '@/components/menu/MenuBar.astro';
+import MenuBar from '@/components/menu/MenuBar.jsx';
 import '@/styles/globals.css';
 import { ViewTransitions } from 'astro:transitions';
 interface Props {
@@ -21,8 +21,8 @@ const { title } = Astro.props;
         <ViewTransitions fallback="none" />
     </head>
     <body class="bg-zinc-900 min-h-full transition-all duration-500 relative">
-        <div id="app" class="relative h-full w-full">
-            <MenuBar />
+        <div id="app" class="relative h-full w-full text-white">
+            <MenuBar client:visible />
             <main class="min-w-full h-full">
                 <slot class="" />
             </main>

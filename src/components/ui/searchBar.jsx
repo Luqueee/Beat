@@ -1,6 +1,7 @@
 import { Skeleton } from '@/components/ui/skeleton';
 import React, { useEffect, useState } from 'react';
 
+import { useMusicStore } from '@/store/musicStore';
 import {
     CardPlayButtonPlayPlaylist,
     CardPlayButtonSearch,
@@ -133,6 +134,8 @@ export const ResultPlaylist = ({ song }) => (
 
 export const SearchBar = () => {
     //const { inputSearch, setInput } = useinputsSearch((state) => state);
+    const { searching, setSearching } = useMusicStore((state) => state);
+
     const inputRef = React.createRef();
     const [searchTerm, setSearchTerm] = useState(() => {
         if (typeof window !== 'undefined') {
@@ -147,6 +150,18 @@ export const SearchBar = () => {
     });
 
     const [searchResult, setSearchResult] = useState(null);
+
+    const handleInputFocus = () => {
+        if (searching == false) {
+            setSearching(true);
+        }
+    };
+
+    const handleInputBlur = () => {
+        if (searching == true) {
+            setSearching(false);
+        }
+    };
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -173,13 +188,6 @@ export const SearchBar = () => {
         localStorage.setItem('input', e.target.value);
     };
 
-    const handleFocus = () => {
-        setWriting(true);
-    };
-    const handleBlur = () => {
-        setWriting(false);
-    };
-
     return (
         <div className=" w-full overflow-hidden flex flex-col justify-center mb-8 px-6">
             <section className=" w-full lg:w-[60%] md:w-[80%] m-auto gap-2 z-50 flex justify-center items-center  px-2">
@@ -191,8 +199,8 @@ export const SearchBar = () => {
                         className="w-full rounded-md border-none ring-0 bg-gray-800 bg-opacity-40 backdrop-blur-sm p-2 text-white text-xl"
                         placeholder="Type a song..."
                         value={searchTerm || ''}
-                        onFocus={handleFocus}
-                        onBlur={handleBlur}
+                        onFocus={handleInputFocus}
+                        onBlur={handleInputBlur}
                         onChange={handleChange}
                         ref={inputRef}
                     />

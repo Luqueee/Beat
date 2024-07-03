@@ -64,13 +64,15 @@ let blurBG = true;
 //console.log(dataSong.items[0].snippet.thumbnails.maxres.url);
 ---
 
+
+
 <Layout title=`Beat - ${titleSong}`>
     <div
         id="playlist-container"
         class="relative flex flex-col bg-zinc-900 w-full h-full">
         <header
             class="flex flex-row gap-4 pt-14 md:lg:pt-4 z-10 w-full min-h-full px-6">
-            <div class="md:lg:flex block w-full md:lg:mb-0 mt-20">
+            <div class="md:lg:flex block min-w-full md:lg:mb-0 mt-20">
                 <picture
                     class="aspect-square md:lg:w-72 w-36 h-auto flex-none shadow-2xl">
                     <section class="rounded-md overflow-hidden">
@@ -87,20 +89,18 @@ let blurBG = true;
                     </section>
                 </picture>
                 <div
-                    class="flex flex-col gap-2 pt-12 h-full md:lg:h-full sm:mx-4 mx-0 md:lg:mt-0">
-                    <section class="flex items-center flex-col">
+                    class="flex flex-col gap-2 pt-12 h-full md:lg:h-full min-w-[100%] sm:mx-4 mx-0 md:lg:mt-0">
+                    <section class="flex flex-col md:lg:max-w-[80%] max-w-full">
                         <h2 class="self-start hidden md:lg:block text-2xl">
                             Canción
                         </h2>
-                        <h1
-                            
-                            class="text-center md:lg:text-start w-full">
+                      
                             <a href={trackLink}
                             target="_blank"
-                                class="md:lg:text-6xl select-none w-fit text-6xl font-bold flex mx-auto md:lg:mx-0 text-white md:lg:hover:border-b-white border-b-2 border-b-transparent transition-all duration-200">
+                                class="md:lg:text-6xl select-none w-fit md:lg:truncate text-balance text-center text-6xl font-bold mx-auto md:lg:mx-0 text-white md:lg:hover:border-b-white border-b-2 border-b-transparent transition-all duration-200">
                                 {titleSong}
                             </a>
-                        </h1>
+                  
                     </section>
 
                     <div
@@ -170,7 +170,7 @@ let blurBG = true;
             {
                 artistsData?.map((artist: any, _: any) => (
                     <div class="md:lg:w-[49%] sm:w-full h-auto flex-grow mt-6">
-                        <div class="w-full h-full bg-opacity-50 bg-slate-500 rounded-xl flex flex-col relative group overflow-hidden ">
+                        <div class="w-full h-full bg-opacity-50  rounded-xl flex flex-col relative group overflow-hidden bg-zinc-700 ">
                             {
                                 <Image
                                     inferSize={true}
@@ -179,7 +179,7 @@ let blurBG = true;
                                     decoding={'async'}
                                     loading={'lazy'}
                                     draggable="false"
-                                    class="absolute object-cover z-10 w-full h-full shadow-lg top-0 right-0 opacity-50 group-hover:opacity-70 grayscale group-hover:grayscale-0 object-center rounded-xl transition-all duration-1000 transform group-hover:scale-110"
+                                    class="absolute object-cover z-10 w-full h-full shadow-lg top-0 right-0 md:lg:opacity-50 opacity-20 group-hover:opacity-70 grayscale group-hover:grayscale-0 object-center rounded-xl transition-all duration-1000 transform group-hover:scale-110"
                                 />
                             }
                             <div class="ml-6 my-6 h-full">
@@ -198,14 +198,12 @@ let blurBG = true;
                                             (track: any) => (
                                                 track.contributors[0].name == artist.name ? 
                                                 (
-                                                    console.log(track),
-                                                    <div
+                                                    //console.log(track),
+                                                    <button
                                                         id={track.id}
                                                         class="w-full flex gap-4 items-center h-full group">
                                                         <section class="md:lg:w-[10%] w-[30%] h-full overflow-hidden rounded-md track-image">
-                                                            <a
-                                                                href={`/song/${track.id}`}
-                                                                class="rounded-md">
+                                                         
                                                                 <Image
                                                                     inferSize={true}
                                                                     src={
@@ -216,26 +214,32 @@ let blurBG = true;
                                                                     alt={track.title}
                                                                     class="rounded-md shadow-md h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
                                                                 />
-                                                            </a>
+                                                            
                                                         </section>
-                                                        <a href={`/song/${track.id}`} class="w-[70%] md:lg:w-[80%] min-h-max p-auto justify-center flex gap-2 flex-col relative overflow-hidden">
+                                                        <div class="max-w-[70%] md:lg:max-w-[80%] justify-center flex gap-2 flex-col relative overflow-hidden">
                                                             <p
                                                                
-                                                                class="w-fit md:lg:text-3xl text-xl font-semibold z-30 hover:border-b-2 hover:border-b-white border-b-2  border-b-transparent transition-all duration-200">
+                                                                class=" line-clamp-2 text-start text-balance md:lg:text-3xl text-4xl font-semibold z-30 ">
                                                                 {track.title}
                                                             </p>
-                                                            <p class="flex flex-row w-full gap-4 truncate">
-                                                                {
-                                                                    track.contributors.map((artist: any) => artist.name).join(', ')
-                                                                }
+                                                            <span class="truncate text-start">
+
                                                                 <span class="font-semibold">
                                                                     {getTimeSong(
                                                                         track.duration
                                                                     )}
                                                                 </span>
-                                                            </p>
-                                                        </a>
-                                                    </div>
+
+                                                                <span class=" font-extrabold"> · </span>
+
+                                                                {
+                                                                    track.contributors.map((artist: any) => artist.name).join(', ')
+                                                                }
+                                                                
+                                                               
+                                                            </span>
+                                                        </div>
+                                                    </button>
                                                 ): (
                                                     <></>)
 
@@ -250,13 +254,11 @@ let blurBG = true;
                                             (track: any) => (
                                                 track.contributors[0].name != artist.name ? 
                                                 (
-                                                    <div
+                                                    <button
                                                         id={track.id}
-                                                        class="w-full flex gap-4 items-center h-auto group">
+                                                        class="w-full flex gap-4 items-center h-full group">
                                                         <section class="md:lg:w-[10%] w-[30%] h-full overflow-hidden rounded-md track-image">
-                                                            <a
-                                                                href={`/song/${track.id}`}
-                                                                class="rounded-md">
+                                                        
                                                                 <Image
                                                                     inferSize={true}
                                                                     src={
@@ -270,26 +272,32 @@ let blurBG = true;
                                                                     draggable="false"
                                                                     class="rounded-md shadow-md h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
                                                                 />
-                                                            </a>
+                                                         
                                                         </section>
                                                         <section class="w-[70%] md:lg:w-[80%] h-full justify-center flex gap-2 flex-col relative overflow-hidden">
-                                                            <a
-                                                                href={`/song/${track.id}`}
-                                                                class="w-fit md:lg:text-4xl text-xl font-bold z-30 hover:border-b-2 hover:border-b-white border-b-2  border-b-transparent transition-all duration-200">
+                                                            <p
+                                                               
+                                                                class=" line-clamp-2 text-start text-balance md:lg:text-3xl text-4xl font-semibold z-30 ">
                                                                 {track.title}
-                                                            </a>
-                                                            <p class="flex flex-row w-full gap-4 truncate">
-                                                                {
-                                                                    track.contributors.map((artist: any) => artist.name).join(', ')
-                                                                }
+                                                            </p>
+                                                            <span class="truncate text-start">
+
                                                                 <span class="font-semibold">
                                                                     {getTimeSong(
                                                                         track.duration
                                                                     )}
                                                                 </span>
-                                                            </p>
+
+                                                                <span class=" font-extrabold"> · </span>
+
+                                                                {
+                                                                    track.contributors.map((artist: any) => artist.name).join(', ')
+                                                                }
+                                                                
+                                                               
+                                                            </span>
                                                         </section>
-                                                    </div>
+                                                    </button>
                                                 ): (
                                                     <></>)
 
@@ -318,3 +326,13 @@ let blurBG = true;
         />
     </div>
 </Layout>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('button[id]').forEach(button => {
+            button.addEventListener('click', () => {
+                window.location.href = `/song/${button.id}`;
+            });
+        });
+    });
+</script>

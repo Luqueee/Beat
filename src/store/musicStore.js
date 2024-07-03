@@ -13,6 +13,7 @@ export const useMusicStore = create(
             previousID: 0,
             writing: false,
             currentMusic: {},
+            searching: false,
             volume: 1.0,
             setVolume: (volume) => set({ volume }),
             setWriting: (writing) => set({ writing }),
@@ -22,6 +23,7 @@ export const useMusicStore = create(
             setSongLink: (songlink) => set({ songlink }),
             setCurrentTime: (currentTime) => set({ currentTime }),
             setPreviousID: (previousID) => set({ previousID }),
+            setSearching: (searching) => set({ searching }),
         }),
         {
             // ...

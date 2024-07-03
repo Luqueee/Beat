@@ -333,6 +333,7 @@ export function SongBar() {
         currentTime,
         setSongLink,
         setIsPlayingBar,
+        searching,
     } = useMusicStore((state) => state);
     const audioRef = useRef();
 
@@ -384,6 +385,13 @@ export function SongBar() {
         }
     }, [isPlayingBar]);
 
+    // useEffect(() => {
+    //     window.addEventListener('beforeunload', setIsPlayingBar(false));
+    //     return () => {
+    //         window.removeEventListener('beforeunload', setIsPlayingBar(false));
+    //     };
+    // }, []);
+
     useEffect(() => {
         const interval = setInterval(() => {
             if (audioRef.current.ended) {
@@ -405,7 +413,8 @@ export function SongBar() {
 
     useEffect(() => {
         const togglePlayPause = (event) => {
-            if (event.keyCode === 32 && window.location.pathname != '/') {
+            if (event.keyCode === 32 && searching == false) {
+                console.log(searching);
                 // 32 es el código de la tecla de espacio
                 event.preventDefault();
                 setIsPlayingBar(!isPlayingBar); // Alternar entre pausa y reproducción
@@ -422,7 +431,7 @@ export function SongBar() {
         return () => {
             document.removeEventListener('keydown', togglePlayPause);
         };
-    }, [isPlayingBar]); // Dependencias del efecto
+    }, [isPlayingBar, searching]); // Dependencias del efecto
 
     useEffect(() => {
         audioRef.current.volume = volume;
