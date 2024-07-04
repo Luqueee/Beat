@@ -26,9 +26,9 @@ export async function GET({
     );
     const track = await trackReq.json();
 
-    ////console.log(userdata);
+    //console.log(userdata);
     try {
-        ////console.log(userdata?.id);
+        //console.log(userdata?.id);
         //console.log(track, track.id);
 
         const { error } = await supabase
@@ -47,7 +47,6 @@ export async function GET({
             headers: { 'content-type': 'application/json' },
         });
     } catch (error: any) {
-        //console.log(error.message);
         return redirect('/signin');
     }
 }
