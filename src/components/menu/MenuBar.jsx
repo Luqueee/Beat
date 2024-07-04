@@ -1,4 +1,3 @@
-import { FavoriteFilled } from '@/components/songBar';
 import { useEffect, useState } from 'react';
 import { SearchBar } from '../ui/searchBarModal';
 
@@ -68,7 +67,7 @@ export const MenuIcon = () => {
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            class="icon icon-tabler icons-tabler-outline icon-tabler-menu-deep">
+            className="icon icon-tabler icons-tabler-outline icon-tabler-menu-deep">
             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
             <path d="M4 6h16" />
             <path d="M7 12h13" />
@@ -85,7 +84,7 @@ export const CerrarIcon = () => {
             height="24"
             viewBox="0 0 24 24"
             fill="currentColor"
-            class="icon icon-tabler icons-tabler-filled icon-tabler-square-x">
+            className="icon icon-tabler icons-tabler-filled icon-tabler-square-x">
             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
             <path d="M19 2h-14a3 3 0 0 0 -3 3v14a3 3 0 0 0 3 3h14a3 3 0 0 0 3 -3v-14a3 3 0 0 0 -3 -3zm-9.387 6.21l.094 .083l2.293 2.292l2.293 -2.292a1 1 0 0 1 1.497 1.32l-.083 .094l-2.292 2.293l2.292 2.293a1 1 0 0 1 -1.32 1.497l-.094 -.083l-2.293 -2.292l-2.293 2.292a1 1 0 0 1 -1.497 -1.32l.083 -.094l2.292 -2.293l-2.292 -2.293a1 1 0 0 1 1.32 -1.497z" />
         </svg>
@@ -111,6 +110,9 @@ export const SearchIcon = () => {
         </svg>
     );
 };
+
+export const styleAnchor =
+    'w-12 h-12 border-b-2 border-transparent hover:border-white transition-all duration-200 flex justify-center items-center text-white';
 
 export default function MenuBar() {
     const [hidden, setHidden] = useState(false);
@@ -145,30 +147,26 @@ export default function MenuBar() {
                     }>
                     <div
                         className={` ${hidden ? 'flex' : 'hidden md:lg:flex'} w-fit gap-2 `}>
-                        <a
-                            href="/"
-                            className="w-12 h-12 rounded-full hover:bg-zinc-900 border-2 transition-all duration-200 flex justify-center items-center text-white">
+                        <a href="/" className={styleAnchor}>
                             <Home />
                         </a>
-                        <a
-                            href="/favs"
-                            className="w-12 h-12 rounded-full hover:bg-zinc-900 border-2 transition-all duration-200 flex justify-center items-center text-white">
-                            <FavoriteFilled />
-                        </a>
-                        <a
-                            href="/player"
-                            className="w-12 h-12 rounded-full hover:bg-zinc-900 border-2 transition-all duration-200 flex justify-center items-center text-white">
+
+                        <a href="/player" className={styleAnchor}>
                             <Screen />
                         </a>
-                        <a
-                            href="/profile"
-                            className="w-12 h-12 rounded-full hover:bg-zinc-900 border-2 transition-all duration-200 flex justify-center items-center text-white">
-                            <Profile />
-                        </a>
+
+                        {
+                            //<a href="/favs" className={styleAnchor}>
+                            //    <FavoriteFilled />
+                            //</a>
+                            //<a href="/profile" className={styleAnchor}>
+                            //   <Profile />
+                            //</a>
+                        }
 
                         <button
                             onClick={handleSearch}
-                            className={`z-50 w-12 h-12 rounded-full ${!searchModal ? '' : 'bg-red-500 hover:bg-red-900 '} border-2 transition-all duration-500 flex justify-center items-center text-white`}>
+                            className={`z-50 w-12 h-12 ${!searchModal ? 'hover:border-white' : 'bg-red-500 hover:bg-red-900 rounded-md hover:border-transparent '} border-b-2 border-transparent  transition-all duration-500 flex justify-center items-center text-white`}>
                             <SearchIcon />
                         </button>
                     </div>

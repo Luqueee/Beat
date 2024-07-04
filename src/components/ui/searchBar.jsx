@@ -17,7 +17,6 @@ export function getTimeSong(duration) {
 }
 
 export const Result = ({ song }) => {
-    console.log('Song:', song);
     const handleClick = () => {
         window.location.href = `/song/${song.id}`;
     };
@@ -26,24 +25,24 @@ export const Result = ({ song }) => {
         <button
             onClick={handleClick}
             key={`result line ${song.id}`}
-            className="w-full group h-20 px-2 z-[999999999] relative rounded-md overflow-hidden backdrop-blur-sm isolate">
+            className="w-full group h-20 mx-2 z-[999999999] relative rounded-md overflow-hidden backdrop-blur-sm isolate">
             <div className="bg-gray-800 bg-opacity-10 rounded-md p-2 flex gap-2 w-full shadow-md h-full overflow-x-hidden min-w-full">
-                <section className="min-w-16 min-h-16">
+                <picture className="min-w-16 min-h-16 overflow-hidden rounded-md">
                     <img
                         alt={song.title}
                         src={song.album.cover}
                         decoding="async"
                         draggable="false"
                         loading="lazy"
-                        className="rounded-md shadow-md h-full w-full object-cover"
+                        className="rounded-md group-hover:scale-105 shadow-md h-full w-full object-cover transition-all duration-500"
                     />
-                </section>
+                </picture>
                 <section className="flex-grow flex gap-2 flex-col relative min-w-full">
                     <div className="flex gap-4 min-w-full">
                         <section className="flex flex-col gap-2 min-w-full ">
                             <a
                                 href={`/song/${song.id}`}
-                                className="z-50  text-start md:lg:text-2xl pr-8  truncate  max-w-[90%] text-xl font-bold hover:font-extrabold md:lg:hover:text-[1.6rem] hover:text-[1.3rem] hover:underline md:lg:hover:no-underline transition-all duration-300">
+                                className="z-50  text-start md:lg:text-2xl pr-8 truncate max-w-[90%] text-xl font-bold group-hover:font-extrabold md:lg:group-hover:text-[1.6rem] group-hover:text-[1.3rem] hover:underline md:lg:hover:no-underline transition-all duration-300">
                                 {song.title}
                             </a>
 

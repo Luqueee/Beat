@@ -1,13 +1,12 @@
 ---
 import GradualSpacing from '@/components/magicui/gradual-spacing';
 import WordPullUp from '@/components/magicui/word-pull-up';
+import { SongBar } from '@/components/songBar';
 import MarqueeChartSongs from '@/components/ui/marqueeChartSongs';
 import { SearchBar } from '@/components/ui/searchBar';
-import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
 
-import bg from '@/assets/images/beat.webp';
-import { SongBar } from '@/components/songBar';
+const bg_image = '/bgindex.webp';
 
 export const prerender = true;
 ---
@@ -30,14 +29,12 @@ export const prerender = true;
                     words="Search a song and feel the beat"
                 />
 
-                <Image
-                    src={bg}
-                    width={1920}
-                    height={1080}
-                    decoding={'async'}
-                    loading={'eager'}
-                    class="fixed -z-30 w-full h-full object-cover top-0 left-0 opacity-10 filter blur-[2px]"
-                    alt="background image index page"
+                <img
+                    src={bg_image}
+                    decoding="async"
+                    loading="eager"
+                    class="fixed -z-30 min-w-full min-h-full object-cover top-0 left-0 opacity-10 filter blur-[2px]"
+                    alt="background index page"
                 />
             </section>
 
@@ -45,7 +42,7 @@ export const prerender = true;
                 class="w-full h-full flex flex-col gap-2 justify-center items-center">
                 <MarqueeChartSongs client:load />
                 <div class="w-full lg:w-[60%] md:w-[80%] px-2 m-auto">
-                    <div
+                    <!-- <div
                         class="rounded-full py-2 px-3 flex gap-4 basis-1/2 group">
                         <a
                             href="/"
@@ -62,7 +59,7 @@ export const prerender = true;
                             class="flex-grow text-center rounded-full text-xl font-normal border-zinc-500 py-2 px-3 bg-gray-700 bg-opacity-40 hover:bg-opacity-90 hover:font-bold backdrop-blur-sm transition-all duration-300 ease-in-out"
                             >Perfil</a
                         >
-                    </div>
+                    </div>-->
                 </div>
                 <SearchBar client:visible />
             </div>

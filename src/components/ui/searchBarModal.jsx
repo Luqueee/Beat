@@ -58,8 +58,8 @@ export const SearchBar = () => {
     };
 
     return (
-        <div className=" max-w-[80%] min-w-[80%] min-h-[80%] m-auto mt-16 flex flex-col justify-center items-center px-6">
-            <section className=" w-full m-auto gap-2 z-50 flex justify-center items-center px-2">
+        <div className=" md:lg:max-w-[60%] max-w-full min-w-full md:lg:min-w-[60%] min-h-[80%] m-auto mt-16 flex flex-col justify-center items-center px-6">
+            <section className=" min-w-full m-auto gap-2 z-50 flex justify-center items-center px-2">
                 <div className=" flex-grow my-4">
                     <input
                         type="text"
@@ -75,9 +75,9 @@ export const SearchBar = () => {
                     />
                 </div>
             </section>
-            <section className=" w-full overflow-y-scroll max-h-[65vh] min-h-[65vh] z-[9999999999]">
+            <section className=" min-w-full overflow-y-scroll max-h-[65vh] min-h-[65vh] z-[9999999999]">
                 {searchResult ? (
-                    <div className=" flex flex-col gap-4 overflow-hidden">
+                    <div className=" flex flex-col gap-4 overflow-hidden min-w-full">
                         {searchResult.map((song) => Result({ song }))}
                     </div>
                 ) : (
