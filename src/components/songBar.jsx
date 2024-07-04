@@ -333,6 +333,7 @@ export function SongBar() {
         currentTime,
         setSongLink,
         setIsPlayingBar,
+        setPreviousID,
         searching,
     } = useMusicStore((state) => state);
     const audioRef = useRef();
@@ -432,6 +433,13 @@ export function SongBar() {
             document.removeEventListener('keydown', togglePlayPause);
         };
     }, [isPlayingBar, searching]); // Dependencias del efecto
+
+    useEffect(() => {
+        window.addEventListener('beforeunload', setPreviousID(0));
+        return () => {
+            window.removeEventListener('beforeunload', setPreviousID(0));
+        };
+    }, [previousID]);
 
     useEffect(() => {
         audioRef.current.volume = volume;
