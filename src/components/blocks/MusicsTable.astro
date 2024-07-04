@@ -1,19 +1,17 @@
 ---
-import Time from "@/icons/Time.astro";
-import { CardSongPlaylist } from "@/components/blocks/cardSongPlaylist";
-import { ResultPlaylist } from "../ui/searchBar";
+import { ResultPlaylist } from '../ui/searchBar';
 
 interface Props {
-  data: any;
+    data: any;
 }
 
 const { data } = Astro.props;
 
-console.log(data, "aaa");
+//console.log(data, "aaa");
 ---
 
 <table class="table-auto text-left min-w-full divide-y divide-gray-500/20">
-  <!-- <thead class="">
+    <!-- <thead class="">
         <tr class="text-zinc-400 text-sm">
             <th class="px-4 py-2 font-light">Título</th>
             <th class="px-4 py-2 font-light">Álbum</th>
@@ -21,27 +19,23 @@ console.log(data, "aaa");
         </tr>
     </thead>-->
 
-  <tbody>
-    <tr class="h-[16px]">
-      <!--{
+    <tbody>
+        <tr class="h-[16px]">
+            <!--{
                 data.map((song: any, index: any) => (
                     <CardSongPlaylist song={song} />
                 ))
             } -->
-      {
-        data.map(
-          (song: any, index: any) => (
-            console.log(song, "song"),
-            (
-              <ResultPlaylist
-                {song}
-                client:load
-                transition:name={`playlist ${song.song_id} image`}
-              />
-            )
-          ),
-        )
-      }
-    </tr>
-  </tbody>
+            {
+                data.map((song: any, index: any) => (
+                    //console.log(song, "song"),
+                    <ResultPlaylist
+                        {song}
+                        client:load
+                        transition:name={`playlist ${song.song_id} image`}
+                    />
+                ))
+            }
+        </tr>
+    </tbody>
 </table>

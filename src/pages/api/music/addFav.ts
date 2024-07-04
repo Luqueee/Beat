@@ -11,7 +11,7 @@ export async function GET({
 }) {
     // get the id from the url search params
 
-    //console.log(album_id);
+    ////console.log(album_id);
     const {
         data: { user },
     } = await supabase.auth.getUser();
@@ -29,7 +29,7 @@ export async function GET({
     const fav = await fetch(`${urlObject.origin}/api/music/getFavs`)
         .then((res) => res.json())
         .then((data) => {
-            //console.log(data);
+            ////console.log(data);
             let isFav = false;
             data.forEach((element: any) => {
                 if (element.id == id) {
@@ -39,7 +39,7 @@ export async function GET({
             return isFav;
         });
 
-    console.log(fav);
+    //console.log(fav);
 
     if (fav) {
         return new Response(JSON.stringify(null), {
@@ -49,10 +49,10 @@ export async function GET({
 
     const track = await trackReq.json();
 
-    //console.log(userdata);
+    ////console.log(userdata);
     try {
-        //console.log(userdata?.id);
-        //console.log(track, track.id);
+        ////console.log(userdata?.id);
+        ////console.log(track, track.id);
         const { data, error } = await supabase
             .from('favs')
             .insert([
@@ -70,7 +70,7 @@ export async function GET({
             headers: { 'content-type': 'application/json' },
         });
     } catch (error: any) {
-        console.log(error.message);
+        //console.log(error.message);
         return redirect('/signin');
     }
 }

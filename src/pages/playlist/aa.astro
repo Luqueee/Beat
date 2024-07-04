@@ -1,32 +1,32 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import Rank from '@/icons/Rank.astro';
+import Footer from '@/components/blocks/Footer.astro';
 import { SongBar } from '@/components/songBar';
 import { getTimeSong } from '@/components/ui/searchBar';
-import Footer from '@/components/blocks/Footer.astro';
+import Rank from '@/icons/Rank.astro';
+import Layout from '../../layouts/Layout.astro';
 
-import { CardPlayButton } from '@/components/buttons/CardPlayButton';
 import { CardAddFav } from '@/components/buttons/CardAddFav';
+import { CardPlayButton } from '@/components/buttons/CardPlayButton';
 
 
 const { id } = Astro.params;
 
-console.log(id);
+//console.log(id);
 const { cookies, redirect } = Astro;
 const url = Astro.url.origin;
 
 const dataSongReq = await fetch(`${url}/api/music/getTrack?id=${id}`);
 const dataSong = await dataSongReq.json();
-//console.log('data song', dataSong);
+////console.log('data song', dataSong);
 
 const titleSong = dataSong.title;
-//console.log(dataSongDezz);
+////console.log(dataSongDezz);
 
 const artists = dataSong.contributors
     .map((artist: any) => artist.name)
     .join(', ');
 
-//console.log(artists);
+////console.log(artists);
 const artistImg = dataSong.artist.picture;
 const albumImg = dataSong.album.cover_xl;
 const trackId = dataSong.id;
@@ -38,7 +38,7 @@ const songSrc = dataSong.preview;
 const duration = dataSong.duration;
 
 const artistsData = dataSong.contributors;
-//console.log(artistsData);
+////console.log(artistsData);
 
 async function getTrackArtist(artist: any) {
     const req = await fetch(`${url}/api/music/getTracksArtist?id=${artist.id}`);
@@ -52,16 +52,16 @@ const tracksArtist = await Promise.all(
 
 let blurBG = true;
 
-//console.log(songSrc, id);
+////console.log(songSrc, id);
 
-//console.log(tracksArtist);
+////console.log(tracksArtist);
 
-//console.log(tracksArtist);
+////console.log(tracksArtist);
 
-//console.log(sessionReq);
+////console.log(sessionReq);
 
-//console.log(dataSong);
-//console.log(dataSong.items[0].snippet.thumbnails.maxres.url);
+////console.log(dataSong);
+////console.log(dataSong.items[0].snippet.thumbnails.maxres.url);
 ---
 
 <Layout title=`Beat - ${titleSong}`>

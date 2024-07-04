@@ -177,7 +177,7 @@ export const MenuReproductor = () => {
 
     const handlePlay = () => {
         setPlay(!play);
-        console.log(playing);
+        //console.log(playing);
     };
 
     const handleAdd10 = () => {
@@ -190,7 +190,7 @@ export const MenuReproductor = () => {
 
     const handleUrl = () => {
         setUrlTerm(urlInput.current.value);
-        console.log(urlTerm);
+        //console.log(urlTerm);
     };
 
     const handleSearch = () => {

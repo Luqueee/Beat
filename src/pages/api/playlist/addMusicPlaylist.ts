@@ -13,7 +13,7 @@ export async function GET({
     const song_id = urlObject.searchParams.get('id');
     const playlist_id = urlObject.searchParams.get('playlist');
 
-    //console.log(album_id);
+    ////console.log(album_id);
     const {
         data: { user },
     } = await supabase.auth.getUser();
@@ -24,10 +24,10 @@ export async function GET({
         `${urlObject.origin}/api/music/getTrack?id=${song_id}`
     );
     const song = await song_data.json();
-    //console.log(song);
-    //console.log(userdata);
+    ////console.log(song);
+    ////console.log(userdata);
     try {
-        //console.log(userdata?.id);
+        ////console.log(userdata?.id);
 
         const { data: playlists, error } = await supabase
             .from('playlists')
@@ -42,8 +42,8 @@ export async function GET({
                 .select('*')
                 .eq('user_id', userdata?.id);
 
-            console.log(playlistsData);
-            console.log(playlists);
+            //console.log(playlistsData);
+            //console.log(playlists);
 
             const exists = playlists?.find(
                 (playlist) => playlist.playlist_id == playlist_id
@@ -51,11 +51,11 @@ export async function GET({
 
             // TODO: Verificar si la cancion dentro de la playlist existe dentro de la base de datos. En el caso que sea asi, se devolvera 504.
 
-            console.log(exists);
+            //console.log(exists);
             if (typeof exists === 'undefined') {
                 return new Response('Playlist not found', { status: 404 });
             } else {
-                console.log('playlist exists');
+                //console.log('playlist exists');
                 const existsSong = exists?.find(
                     (exist: any) => exist.id == playlist_id
                 );
@@ -86,7 +86,7 @@ export async function GET({
             }
         }
     } catch (error: any) {
-        console.log(error.message);
+        //console.log(error.message);
         return redirect('/signin');
     }
 }

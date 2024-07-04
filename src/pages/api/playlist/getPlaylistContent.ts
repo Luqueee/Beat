@@ -9,11 +9,11 @@ export async function GET({
 }) {
     // get the id from the url search params
 
-    //console.log(album_id);
+    ////console.log(album_id);
     const {
         data: { user },
     } = (await supabase.auth.getUser()) ?? null;
-    console.log(user);
+    //console.log(user);
 
     const { url } = request;
     const urlObject = new URL(url);
@@ -33,13 +33,13 @@ export async function GET({
         (playlist) =>
             playlist.user_id == userdata?.id && playlist.playlist_id == id
     );
-    console.log(exists);
+    //console.log(exists);
     if (typeof exists === 'undefined') {
         return new Response('Playlist not found', { status: 404 });
     }
-    //console.log(userdata);
+    ////console.log(userdata);
     if (user) {
-        //console.log(userdata?.id);
+        ////console.log(userdata?.id);
 
         const { data: playlists, error } = await supabase
             .from('playlist_songs')
@@ -47,7 +47,7 @@ export async function GET({
             .eq('user_id', userdata?.id)
             .eq('playlist_id', id);
 
-        console.log(playlists);
+        //console.log(playlists);
 
         if (error) {
             return new Response(error.message, { status: 500 });

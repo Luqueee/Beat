@@ -8,7 +8,7 @@ export function CardAddFav({ size = 'small', id }) {
         fetch(`/api/music/isFav?id=${id}`)
             .then((res) => res.json())
             .then((data) => {
-                console.log('isFav:', data, id);
+                //console.log('isFav:', data, id);
                 data ? setFav(true) : setFav(false);
             });
     }, []);
@@ -18,7 +18,7 @@ export function CardAddFav({ size = 'small', id }) {
             fetch(`/api/music/addFav?id=${id}`)
                 .then((res) => res.json())
                 .then((data) => {
-                    console.log('addFav:', data);
+                    //console.log('addFav:', data);
                     if (data.error) {
                         window.location.href = '/signin';
                     }
@@ -27,7 +27,7 @@ export function CardAddFav({ size = 'small', id }) {
             fetch(`/api/music/removeFav?id=${id}`)
                 .then((res) => res.json())
                 .then((data) => {
-                    console.log('removeFav:', data);
+                    //console.log('removeFav:', data);
                     if (data.error) {
                         window.location.href = '/signin';
                     }

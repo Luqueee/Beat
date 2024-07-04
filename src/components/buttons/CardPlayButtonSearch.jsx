@@ -55,7 +55,7 @@ export const SearchSvg = () => (
 );
 
 export function CardPlayButtonSearch({ id, album_id, title, size = 'small' }) {
-    //console.log('CardPlayButtonAddAndSearch:', id, album_id, title);
+    ////console.log('CardPlayButtonAddAndSearch:', id, album_id, title);
 
     const iconClassName = size === 'small' ? 'w-4 h-4' : 'w-5 h-5';
 
@@ -76,7 +76,7 @@ export function CardPlayButtonPlayPlaylist({
     title,
     size = 'small',
 }) {
-    //console.log('CardPlayButton:', id);
+    ////console.log('CardPlayButton:', id);
     const { currentMusic, isPlaying, setIsPlaying, setCurrentMusic } =
         useMusicStore((state) => state);
 
@@ -90,7 +90,7 @@ export function CardPlayButtonPlayPlaylist({
         fetch(`/api/db/addFavourite?title=${title}&album_id=${album_id}`)
             .then((res) => res.json())
             .then((data) => {
-                //console.log('data:', data);
+                ////console.log('data:', data);
                 //setCurrentMusic({ songs, playlist, song: songs[0] });
             });
     };
@@ -98,12 +98,12 @@ export function CardPlayButtonPlayPlaylist({
     const handleEraseSong = async () => {
         const song_id = id;
         const album = album_id;
-        //console.log(`/api/db/removeFavourite?id=${song_id}&album=${album}`);
+        ////console.log(`/api/db/removeFavourite?id=${song_id}&album=${album}`);
         const req = await fetch(
             `/api/db/removeFavourite?id=${song_id}&album=${album}`
         );
         const res = await req.json();
-        //console.log('res:', res);
+        ////console.log('res:', res);
         window.location.reload();
     };
 

@@ -7,7 +7,7 @@ export async function GET({ request }: { request: Request }) {
 
     const res = await req.json();
 
-    console.log(res);
+    //console.log(res);
 
     return new Response(JSON.stringify(res), {
         headers: { 'content-type': 'application/json' },

@@ -346,11 +346,11 @@ export function SongBar() {
         const song_data = currentMusic;
         audioRef.current.volume = volume;
 
-        console.log(volume);
-        console.log(song_data);
+        //console.log(volume);
+        //console.log(song_data);
         try {
             if (song_data && song_data.id != previousID) {
-                console.log('new', currentMusic, previousID);
+                //console.log('new', currentMusic, previousID);
                 audioRef.current.src = song_data.song; // Change the source
                 audioRef.current.load(); // Load the new source
                 audioRef.current.currentTime = currentTime;
@@ -415,7 +415,7 @@ export function SongBar() {
     useEffect(() => {
         const togglePlayPause = (event) => {
             if (event.keyCode === 32 && searching == false) {
-                console.log(searching);
+                //console.log(searching);
                 // 32 es el código de la tecla de espacio
                 event.preventDefault();
                 setIsPlayingBar(!isPlayingBar); // Alternar entre pausa y reproducción

@@ -3,15 +3,15 @@ import { supabase } from '@/lib/supabase';
 export async function GET({ redirect }: { redirect: any }) {
     // get the id from the url search params
 
-    //console.log(album_id);
+    ////console.log(album_id);
     const {
         data: { user },
     } = await supabase.auth.getUser();
 
     const userdata = await user;
-    //console.log(userdata);
+    ////console.log(userdata);
     try {
-        //console.log(userdata?.id);
+        ////console.log(userdata?.id);
 
         const { data: playlists, error } = await supabase
             .from('playlists')
@@ -26,7 +26,7 @@ export async function GET({ redirect }: { redirect: any }) {
             headers: { 'content-type': 'application/json' },
         });
     } catch (error: any) {
-        console.log(error.message);
+        //console.log(error.message);
         return redirect('/signin');
     }
 }

@@ -1,5 +1,5 @@
 export async function GET() {
-    //console.log(res);
+    ////console.log(res);
     try {
         const req = await fetch(`https://api.deezer.com/chart`);
         const res = await req.json();

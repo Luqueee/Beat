@@ -23,12 +23,12 @@ export const SearchBar = () => {
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            //console.log('Search term changed:', searchTerm, inputSearch);
+            ////console.log('Search term changed:', searchTerm, inputSearch);
 
             fetch(`/api/music/search?song=${encodeURIComponent(searchTerm)}`)
                 .then((res) => res.json())
                 .then((data) => {
-                    //console.log('Search result:', data);
+                    ////console.log('Search result:', data);
                     setSearchResult(data);
                     localStorage.setItem('searchResult', JSON.stringify(data));
                 })

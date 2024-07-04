@@ -11,24 +11,24 @@ import { Image } from 'astro:assets';
 
 const { id } = Astro.params;
 const url = Astro.url.origin;
-console.log(id);
-console.log(url);
+//console.log(id);
+//console.log(url);
 
 
 const dataSongReq = await fetch(`${url}/api/music/getTrack?id=${id}`);
 const dataSong = await dataSongReq.json();
-//console.log('data song', dataSong);
+////console.log('data song', dataSong);
 
 const titleSong = dataSong.title;
-//console.log(dataSongDezz);
+////console.log(dataSongDezz);
 
 const artists = (dataSong.contributors ?? [])
     .map((artista: any) => artista.name)
     .join(', ');
 
-//console.log(artists);
+////console.log(artists);
 const artistImg = dataSong.contributors ? dataSong.contributors[0].picture_small : '';
-console.log(artistImg);
+//console.log(artistImg);
 const albumImg = dataSong.album?.cover_big ?? '';
 const trackId = dataSong.id;
 const trackLink = dataSong.link;
@@ -39,7 +39,7 @@ const songSrc = dataSong.preview;
 const duration = dataSong.duration;
 
 const artistsData = dataSong.contributors;
-//console.log(artistsData);
+////console.log(artistsData);
 
 async function getTrackArtist(artist: any) {
     const req = await fetch(`${url}/api/music/getTracksArtist?id=${artist.id}`);
@@ -54,14 +54,14 @@ const tracksArtist = await Promise.all(
 let blurBG = true;
 
 
-//console.log(tracksArtist);
+////console.log(tracksArtist);
 
-//console.log(tracksArtist);
+////console.log(tracksArtist);
 
-//console.log(sessionReq);
+////console.log(sessionReq);
 
-//console.log(dataSong);
-//console.log(dataSong.items[0].snippet.thumbnails.maxres.url);
+////console.log(dataSong);
+////console.log(dataSong.items[0].snippet.thumbnails.maxres.url);
 ---
 
 
@@ -198,7 +198,7 @@ let blurBG = true;
                                             (track: any) => (
                                                 track.contributors[0].name == artist.name ? 
                                                 (
-                                                    //console.log(track),
+                                                    ////console.log(track),
                                                     <button
                                                         id={track.id}
                                                         class="w-full flex gap-4 items-center h-full group">

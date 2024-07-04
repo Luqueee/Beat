@@ -28,7 +28,7 @@ export function CardPlayButton({
 
     const handleClick = () => {
         if (currentMusic.id != id) {
-            console.log(currentMusic.id);
+            //console.log(currentMusic.id);
 
             setCurrentMusic({
                 song,

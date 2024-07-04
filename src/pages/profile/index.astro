@@ -14,13 +14,13 @@ const {
 } = await supabase.auth.getUser();
 
 const usermetadata = await user?.user_metadata;
-console.log(usermetadata);
+//console.log(usermetadata);
 
 const playlistsReq = await fetch(
     `${Astro.url.origin}/api/playlist/getPlaylists`
 );
 const playlist = await playlistsReq.json();
-console.log(playlist);
+//console.log(playlist);
 ---
 
 <Layout title="Favoritos">

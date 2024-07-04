@@ -11,7 +11,7 @@ export async function GET({
 }) {
     // get the id from the url search params
 
-    //console.log(album_id);
+    ////console.log(album_id);
     const {
         data: { user },
     } = await supabase.auth.getUser();
@@ -24,10 +24,10 @@ export async function GET({
     const name = urlObject.searchParams.get('name');
     const description = urlObject.searchParams.get('description');
 
-    //console.log(userdata);
+    ////console.log(userdata);
     try {
-        //console.log(userdata?.id);
-        //console.log(track, track.id);
+        ////console.log(userdata?.id);
+        ////console.log(track, track.id);
         const { data, error } = await supabase
             .from('playlists')
             .insert([
@@ -49,7 +49,7 @@ export async function GET({
             headers: { 'content-type': 'application/json' },
         });
     } catch (error: any) {
-        console.log(error.message);
+        //console.log(error.message);
         return redirect('/signin');
     }
 }

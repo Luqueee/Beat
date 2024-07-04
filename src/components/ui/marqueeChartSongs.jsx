@@ -79,11 +79,11 @@ const MarqueeChartSongs = () => {
         fetch('/api/music/charts')
             .then((res) => res.json())
             .then((data) => {
-                console.log('aaaaaaaaa', data);
+                //console.log('aaaaaaaaa', data);
                 setCharts(data.tracks.data);
             });
 
-        //console.log(window.innerWidth);
+        ////console.log(window.innerWidth);
     }, []);
 
     return (
@@ -143,11 +143,11 @@ export const MarqueeChartSongsVertical = () => {
         fetch('/api/music/charts')
             .then((res) => res.json())
             .then((data) => {
-                //console.log(data);
+                ////console.log(data);
                 setCharts(data.tracks.data);
             });
 
-        //console.log(window.innerWidth);
+        ////console.log(window.innerWidth);
     }, []);
 
     return (
@@ -200,11 +200,11 @@ export const MarqueeChartSongsIndividual = () => {
         fetch('/api/music/charts')
             .then((res) => res.json())
             .then((data) => {
-                //console.log(data);
+                ////console.log(data);
                 setCharts(data.tracks.data);
             });
 
-        //console.log(window.innerWidth);
+        ////console.log(window.innerWidth);
     }, []);
 
     return (

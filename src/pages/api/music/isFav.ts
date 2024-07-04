@@ -9,7 +9,7 @@ export async function GET({
 }) {
     // get the id from the url search params
 
-    //console.log(album_id);
+    ////console.log(album_id);
     const {
         data: { user },
     } = await supabase.auth.getUser();
@@ -19,9 +19,9 @@ export async function GET({
 
     const urlObject = new URL(url);
     const id = urlObject.searchParams.get('id');
-    //console.log(userdata);
+    ////console.log(userdata);
     try {
-        //console.log(userdata?.id);
+        ////console.log(userdata?.id);
 
         const { data: playlists, error } = await supabase
             .from('favs')
@@ -47,7 +47,7 @@ export async function GET({
             });
         }
     } catch (error: any) {
-        console.log(error.message);
+        //console.log(error.message);
         return redirect('/signin');
     }
 }

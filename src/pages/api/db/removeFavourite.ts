@@ -8,16 +8,16 @@ export async function GET({ params, request }: { params: any; request: any }) {
 
   const id = urlObject.searchParams.get("id");
   const album = urlObject.searchParams.get("album");
-  console.log(id);
+  //console.log(id);
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  //console.log(user);
+  ////console.log(user);
   if (user) {
-    //console.log(user.id);
-    //console.log(album_id, user.id, dataSong);
+    ////console.log(user.id);
+    ////console.log(album_id, user.id, dataSong);
 
-    console.log({
+    //console.log({
       user_id: user.id,
       id: id,
     });
