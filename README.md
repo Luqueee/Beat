@@ -32,9 +32,10 @@
   <img src='https://github.com/Luqueee/Beat/blob/7ca2fdf620a7fb3bde209a52339169136cf6b3f1/screenshots/screenshot_index.png' />
   <br />
 <h3>Beat is a modern webpage where you can search and listen any song</h3>
-
-  
 </div>
+
+## License
+This project is released under the MIT License. Please read the [LICENSE](https://github.com/Luqueee/dansa_marluque/blob/main/LICENSE) file for more details.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
