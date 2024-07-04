@@ -21,16 +21,7 @@ export async function GET({
 
     const id = urlObject.searchParams.get('id');
 
-    const trackReq = await fetch(
-        `${urlObject.origin}/api/music/getTrack?id=${id}`
-    );
-    const track = await trackReq.json();
-
-    //console.log(userdata);
     try {
-        //console.log(userdata?.id);
-        //console.log(track, track.id);
-
         const { error } = await supabase
             .from('favs')
             .delete()
