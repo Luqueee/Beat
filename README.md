@@ -1,12 +1,3 @@
-<!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
-<a id="readme-top"></a>
-<!--
-*** Thanks for checking out the Best-README-Template. If you have a suggestion
-*** that would make this better, please fork the repo and create a pull request
-*** or simply open an issue with the tag "enhancement".
-*** Don't forget to give the project a star!
-*** Thanks again! Now go create something AMAZING! :D
--->
 
 
 
@@ -32,6 +23,10 @@
   <img src='https://github.com/Luqueee/Beat/blob/7ca2fdf620a7fb3bde209a52339169136cf6b3f1/screenshots/screenshot_index.png' />
   <br />
 <h3>Beat is a modern webpage where you can search and listen any song</h3>
+
+<h4>
+I know the project has a few security issues and it's not finished, but I wanted to focus mainly on the responsive design and async image loading. Probably in the future I'll do the project using Typescript and React.
+</h4>
 </div>
 
 ## License
