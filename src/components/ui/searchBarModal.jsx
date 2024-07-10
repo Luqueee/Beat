@@ -58,14 +58,14 @@ export const SearchBar = () => {
     };
 
     return (
-        <div className=" md:lg:max-w-[60%] max-w-full min-w-full md:lg:min-w-[60%] min-h-[80%] m-auto mt-16 flex flex-col justify-center items-center px-6">
-            <section className=" min-w-full m-auto gap-2 z-50 flex justify-center items-center px-2">
-                <div className=" flex-grow my-4">
+        <div className=" w-full md:lg:w-[60%] min-h-[80%] flex flex-col justify-center items-start px-6">
+            <section className="min-w-full m-auto gap-2 z-50 flex justify-center items-center px-2">
+                <div className=" flex-grow ">
                     <input
                         type="text"
                         name="searchbox"
                         id="searchbox"
-                        className="w-full rounded-md border-none ring-0 bg-gray-800 bg-opacity-40 backdrop-blur-sm p-2 text-white text-xl"
+                        className="w-full rounded-xl border-none focus:ring-none outline-none py-3 px-2 bg-zinc-800 bg-opacity-20 backdrop-blur-sm text-white text-xl"
                         placeholder="Type a song..."
                         value={searchTerm || ''}
                         onFocus={handleInputFocus}
@@ -75,16 +75,14 @@ export const SearchBar = () => {
                     />
                 </div>
             </section>
-            <section className=" min-w-full overflow-y-scroll max-h-[65vh] min-h-[65vh] z-[9999999999]">
+            <section className="w-full mx-auto gap-2 flex items-start overflow-y-scroll h-[75vh] z-[9999999999] mask_image py-8">
                 {searchResult ? (
-                    <div className=" flex flex-col gap-4 overflow-hidden min-w-full">
+                    <div className=" flex flex-col gap-4 overflow-hidden m-auto justify-center min-w-full">
                         {searchResult.map((song) => Result({ song }))}
                     </div>
                 ) : (
-                    [...Array(5)].map((_, i) => (
-                        <article
-                            key={`article ${i}`}
-                            className="w-full group h-20">
+                    <div className=" flex flex-col gap-4 overflow-hidden justify-center min-w-full">
+                        {[...Array(10)].map((_, i) => (
                             <div
                                 key={`div ${i}`}
                                 className="bg-opacity-50 rounded-md flex gap-2 shadow-md px-2 relative">
@@ -105,8 +103,8 @@ export const SearchBar = () => {
                                     className="w-[200px] h-[20px] rounded-md absolute z-50 left-24 top-10"
                                 />
                             </div>
-                        </article>
-                    ))
+                        ))}
+                    </div>
                 )}
             </section>
         </div>

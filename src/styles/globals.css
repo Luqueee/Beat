@@ -1,3 +1,13 @@
 html {
-  scroll-behavior: smooth;
+    scroll-behavior: smooth;
+}
+
+.mask_image {
+    mask-image: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0) 5%,
+        rgba(0, 0, 0, 1) 50%,
+        rgba(0, 0, 0, 1) 80%,
+        rgba(0, 0, 0, 0) 100%
+    );
 }

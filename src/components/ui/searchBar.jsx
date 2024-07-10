@@ -25,8 +25,8 @@ export const Result = ({ song }) => {
         <button
             onClick={handleClick}
             key={`result line ${song.id}`}
-            className="w-full group h-20 mx-2 z-[999999999] relative rounded-md overflow-hidden backdrop-blur-sm isolate">
-            <div className="bg-gray-800 bg-opacity-10 rounded-md p-2 flex gap-2 w-full shadow-md h-full overflow-x-hidden min-w-full">
+            className="w-full group h-20 mx-2 z-[999999999] relative rounded-md backdrop-blur-sm px-4">
+            <div className="bg-gray-800 hover:bg-opacity-30 bg-opacity-10 rounded-md p-2 flex gap-2 w-full shadow-md h-full ">
                 <picture className="min-w-16 min-h-16 overflow-hidden rounded-md">
                     <img
                         alt={song.title}

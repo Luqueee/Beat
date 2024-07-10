@@ -172,9 +172,9 @@ export default function MenuBar() {
                     </div>
 
                     <div
-                        className={`${!searchModal ? 'hidden' : 'block'} min-w-screen min-h-screen fixed inset-0 flex justify-center items-center bg-zinc-900 bg-opacity-80 backdrop-blur-xl`}>
+                        className={`${!searchModal ? 'hidden' : 'block'} min-w-screen min-h-screen fixed inset-0 flex justify-center items-center bg-zinc-900 bg-opacity-[0.992] backdrop-blur-md`}>
                         <button
-                            className=" min-w-full min-h-full z-50 inset-0 flex cursor-default justify-center items-center fixed"
+                            className=" min-w-full min-h-full z-50  inset-0 flex cursor-default justify-center items-center fixed"
                             onClick={handleSearch}></button>
                         {searchModal ? <SearchBar /> : ''}
                     </div>
