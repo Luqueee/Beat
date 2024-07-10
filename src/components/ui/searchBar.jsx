@@ -25,8 +25,8 @@ export const Result = ({ song }) => {
         <button
             onClick={handleClick}
             key={`result line ${song.id}`}
-            className="w-full group h-20 mx-2 z-[999999999] relative rounded-md backdrop-blur-sm px-4">
-            <div className="bg-gray-800 hover:bg-opacity-30 bg-opacity-10 rounded-md p-2 flex gap-2 w-full shadow-md h-full ">
+            className="w-full group h-20 z-[999999999] relative rounded-md hover:backdrop-blur-md transition-all duration-500 backdrop-blur-sm ">
+            <div className="bg-gray-800  bg-opacity-10 transition-all duration-500 rounded-md p-2 flex gap-2 w-full shadow-sm h-full ">
                 <picture className="min-w-16 min-h-16 overflow-hidden rounded-md">
                     <img
                         alt={song.title}
@@ -188,14 +188,14 @@ export const SearchBar = () => {
     };
 
     return (
-        <div className=" w-full overflow-hidden flex flex-col justify-center mb-8 px-6">
-            <section className=" w-full lg:w-[60%] md:w-[80%] m-auto gap-2 z-50 flex justify-center items-center  px-2">
+        <div className=" w-full md:lg:w-[60%] min-h-[80%] flex flex-col justify-center items-start px-6">
+            <section className=" w-full  m-auto gap-2 z-50 flex justify-center items-center">
                 <div className=" flex-grow my-4">
                     <input
                         type="text"
                         name="searchbox"
                         id="searchbox"
-                        className="w-full rounded-md border-none ring-0 bg-gray-800 bg-opacity-40 backdrop-blur-sm p-2 text-white text-xl"
+                        className="w-full rounded-md border-none ring-0 bg-gray-800 bg-opacity-20 focus:bg-opacity-50 transition-all duration-300 outline-none py-4 backdrop-blur-sm p-2 text-white text-xl"
                         placeholder="Type a song..."
                         value={searchTerm || ''}
                         onFocus={handleInputFocus}
@@ -205,16 +205,14 @@ export const SearchBar = () => {
                     />
                 </div>
             </section>
-            <section className=" w-full lg:w-[60%] md:w-[80%] m-auto overflow-hidden">
+            <section className="w-full gap-2 flex items-start justify-center h-[75vh] z-[9999999999] ">
                 {searchResult ? (
-                    <div className=" flex flex-col gap-4 overflow-hidden">
+                    <div className=" flex flex-col gap-4 justify-center w-full ">
                         {searchResult.map((song) => Result({ song }))}
                     </div>
                 ) : (
-                    [...Array(5)].map((_, i) => (
-                        <article
-                            key={`article ${i}`}
-                            className="w-full group h-20">
+                    <div className=" flex flex-col gap-4 justify-center min-w-full">
+                        {[...Array(10)].map((_, i) => (
                             <div
                                 key={`div ${i}`}
                                 className="bg-opacity-50 rounded-md flex gap-2 shadow-md px-2 relative">
@@ -235,8 +233,8 @@ export const SearchBar = () => {
                                     className="w-[200px] h-[20px] rounded-md absolute z-50 left-24 top-10"
                                 />
                             </div>
-                        </article>
-                    ))
+                        ))}
+                    </div>
                 )}
             </section>
             <footer className="sm:w-[60%] w-full h-20 mt-16 mb-12 m-auto px-2">

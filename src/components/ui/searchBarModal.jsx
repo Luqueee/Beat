@@ -59,13 +59,13 @@ export const SearchBar = () => {
 
     return (
         <div className=" w-full md:lg:w-[60%] min-h-[80%] flex flex-col justify-center items-start px-6">
-            <section className="min-w-full m-auto gap-2 z-50 flex justify-center items-center px-2">
-                <div className=" flex-grow ">
+            <section className=" w-full  m-auto gap-2 z-50 flex justify-center items-center">
+                <div className=" flex-grow my-4">
                     <input
                         type="text"
                         name="searchbox"
                         id="searchbox"
-                        className="w-full rounded-xl border-none focus:ring-none outline-none py-3 px-2 bg-zinc-800 bg-opacity-20 backdrop-blur-sm text-white text-xl"
+                        className="w-full rounded-md border-none ring-0 bg-gray-800 bg-opacity-20 focus:bg-opacity-50 transition-all duration-300 outline-none py-4 backdrop-blur-sm p-2 text-white text-xl"
                         placeholder="Type a song..."
                         value={searchTerm || ''}
                         onFocus={handleInputFocus}
@@ -75,9 +75,9 @@ export const SearchBar = () => {
                     />
                 </div>
             </section>
-            <section className="w-full mx-auto gap-2 flex items-start overflow-y-scroll h-[75vh] z-[9999999999] mask_image py-8">
+            <section className="w-full gap-2 flex items-start justify-center h-[75vh] z-[9999999999] mask_image overflow-y-scroll">
                 {searchResult ? (
-                    <div className=" flex flex-col gap-4 overflow-hidden m-auto justify-center min-w-full">
+                    <div className=" flex flex-col gap-4 overflow-hidden  justify-center w-full">
                         {searchResult.map((song) => Result({ song }))}
                     </div>
                 ) : (
