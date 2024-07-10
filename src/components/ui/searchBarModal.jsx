@@ -96,11 +96,11 @@ export const SearchBar = () => {
                                 />
                                 <Skeleton
                                     key={`skeleton line ${i}`}
-                                    className="w-[270px] md:lg:w-[300px] h-[20px] rounded-md absolute z-50 left-24 top-2"
+                                    className="w-[70%] md:lg:w-[300px] h-[20px] rounded-md absolute z-50 left-24 top-2"
                                 />
                                 <Skeleton
                                     key={`skeleton subtitle ${i}`}
-                                    className="w-[200px] h-[20px] rounded-md absolute z-50 left-24 top-10"
+                                    className="w-[20%] h-[20px] rounded-md absolute z-50 left-24 top-10"
                                 />
                             </div>
                         ))}
