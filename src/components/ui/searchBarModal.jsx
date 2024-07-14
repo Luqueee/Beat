@@ -75,9 +75,9 @@ export const SearchBar = () => {
                     />
                 </div>
             </section>
-            <section className="w-full gap-2 flex items-start justify-center h-[75vh] z-[9999999999] mask_image">
+            <section className="w-full gap-2 flex items-start justify-center z-[9999999999] mask_image">
                 {searchResult ? (
-                    <div className=" flex flex-col gap-4 overflow-hidden  justify-center overflow-y-scroll w-full">
+                    <div className=" flex flex-col gap-4 overflow-y-scroll h-[65vh] pb-28 items-start m-auto w-full">
                         {searchResult.map((song) => Result({ song }))}
                     </div>
                 ) : (

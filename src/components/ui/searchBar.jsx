@@ -205,7 +205,7 @@ export const SearchBar = () => {
                     />
                 </div>
             </section>
-            <section className="w-full gap-2 flex items-start justify-center h-[75vh] z-[9999999999] ">
+            <section className="w-full gap-2 flex items-start justify-center  z-[9999999999] ">
                 {searchResult ? (
                     <div className=" flex flex-col gap-4 justify-center w-full ">
                         {searchResult.map((song) => Result({ song }))}
