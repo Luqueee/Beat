@@ -1,6 +1,6 @@
 import { supabase } from '@/lib/supabase';
 
-export async function GET({ params, request }: { params: any; request: any }) {
+export async function GET({ request }: { request: any }) {
     // get the id from the url search params
     const { url } = request;
     const urlObject = new URL(url);
@@ -9,8 +9,8 @@ export async function GET({ params, request }: { params: any; request: any }) {
     const id = urlObject.searchParams.get('id');
     const album_id = urlObject.searchParams.get('album_id');
 
-    let dataSongReq = await fetch(`${origin}/api/music/getTrack?id=${id}`);
-    let dataSong = await dataSongReq.json();
+    const dataSongReq = await fetch(`${origin}/api/music/getTrack?id=${id}`);
+    const dataSong = await dataSongReq.json();
     ////console.log(dataSong);
 
     const {

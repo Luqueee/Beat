@@ -8,16 +8,16 @@ export default defineConfig({
     site: 'https://beat-one.vercel.app/',
     output: 'server',
     prefetch: true,
-
+    compressHTML: true,
     integrations: [
         tailwind(),
-
+        react(),
         compressor({
             gzip: false,
             brotli: true,
         }),
-        react(),
     ],
+
     experimental: {
         clientPrerender: true,
         directRenderScript: true,

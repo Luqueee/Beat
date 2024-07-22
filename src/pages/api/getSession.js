@@ -1,6 +1,6 @@
 import { supabase } from '../../lib/supabase';
 
-export async function GET({ params, request, redirect }) {
+export async function GET({ redirect }) {
     const { data, error } = await supabase.auth.getSession();
 
     if (error) {
