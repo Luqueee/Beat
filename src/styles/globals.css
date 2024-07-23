@@ -10,3 +10,7 @@ html {
         rgba(0, 0, 0, 1) 100%
     );
 }
+
+.song_view {
+    view-transition-name: song;
+}

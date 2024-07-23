@@ -10,7 +10,7 @@ const { title } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="lenis lenis-smooth">
     <head>
         <meta charset="UTF-8" />
         <meta name="description" content="Astro description" />
@@ -19,6 +19,18 @@ const { title } = Astro.props;
         <meta name="generator" content={Astro.generator} />
         <title>{title}</title>
         <ViewTransitions fallback="none" />
+        <script is:inline src="/scripts/lenis/lenis.js"></script>
+        <script is:inline>
+            // Script to handle Lenis library settings for smooth scrolling
+            const lenis = new Lenis();
+
+            function raf(time) {
+                lenis.raf(time);
+                requestAnimationFrame(raf);
+            }
+
+            requestAnimationFrame(raf);
+        </script>
     </head>
     <body class="bg-zinc-900 min-h-full transition-all duration-500 relative">
         <div id="app" class="relative h-full w-full text-white">
@@ -84,6 +96,27 @@ const { title } = Astro.props;
                 position: absolute;
                 top: 0;
                 left: 0;
+            }
+
+            html.lenis,
+            html.lenis body {
+                height: auto;
+            }
+
+            .lenis.lenis-smooth {
+                scroll-behavior: auto !important;
+            }
+
+            .lenis.lenis-smooth [data-lenis-prevent] {
+                overscroll-behavior: contain;
+            }
+
+            .lenis.lenis-stopped {
+                overflow: hidden;
+            }
+
+            .lenis.lenis-scrolling iframe {
+                pointer-events: none;
             }
 
             @font-face {

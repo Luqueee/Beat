@@ -1,7 +1,7 @@
 import { Skeleton } from '@/components/ui/skeleton';
-import React, { useEffect, useState } from 'react';
-
 import { useMusicStore } from '@/store/musicStore';
+import '@/styles/globals.css';
+import React, { useEffect, useState } from 'react';
 import {
     CardPlayButtonPlayPlaylist,
     CardPlayButtonSearch,
@@ -25,7 +25,7 @@ export const Result = ({ song }) => {
         <button
             onClick={handleClick}
             key={`result line ${song.id}`}
-            className="w-full group h-20 z-[999999999] relative rounded-md hover:backdrop-blur-md transition-all duration-500 backdrop-blur-sm ">
+            className="song_view w-full group h-20 z-[999999999] relative rounded-md hover:backdrop-blur-md transition-all duration-500 backdrop-blur-sm ">
             <div className="bg-gray-800  bg-opacity-10 transition-all duration-500 rounded-md p-2 flex gap-2 w-full shadow-sm h-full ">
                 <picture className="min-w-16 min-h-16 overflow-hidden rounded-md">
                     <img

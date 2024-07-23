@@ -151,11 +151,10 @@ export default function MenuBar() {
                             <Home />
                         </a>
 
-                        <a href="/player" className={styleAnchor}>
-                            <Screen />
-                        </a>
-
                         {
+                            // <a href="/player" className={styleAnchor}>
+                            //    <Screen />
+                            //</a>
                             //<a href="/favs" className={styleAnchor}>
                             //    <FavoriteFilled />
                             //</a>
